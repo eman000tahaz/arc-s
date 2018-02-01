@@ -53,20 +53,7 @@
 			</field>
 		</record>
 
-		<!-- Inherited form view of opportunity -->
-		<record id="crm_lead_form_opportunity_inherit_button" model="ir.ui.view">
-			<field name="name">crm.lead.form.opportunity.inherit.button</field>
-			<field name="model">crm.lead</field>
-			<field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
-			<field name="arch" type="xml">
-				<xpath expr="//button[@name='%(sale_crm.sale_action_quotations_new)d']" position="replace">
-					<button attrs="{'invisible': ['|',('is_rent', '=', True),('probability', '=', 0)]}" string="Create Quotation" name="%(action_crm_make_sale)d" type="action" class="oe_highlight"/>
-				</xpath>
-				<xpath expr="//field[@name='stage_id']" position="before">
-					<button attrs="{'invisible': [('is_buy', '=', True)]}" string="Create Contract" name="%(action_crm_make_contract)d" type="action" class="oe_highlight"/>
-				</xpath>
-			</field>
-		</record>
+	
 
 <!--########################### CRM MAKE CONTRACT ####################-->
 
@@ -108,6 +95,20 @@
 		</record>
 
 
-
+			<!-- #### View depends on action ################################-->
+			<!-- Inherited form view of opportunity -->
+			<record id="crm_lead_form_opportunity_inherit_button" model="ir.ui.view">
+				<field name="name">crm.lead.form.opportunity.inherit.button</field>
+				<field name="model">crm.lead</field>
+				<field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
+				<field name="arch" type="xml">
+					<xpath expr="//button[@name='%(sale_crm.sale_action_quotations_new)d']" position="replace">
+						<button attrs="{'invisible': ['|',('is_rent', '=', True),('probability', '=', 0)]}" string="Create Quotation" name="%(action_crm_make_sale)d" type="action" class="oe_highlight"/>
+					</xpath>
+					<xpath expr="//field[@name='stage_id']" position="before">
+						<button attrs="{'invisible': [('is_buy', '=', True)]}" string="Create Contract" name="%(action_crm_make_contract)d" type="action" class="oe_highlight"/>
+					</xpath>
+				</field>
+			</record>
 	</data>
 </odoo>
