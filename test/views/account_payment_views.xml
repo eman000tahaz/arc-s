@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record id="view_account_payment_invoice_form_inherit" model="ir.ui.view">
+            <field name="name">account.payment.invoice.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
+            <field name="arch" type="xml">
+                <data>
+                	<xpath expr="(//group)[4]" position="after">
+                		<group attrs="{'invisible': [('payment_difference', '=', 0.0)]}">
+                			<field name="o_journal_id"/>
+                			<label for="o_amount"/>
+	                		<div name="amount_div" class="o_row">
+		                        <field name="o_amount"/>
+		                    </div>
+	        			</group>
+                	</xpath>
+                	<xpath expr="(//group)[4]" position="attributes">
+                		<attribute name="invisible">"1"</attribute>
+                	</xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>
