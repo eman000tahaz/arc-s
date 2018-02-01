@@ -469,7 +469,7 @@ class property_insurance(models.Model):
 
 class tenancy_rent_schedule(models.Model):
 	_name = "tenancy.rent.schedule"
-	_rec_name = "tenancy_id"
+	#_rec_name = "tenancy_id"
 	_order = 'start_date'
 
 	@api.one

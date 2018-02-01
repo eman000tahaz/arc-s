@@ -54,7 +54,7 @@
 		</record>
 
 		<!-- Inherited form view of opportunity -->
-		<!-- <record id="crm_lead_form_opportunity_inherit_button" model="ir.ui.view">
+		<record id="crm_lead_form_opportunity_inherit_button" model="ir.ui.view">
 			<field name="name">crm.lead.form.opportunity.inherit.button</field>
 			<field name="model">crm.lead</field>
 			<field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
@@ -66,7 +66,7 @@
 					<button attrs="{'invisible': [('is_buy', '=', True)]}" string="Create Contract" name="%(action_crm_make_contract)d" type="action" class="oe_highlight"/>
 				</xpath>
 			</field>
-		</record> -->
+		</record>
 
 <!--########################### CRM MAKE CONTRACT ####################-->
 

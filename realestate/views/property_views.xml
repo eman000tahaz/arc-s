@@ -678,15 +678,15 @@
 			<field name="arch" type="xml">   
 				<form string="Rent Schedule" >
 					<header>
-						<button name="create_move" attrs="{'invisible':[('move_check','!=',False)]}" icon="gtk-execute" string="Create Move" type="object"/>
-						<button name="open_account_move" attrs="{'invisible':[('move_check','=',False)]}" icon="gtk-go-forward" string="open move" type="object"/>
-						<button name="button_receive_rent" attrs="{'invisible':[('paid_check','!=',False)]}" icon="gtk-execute" string="Generate Payment" type="object"/>
-						<button name="open_account_paid_move" attrs="{'invisible':[('paid_check','=',False)]}" icon="gtk-go-forward" string="Open Payment" type="object"/>
-						<button name="create_commession_move" attrs="{'invisible':['|',('paid_check','=',False),('commession_check','!=',False)]}" icon="gtk-execute" string="Generate Comession Move" type="object"/>
-						<button name="open_commession_move" attrs="{'invisible':[('commession_check','=',False)]}" icon="gtk-go-forward" string="open commession move" type="object"/>
-						<button name="open_commession_move2" attrs="{'invisible':[('commession_check2','=',False)]}" icon="gtk-go-forward" string="open commession move2" type="object"/>
-						<button name="create_disount_move" attrs="{'invisible':['|','&amp;',('move_check','=',False),('discount_check','=',False),('paid_check','!=',False)]}" icon="gtk-execute" string="Generate Discount Move" type="object"/>
-						<button name="open_disount_move" attrs="{'invisible':[('discount_check','=',False)]}" icon="gtk-go-forward" string="Open Discount Move" type="object"/>
+						<button name="create_move" attrs="{'invisible':[('move_check','!=',False)]}" icon="fa-cogs" string="Create Move" type="object"/>
+						<button name="open_account_move" attrs="{'invisible':[('move_check','=',False)]}" icon="fa-arrow-right" string="open move" type="object"/>
+						<button name="button_receive_rent" attrs="{'invisible':[('paid_check','!=',False)]}" icon="fa-cogs" string="Generate Payment" type="object"/>
+						<button name="open_account_paid_move" attrs="{'invisible':[('paid_check','=',False)]}" icon="fa-arrow-right" string="Open Payment" type="object"/>
+						<button name="create_commession_move" attrs="{'invisible':['|',('paid_check','=',False),('commession_check','!=',False)]}" icon="fa-cogs" string="Generate Comession Move" type="object"/>
+						<button name="open_commession_move" attrs="{'invisible':[('commession_check','=',False)]}" icon="fa-arrow-right" string="open commession move" type="object"/>
+						<button name="open_commession_move2" attrs="{'invisible':[('commession_check2','=',False)]}" icon="fa-arrow-right" string="open commession move2" type="object"/>
+						<button name="create_disount_move" attrs="{'invisible':['|','&amp;',('move_check','=',False),('discount_check','=',False),('paid_check','!=',False)]}" icon="fa-cogs" string="Generate Discount Move" type="object"/>
+						<button name="open_disount_move" attrs="{'invisible':[('discount_check','=',False)]}" icon="fa-arrow-right" string="Open Discount Move" type="object"/>
 					</header>
 					<sheet>
 						<group colspan='4' col='4'>
@@ -731,15 +731,15 @@
 					<field name="commession_check"/>
 					<field name="commession_check2"/>
 					<field name="discount_check"/>
-					<button name="create_move" attrs="{'invisible':[('move_check','!=',False)]}" icon="gtk-execute" string="Create Move" type="object"/>
-					<button name="open_account_move" attrs="{'invisible':[('move_check','=',False)]}" icon="gtk-go-forward" string="open move" type="object"/>
-					<button name="button_receive_rent" attrs="{'invisible':[('paid_check','!=',False)]}" icon="gtk-execute" string="Generate Payment" type="object"/>
-					<button name="open_account_paid_move" attrs="{'invisible':[('paid_check','=',False)]}" icon="gtk-go-forward" string="Open Payment" type="object"/>
-					<button name="create_commession_move" attrs="{'invisible':['|',('paid_check','=',False),('commession_check','!=',False)]}" icon="gtk-execute" string="Generate Comession Move" type="object"/>
-					<button name="open_commession_move" attrs="{'invisible':[('commession_check','=',False)]}" icon="gtk-go-forward" string="open commession move" type="object"/>
-					<button name="open_commession_move2" attrs="{'invisible':[('commession_check2','=',False)]}" icon="gtk-go-forward" string="open commession move2" type="object"/>
-					<button name="create_disount_move" attrs="{'invisible':['|','&amp;',('move_check','=',False),('discount_check','=',False),('paid_check','!=',False)]}" icon="gtk-execute" string="Generate Discount Move" type="object"/>
-					<button name="open_disount_move" attrs="{'invisible':[('discount_check','=',False)]}" icon="gtk-go-forward" string="Open Discount Move" type="object"/>
+					<button name="create_move" attrs="{'invisible':[('move_check','!=',False)]}" icon="fa-cogs" string="Create Move" type="object"/>
+					<button name="open_account_move" attrs="{'invisible':[('move_check','=',False)]}" icon="fa-arrow-right" string="open move" type="object"/>
+					<button name="button_receive_rent" attrs="{'invisible':[('paid_check','!=',False)]}" icon="fa-cogs" string="Generate Payment" type="object"/>
+					<button name="open_account_paid_move" attrs="{'invisible':[('paid_check','=',False)]}" icon="fa-arrow-right" string="Open Payment" type="object"/>
+					<button name="create_commession_move" attrs="{'invisible':['|',('paid_check','=',False),('commession_check','!=',False)]}" icon="fa-cogs" string="Generate Comession Move" type="object"/>
+					<button name="open_commession_move" attrs="{'invisible':[('commession_check','=',False)]}" icon="fa-arrow-right" string="open commession move" type="object"/>
+					<button name="open_commession_move2" attrs="{'invisible':[('commession_check2','=',False)]}" icon="fa-arrow-right" string="open commession move2" type="object"/>
+					<button name="create_disount_move" attrs="{'invisible':['|','&amp;',('move_check','=',False),('discount_check','=',False),('paid_check','!=',False)]}" icon="fa-cogs" string="Generate Discount Move" type="object"/>
+					<button name="open_disount_move" attrs="{'invisible':[('discount_check','=',False)]}" icon="fa-arrow-right" string="Open Discount Move" type="object"/>
 					<field name="currency_id" invisible="1"/>
 				</tree>
 			</field>
