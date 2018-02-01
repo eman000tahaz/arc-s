@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- register payment wizard -->
+    <record id="view_account_payment_invoice_form_inherit_job_card" model="ir.ui.view">
+        <field name="name">account.payment.form.inherit</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='amount_div']" position="after">
+                <field name="other_journal_id"/>
+                <label for="other_amount"/>
+                <div name="amount_other_div" class="o_row">
+                    <field name="other_amount"/>
+                    <!-- <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/> -->
+               </div>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

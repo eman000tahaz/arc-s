@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+
+		<record id="email_template_checkbook_reminder_mail" model="mail.template">
+            <field name="name">Checkbook: Reminder</field>
+            <field name="model_id" ref="account.model_account_journal"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="email_from">${(user.email or '')|safe}</field>
+            <field name="email_to">${object.check_email|safe}</field>
+            <field name="subject">Reminder: Checkbook for bank ${object.name}</field>
+            <field name="body_html"><![CDATA[
+				<p>Hello,</p>
+				<p>The checkbook for bank <strong>${object.name}</strong> has going to finish. Please order new checkbook</p>
+				</p><p>Thank you!</p>
+			]]></field>
+        </record>
+
+    </data>
+</odoo>

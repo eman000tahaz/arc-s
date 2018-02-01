@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!--###########################################################
+			###						 Views   						###
+			###########################################################-->
+
+		<!--##################### PROPERTY TENANCY ######################-->
+
+		<!--Property Tenancy Tree View-->
+        <record id="property_analytic_view_tree" model="ir.ui.view">
+            <field name="name">property.analytic.view.tree</field>
+            <field name="model">account.analytic.account</field>
+            <field name="arch" type="xml">
+                <tree string="Tenancy Details">
+					<field name="ten_date"/>
+                    <field name="name" string="Tenancy Name "/>
+                    <field name="ref" string="Code"/>
+                    <field name="property_id"/>
+                    <field name="tenant_id"/>
+                    <field name="date_start"/>
+                    <field name="date"/>
+					<field name="rent_type_id"/>
+                    <field name="rent"/>
+                    <field name="total_rent" sum="Total Rent"/>
+                    <field name="state"/>
+					<field name="currency_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Property Tenancy Form View-->
+        <record id="property_analytic_view_form" model="ir.ui.view">
+            <field name="name">property.analytic.view.form</field>
+            <field name="model">account.analytic.account</field>
+            <field name="arch" type="xml">
+                <form string="Tenancy Details">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open,close" statusbar_colors='{"draft":"red", "open":"blue", "close":"red"}' select="1"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title oe_left">
+                        <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Tenancy Name" class="oe_inline"/>
+                            </h1>
+							<b><h3><field name="ref" readonly="1" /></h3></b>
+                        </div>
+                        <div class="oe_right oe_button_box">
+                            <button name="button_start" string="Start" type="object" states='draft' icon="fa-play" colspan="2" class="oe_inline oe_stat_button"/>
+                            <button name="create_rent_schedule" string=" Schedule Rent" type="object" icon="fa-plus" colspan="2" 
+                                    class="oe_inline oe_stat_button" attrs="{'invisible': ['|', ('state','!=','open'),('rent_entry_chck','!=',False)]}"/>
+                            <button name="button_receive" string="Deposit Receive" type="object" icon="fa-money" attrs="{'invisible':[('deposit_received','=',True)]}" class="oe_inline oe_stat_button"/>
+                            <button name="button_return" string="Deposit Return" type="object" icon="fa-undo" attrs="{'invisible':['|',('deposit_return','=',True),('deposit_received','=',False)]}" class="oe_inline oe_stat_button"/>
+                            <button name="button_set_to_draft" string="Draft" type="object" states='close' icon="fa-undo" colspan="2" class="oe_inline oe_stat_button"/>
+                            <button name="button_close" string="Close" type="object" states='open' icon="fa-times" colspan="2" class="oe_inline oe_stat_button"/>
+                            <field name="rent_entry_chck" invisible="1"/>
+                        </div>
+                        <group colspan="2" attrs="{'readonly':[('state','=','close')]}">
+                            <separator string="Property Information" colspan="4"/>
+                            <group colspan='4' col='4'>
+                                <field name="property_id" placeholder="Property Name" domain="[('state','=','draft')]" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+								<field name="ten_date" required="1"/>
+                                <field name="tenant_id" placeholder="Tenant Name" required = "1" attrs="{'readonly':[('state','!=','draft')]}"/>
+								<field name="manager_id"/>
+                                <field name="rent" attrs="{'readonly':[('state','!=','draft')]}"/>
+								<field name="company_id"/>
+                                <field name="deposit" attrs="{'readonly':[('deposit_received','=',True)]}"/>
+								<field name="currency_id"/>
+                                <field name="is_property" invisible="1"/>
+                            </group>
+                            <group colspan="4" col="4" attrs="{'readonly':[('state','=','close')]}">
+                                <separator string="Tenancy Deposit" colspan="4"/>
+                                <field name="deposit_received"/>
+                                <field name="deposit_scheme_type" colspan="2"/>
+                                <field name="deposit_return"/>
+                                <field name="contact_id" colspan="2"/>
+                                <field name="amount_return" attrs="{'readonly':[('deposit_return','=',True)]}"/>
+								<field name="acc_pay_dep_rec_id" invisible="1"/>
+								<field name="acc_pay_dep_ret_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Rent Schedule">
+                                <separator string="Rent Schedule Details" colspan="4"/>
+                                <field name="rent_schedule_ids" nolabel="1">
+                                    <tree string="Rent Schedule" editable="bottom">
+                                        <field name="start_date"/>
+                                        <field name="commession_value"/>
+                                        <field name="discount"/>
+                                        <field name="amount" sum="Total Amount"/>
+                                        <field name="cheque_detail"/>
+                                        <field name="move_check"/>
+                                        <field name="paid_check"/>
+                                        <field name="commession_check"/>
+                                        <field name="commession_check2"/>
+                                        <field name="discount_check"/>
+                                        <field name="note"/>
+										<field name="currency_id" invisible="1"/>
+                                        <button name="create_move" attrs="{'invisible':[('move_check','!=',False)]}" icon="gtk-execute" string="Create Move" type="object"/>
+                                        <button name="open_account_move" attrs="{'invisible':[('move_check','=',False)]}" icon="gtk-go-forward" string="open move" type="object"/>
+
+
+                                        <button name="button_receive_rent" attrs="{'invisible':[('paid_check','!=',False)]}" icon="gtk-execute" string="Generate Payment" type="object"/>
+                                        <button name="open_account_paid_move" attrs="{'invisible':[('paid_check','=',False)]}" icon="gtk-go-forward" string="Open Payment" type="object"/>
+                                        <button name="create_commession_move" attrs="{'invisible':['|',('paid_check','=',False),('commession_check','!=',False)]}" icon="gtk-execute" string="Generate Comession Move" type="object"/>
+                                        <button name="open_commession_move" attrs="{'invisible':[('commession_check','=',False)]}" icon="gtk-go-forward" string="open commession move" type="object"/>
+                                        <button name="open_commession_move2" attrs="{'invisible':[('commession_check2','=',False)]}" icon="gtk-go-forward" string="open commession move2" type="object"/>
+
+                                        <button name="create_disount_move" attrs="{'invisible':['|','&amp;',('move_check','=',False),('discount_check','=',False),('paid_check','!=',False)]}" icon="gtk-execute" string="Generate Discount Move" type="object"/>
+                                        <button name="open_disount_move" attrs="{'invisible':[('discount_check','=',False)]}" icon="gtk-go-forward" string="Open Discount Move" type="object"/>
+
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Contract Information" name="contract_page">
+                                <group string="Renewal" name="contract">
+                                    <group colspan='4' col='4'>
+                                        <field name="date_start" colspan="2" required="True" attrs="{'readonly':[('state','!=','draft')]}"/>
+										<field name="rent_type_id" widget="selection" required="True"/>
+                                        <field name="date" placeholder="End Date" colspan="2" required="True" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        <field name="total_rent"/>
+                                        <field name="contract_attachment" />
+                                    </group>
+                                </group>
+                                <separator string="Terms and Conditions" name="description"/>
+                                <field name="description" placeholder="Enter Terms and Conditions..."/>
+                            </page>
+
+                            <page string="History" name="history">
+                                <field name="account_move_line_ids" readonly="1">
+									<tree string="Journal Items" create="false">
+					                    <field name="date"/>
+					                    <field name="name"/>
+					                    <field name="ref" string="Reference"/>
+					                    <field name="move_id" required="0"/>
+					                    <field name="journal_id" options="{&quot;no_open&quot;:True}"/>
+					                    <field name="account_id" options="{&quot;no_open&quot;:True}" domain="[('company_id', '=', company_id)]"/>
+					                    <field name="debit" sum="Total Debit" widget='monetary'/>
+					                    <field name="credit" sum="Total Credit"/>
+					                    <field name="reconciled" invisible="1"/>
+										<field name="company_currency_id" invisible="1"/>
+										<field name="currency_id" invisible="1" options="{'no_create': True}"/>
+					                </tree>
+								</field>
+								<group></group>
+	                            <group class="oe_subtotal_footer oe_right">
+	                                <field name="total_debit_amt"/>
+	                                <field name="total_credit_amt"/>
+	                                <field name="total_deb_cre_amt" class="oe_subtotal_footer_separator"/>
+	                            </group>
+                            </page>
+
+                            <page string="Budget Lines" groups="account.group_account_user">
+                                <field name="crossovered_budget_line" widget="one2many_list" colspan="4" nolabel="1" mode="tree">
+                                    <tree string="Budget Lines" editable="top">
+                                        <field name="crossovered_budget_id"/>
+                                        <field name="general_budget_id"/>
+                                        <field name="date_from"/>
+                                        <field name="date_to"/>
+                                        <field name="paid_date"/>
+                                        <field name="planned_amount"/>
+                                        <field name="practical_amount" sum="Practical Amount"/>
+                                        <field name="theoritical_amount" sum="Theoritical Amount"/>
+                                        <field name="percentage"/>
+                                    </tree>
+                                    <form string="Budget Lines">
+                                        <field name="crossovered_budget_id"/>
+                                        <field name="general_budget_id"/>
+                                        <field name="date_from"/>
+                                        <field name="date_to"/>
+                                        <field name="paid_date"/>
+                                        <field name="planned_amount"/>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                        <separator string="Notes" colspan="4"/>
+                        <field name="duration_cover" placeholder="Additional notes..." nolabel="1" colspan="4"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!--Property Tenancy Search View-->
+        <record id="property_analytic_search_view" model="ir.ui.view">
+            <field name="name">property.analytic.search.view</field>
+            <field name="model">account.analytic.account</field>
+            <field name="arch" type="xml">
+                <search string="Property Tenancy">
+					<filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+					<filter string="Open" name="open" domain="[('state','=','open')]"/>
+					<filter string="Close" name="close" domain="[('state','=','close')]"/>
+                    <field name="name" string="Tenancy Name"/>
+                    <field name="ref" string="Code"/>
+                    <field name="tenant_id"/>
+                    <field name="property_id"/>
+					<field name="rent_type_id"/>
+					<field name="ten_date"/>
+					<field name="state"/>
+                    <newline/>
+                    <group expand="0" string="Group By..." colspan="4" col="10" groups="base.group_extended">
+	                    <filter string="Tenant" name="tenant" icon="terp-personal" domain="[]" context="{'group_by':'tenant_id'}"/>
+	                    <filter string="Property" name="property" icon="terp-personal" domain="[]" context="{'group_by':'property_id'}"/>
+	                    <filter string="Rent Type" name="renttype" icon="terp-personal" domain="[]" context="{'group_by':'rent_type_id'}"/>
+	                    <filter string="State" name="state" icon="terp-personal" domain="[]" context="{'group_by':'state'}"/>
+						<filter string="Date" context="{'group_by':'ten_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Property Tenancy gantt View-->
+        <record id="view_analytic_gantt" model="ir.ui.view">
+            <field name="name">view.analytic.gantt</field>
+            <field name="model">account.analytic.account</field>
+            <field name="arch" type="xml">
+                <gantt date_start="date_start" type="gantt" date_stop="date" default_group_by="property_id" progress="progress">
+                </gantt>
+            </field>
+        </record>
+
+        <!--###########################################################
+			###						Actions 						###
+			###########################################################-->
+
+<!--############################## PROPERTY TENANCY ####################### -->
+
+		<!--Action For Property Tenancy -->
+        <record model="ir.actions.act_window" id="action_property_analytic_view">
+            <field name="name">Tenancy</field>
+            <field name="res_model">account.analytic.account</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,gantt</field>
+            <field name="domain">[('is_property','=','True')]</field>
+	        <field name="search_view_id" ref="realestate.property_analytic_search_view"/>
+        </record>
+
+        <!--Action For  Property Tenancy Form view-->
+        <record id="action_analytic_form_view" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="property_analytic_view_form"/>
+            <field name="act_window_id" ref="action_property_analytic_view"/>
+        </record>
+
+        <!--Action For Property Tenancy Tree View-->
+        <record id="action_analytic_tree_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_analytic_view_tree"/>
+            <field name="act_window_id" ref="action_property_analytic_view"/>
+        </record>
+
+        <!--Action For Property Tenancy gantt View-->
+        <record id="action_analytic_gantt_view" model="ir.actions.act_window.view">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">gantt</field>
+            <field name="view_id" ref="realestate.view_analytic_gantt"/>
+            <field name="act_window_id" ref="realestate.action_property_analytic_view"/>
+        </record>
+
+        <!--###########################################################
+			###						MenuItems						###
+			###########################################################-->
+
+			<menuitem name="Tenancy" id="menu_tenancy" parent="menu_property_sub" action="action_property_analytic_view" sequence="3"/>
+
+	</data>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="report_checkbook">
+		    <t t-call="report.html_container">
+				<div class="page">
+		        	<t t-foreach="docs" t-as="o">
+			            <table class="table">
+			            	<tr>
+			            		<td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;" width="70%">
+			            		</td>
+			            		<td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;" width="30%">
+			            			<span t-field="o.payment_date" t-field-options='{"format": "d MMMM Y"}'/>
+			            		</td>
+			            	</tr>
+			            	<tr>
+			            		<td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;" width="70%">
+			            			<span class="text-center" t-field="o.partner_id.name" />
+			            		</td>
+			            		<td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;" width="30%">
+			            		</td>
+			            	</tr>
+			            	<tr>
+			            		<td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;" width="70%"><span class="text-center" t-esc="get_amount_in_word"/>  Only</td>
+			            		<td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;" width="30%"></td>
+			            	</tr>
+			            	<tr>
+			            		<td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;" width="70%"></td>
+			            		<td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;" width="30%"><span class="text-right" t-field="o.amount" /></td>
+			            	</tr>
+			            </table>
+					</t>
+				</div>
+			</t>
+		</template>
+	</data>
+</odoo>

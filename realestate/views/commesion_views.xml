@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!--###########################################################
+			###						 Views   						###
+			###########################################################-->
+
+<!--######################### PROPERTY COMMESION #######################-->
+		<!--Property Commession Form View-->
+        <record model="ir.ui.view" id="view_property_commession_form">
+            <field name="name">property.commession.form</field>
+            <field name="model">property.commession</field>
+            <field name="arch" type="xml">
+                <form string="Property Commession ">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="value" required="1"/>
+                                <field name="journal_id" required="1"/>
+                                <field name="management_journal_id" required="1"/>
+                            </group>
+
+                        </group>
+
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- Property Commession Tree View-->
+        <record id="property_commession_view_tree" model="ir.ui.view">
+            <field name="name">property.commession.tree</field>
+            <field name="model">property.commession</field>
+            <field name="arch" type="xml">
+                <tree string="Maintenance &amp; Repairs">
+                    <field name="name" required="1"/>
+                    <field name="value" required="1"/>
+                    <field name="journal_id" required="1"/>
+                    <field name="management_journal_id" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Property Commession Search View-->
+        <record id="property_commession_search_view" model="ir.ui.view">
+            <field name="name">property.commession.search.view</field>
+            <field name="model">property.commession</field>
+            <field name="arch" type="xml">
+                <search string="Property Account Category">
+                    <field name="name"/>
+                    <field name="value"/>
+                    <field name="journal_id"/>
+                    <field name="management_journal_id" />
+                </search>
+            </field>
+        </record>
+
+<!--######################### PROPERTY ################################### -->
+
+        <!-- Property Form View  Inherit -->
+        <record model="ir.ui.view" id="view_account_asset_asset_property_commession_form_inherit">
+            <field name="name">account.asset.asset.property.commession.form</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='income_acc_id']" position="before">
+                    <field name="property_commession" required='1'/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--###########################################################
+			###						Actions 						###
+			###########################################################-->
+
+<!--######################### PROPERTY COMMESION ###################### -->
+		
+		<!--Action For Property Commession -->
+        <record model="ir.actions.act_window" id="action_property_commession_view">
+            <field name="name">Property Commession</field>
+            <field name="res_model">property.commession</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="realestate.property_commession_search_view"/>
+        </record>
+
+        <!--Action For  Property commession Form view-->
+        <record id="action_property_commession_form_view" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_property_commession_form"/>
+            <field name="act_window_id" ref="action_property_commession_view"/>
+        </record>
+
+        <!--Action For  Property Commession Tree view-->
+        <record id="action_property_commession_tree_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_commession_view_tree"/>
+            <field name="act_window_id" ref="action_property_commession_view"/>
+        </record>
+
+        <!--###########################################################
+			###						MenuItems						###
+			###########################################################-->
+
+		<menuitem name="Property Commessions" id="menu_property_commession" parent="menu_types_main" action="action_property_commession_view" sequence="7"/>
+
+
+	</data>
+</odoo>

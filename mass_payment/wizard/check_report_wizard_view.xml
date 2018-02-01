@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_check_report_wizard" model="ir.ui.view">
+        <field name="name">check.report.wizard.form</field>
+        <field name="model">check.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Check Report">
+                <group>
+                    <label string="Do you want to print report?" />
+                </group>
+                <footer>
+                    <button name="print_report" string="Print" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_check_report_wizard" model="ir.actions.act_window">
+        <field name="name">Check Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">check.report.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_check_report_wizard"
+    name="Check Report"
+    action="action_check_report_wizard"
+    parent="account.menu_finance_legal_statement"/>
+
+        <!-- <record id="mass_payment_wizard_value" model="ir.values">
+            <field name="model_id" ref="account.model_account_payment" />
+            <field name="name">Payment Voucher</field>
+            <field name="key2">client_print_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_mass_payment_wizard'))" />
+            <field name="key">action</field>
+            <field name="model">account.payment</field>
+        </record> -->
+
+</odoo>

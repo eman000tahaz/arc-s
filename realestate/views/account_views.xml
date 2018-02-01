@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!--###########################################################
+			###						 Views   						###
+			###########################################################-->
+
+		<!--##################### ACCOUNT MOVE #########################-->
+
+		<!--Inherited account move form view to add button for printing report-->
+		<!-- <record model="ir.ui.view" id="view_account_move_form_inherit">
+			<field name="name">account.move.form</field>
+			<field name="model">account.move</field>
+			<field name="inherit_id" ref="account.view_move_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="/form/header/button[@name='button_cancel']" position="after">
+					<button name="%(report_account_move_property)d" states="posted" string="Print" type="action" class="oe_highlight"/>
+				</xpath>
+				<xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_account_id']" position="attributes">
+					<attribute name="string">Tenancy Name</attribute>
+				</xpath>
+				<field name="date" position="after">
+					<field name="schedule_date" readonly="1"/>
+					<field name="source" readonly="1"/>
+				</field>
+			</field>
+		</record> -->
+
+		<!--##################### ACCOUNT MOVE LINE #########################-->
+
+		<!--Inherited account move line tree view to add property id-->
+		<record model="ir.ui.view" id="view_voucher_form2_inherit">
+			<field name="name">account.move.line.tree</field>
+			<field name="model">account.move.line</field>
+			<field name="inherit_id" ref="account.view_move_line_tree"/>
+			<field name="arch" type="xml">
+				<field name="journal_id" position="after">
+					<field name="property_id"/>
+				</field>
+			</field>
+		</record>
+
+		<!--##################### ACCOUNT PAYMENT #########################-->
+
+		<!--Inherited account payment form view to add property id-->
+		<record model="ir.ui.view" id="view_payment_form2_inherit">
+			<field name="name">account.payment.form</field>
+			<field name="model">account.payment</field>
+			<field name="inherit_id" ref="account.view_account_payment_form"/>
+			<field name="arch" type="xml">
+				<field name="communication" position="after">
+					<field name="tenancy_id" readonly="1"/>
+					<field name="property_id" readonly="1"/>
+					<!--<field name="rent_schedule_id" readonly="1"/>-->
+				</field>
+				<xpath expr="/form/header/button[@name='post']" position="after">
+					<button name="back_to_tenancy" states="posted" string="Back" type="object" class="oe_highlight"/>
+				</xpath>
+			</field>
+		</record>
+
+		<!--##################### ACCOUNT INVOICE #########################-->
+
+		<!--Inherited account invoice form view to add property id-->
+		<record model="ir.ui.view" id="view_account_invoice_prop_form_inherit">
+			<field name="name">view.account.invoice.prop.form.inherit</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<field name="payment_term_id" position="after">
+					<field name="property_id"/>
+				</field>
+			</field>
+		</record>
+
+	</data>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="action_report_mass_payment"
+            string="Payment Voucher"
+            model="account.payment" 
+            report_type="qweb-pdf"
+            file="mass_payment.report_mass_payment" 
+            name="mass_payment.report_mass_payment"
+            menu="False"
+        />
+
+        <report 
+            id="action_report_transfer"
+            string="Payment Transfer"
+            model="account.payment" 
+            report_type="qweb-pdf"
+            file="mass_payment.report_transfer" 
+            name="mass_payment.report_transfer"
+            menu="False"
+        />
+
+        <report 
+            id="action_report_checkbook"
+            string="Check"
+            model="account.payment" 
+            report_type="qweb-pdf"
+            file="mass_payment.report_checkbook" 
+            name="mass_payment.report_checkbook"
+            menu="False"
+        />
+    </data>
+</odoo>

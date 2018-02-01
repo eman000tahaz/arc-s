@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<!-- Safety Certificate Report Wizard Form View  -->
+		<record id="safety_certificate_report" model="ir.ui.view">
+			<field name="name">Safety Certificate Expiry Report</field>
+			<field name="model">safety.certificate.report</field>
+			<field name="arch" type="xml">
+				<form string="Safety Certificate Report">
+					<separator string = "Safety Certificate Expiry Report" colspan="4"/>
+					<group>
+						<field name="start_date" />
+						<field name="end_date" />
+					</group>
+					<footer>
+						<button special="cancel" string="Cancel" icon="gtk-cancel" class="oe_highlight"/>
+						<button name="print_report" string="Print" type="object" icon="gtk-print" class="oe_highlight"/>
+						<button name="open_certificate_expiry_tree" string="Open" type="object" class="oe_highlight"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<!--Action for Safety Certificate Report Wizard -->
+		<record id="action_safety_certificate_expiry" model="ir.actions.act_window">
+			<field name="name">Safety Certificate Expiry</field>
+			<field name="res_model">safety.certificate.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<menuitem name="Safety Certificate Expiry" id="menu_safety_certificate" parent="menu_report_sub" action="action_safety_certificate_expiry"/>
+
+	</data>
+</odoo>

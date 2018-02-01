@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+
+        <!--Report for Property Per Location -->
+        <report id="property_per_location_12" 
+                string="Property Per Location" 
+                model="account.asset.asset" 
+                name="realestate.report_property_per_location1"
+                report_type="qweb-pdf"/>
+
+        <!--Report for Contract Expiry -->
+        <report id="report_contract_expiry_init"
+	            string="Contract Expiry"
+	            model="account.asset.asset"
+	            report_type="qweb-pdf"
+	            file="realestate.report_contract_expiry" 
+	            name="realestate.report_contract_expiry"
+	            menu="False" />
+
+        <!--Report for Income Expenditure -->
+        <report id="report_income_expenditure_init"
+	            string="Income Expenditure"
+	            model="account.asset.asset"
+	            report_type="qweb-pdf"
+	            file="realestate.report_income_expenditure" 
+	            name="realestate.report_income_expenditure"
+	            menu="False" />
+
+        <!--Report for Safety Certificate Expiry -->
+        <report id="report_safety_certificate_init"
+	            string="Safety Certificate Expiry"
+	            model="account.asset.asset"
+	            report_type="qweb-pdf"
+	            file="realestate.report_safety_certificate" 
+	            name="realestate.report_safety_certificate"
+	            menu="False" />
+
+        <!--Report for Document Expiry -->
+        <report id="report_document_expiry_init"
+	            string="Document Expiry"
+	            model="account.asset.asset"
+	            report_type="qweb-pdf"
+	            file="realestate.report_document_expiry" 
+	            name="realestate.report_document_expiry"
+	            menu="False" />
+
+        <!--Report for Tenancy Detail By Tenant -->
+        <report id="report_tenancy_by_tenant_init"
+	            string="Tenancy Detail By Tenant"
+	            model="tenant.partner"
+	            report_type="qweb-pdf"
+	            file="realestate.report_tenancy_by_tenant" 
+	            name="realestate.report_tenancy_by_tenant"
+	            menu="False" />
+
+        <!--Report for Tenancy Detail By Tenant -->
+        <report id="report_tenancy_by_property_init"
+	            string="Tenancy Detail By Property"
+	            model="account.asset.asset"
+	            report_type="qweb-pdf"
+	            file="realestate.report_tenancy_by_property"
+	            name="realestate.report_tenancy_by_property"
+	            menu="False" />
+
+		<!--Report for Tenancy Final Detail By Tenant -->
+        <report id="report_tenancy_final_by_property_init"
+	            string="Tenancy Final Detail By Property"
+	            model="account.asset.asset"
+	            report_type="qweb-pdf"
+	            file="realestate.report_tenancy_final_by_property"
+	            name="realestate.report_tenancy_final_by_property"
+	            menu="False" />
+
+		<!--Report for Tenancy Final Detail By Property -->
+        <report id="report_tenancy_final_by_property_init_ar"
+	            string="Tenancy Final Detail By Property Arabic"
+	            model="account.asset.asset"
+	            report_type="qweb-pdf"
+	            file="realestate.report_tenancy_final_by_property_ar"
+	            name="realestate.report_tenancy_final_by_property_ar"
+	            menu="False" />
+
+    </data>
+</odoo>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_journal_form_mass_payment" model="ir.ui.view">
+            <field name="name">account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form" />
+            <field name="arch" type="xml">
+            	<field name="bank_statements_source" position="after">
+            		<field name="bank_officer" />
+                    <field name="bank_officer_design" />
+            		<field name="bank_branch" />
+            		<field name="authorize_sign_id" />
+                    <!-- widget="many2many_tags"  -->
+            	</field>
+            	<page name="bank_account" position="after">
+	            	<page name="check_account" string="Check" attrs="{'invisible': [('type', '!=', 'bank')]}">
+	            		<group>
+	            			<group>
+	            				<field name="check_request"/>
+                                <field name="check_email" attrs="{'required':[('type','=', 'bank')]}"/>
+	            			</group>
+	            			<group>
+	            				<field name="check_type" attrs="{'required':[('type','=', 'bank')]}"/>
+                                <field name="remain_check" />
+	            			</group>
+	            			<field name="check_book_ids" nolabel="1" attrs="{'readonly':[('check_type', '=', 'manual')]}">
+	            				<tree string="Check Book" editable="top">
+	            					<field name="name"/>
+	            					<field name="from_no"/>
+	            					<field name="to_no"/>
+                                    <field name="total_used_no" invisible="1"/>
+                                    <field name="sent" invisible="1"/>
+	            				</tree>
+	            			</field>
+	            		</group>
+	            	</page>
+                    <page name="check_config" string="Check Configuration" attrs="{'invisible': [('type', '!=', 'bank')]}">
+                        <group>
+                            <group>
+                                <field name="top_margin"/>
+                                <field name="right_margin"/>
+                            </group>
+                            <group>
+                                <field name="bottom_margin"/>
+                                <field name="left_margin"/>
+                            </group>
+                        </group>
+                    </page>
+            	</page>
+            </field>
+        </record>
+
+        <!-- check book cancel -->
+
+        <record id="view_check_book_cancel_tree" model="ir.ui.view">
+            <field name="name">check.book.cancel.tree</field>
+            <field name="model">check.book.cancel</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="CheckBook Cancel">
+                    <field name='bank_journal_id'/>
+                    <field name="check_book_no_id"/>
+                    <field name="check_no"/>
+                    <field name="cancel_reason"/>
+                    <!-- <field name="state" /> -->
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_check_book_cancel_form" model="ir.ui.view">
+            <field name="name">check.book.cancel.form</field>
+            <field name="model">check.book.cancel</field>
+            <field name="arch" type="xml">
+                <form string="CheckBool Cancel">
+                    <group>
+                        <group>
+                            <field name='bank_journal_id'/>
+                            <field name="check_no"/>
+                        </group>
+                        <group>
+                            <field name="check_book_no_id"/>
+                        </group>
+                        <field name="cancel_reason" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_check_book_cancel" model="ir.actions.act_window">
+            <field name="name">CheckBook Cancel</field>
+            <field name="res_model">check.book.cancel</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem 
+        	action="action_check_book_cancel"
+        	id="menu_action_check_book_cancel"
+        	parent="account.account_account_menu" />
+
+        <!-- account.move -->
+
+        <record id="view_move_form_mass_payment" model="ir.ui.view">
+            <field name="name">account.move.form.mass_payment</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <field name="date" position="after">
+                    <field name="partner_id" />
+                    <field name="invoice_id" />
+                </field>
+                <field name="currency_id" position="after">
+                    <field name="is_check" invisible="1" />
+                    <!-- <field name="journal_type" invisible="1"/> -->
+                    <field name="payment_method" attrs="{'invisible': [('is_check', '!=', True)], 'required': [('is_check', '=', True)] }"/>
+                    <field name="check_type" invisible="1"/>
+                    <field name="checkbook_no_id" invisible="1"/>
+                    <field name="check_no" attrs="{'invisible': [('payment_method', '!=', 'check')], 'readonly': [('check_type', '=', 'auto')], 'required': [('payment_method', '=', 'check'), ('check_type', '=', 'manual')]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_move_mass_payment_tree" model="ir.ui.view">
+            <field name="name">account.move.tree</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state == 'draft'" string="Journal Entries">
+                    <field name="journal_id"/>
+                    <field name="checkbook_no_id" />
+                    <field name="check_no"/>
+                    <field name="date"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="name"/>
+                    <field name="partner_id" string="Pay To"/>
+                    <field name="ref"/>
+                    <field name="state" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="payment_method" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_move_journal_line_mass_payment" model="ir.actions.act_window">
+            <field name="name">Checkbooks</field>
+            <field name="res_model">account.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_move_mass_payment_tree"/>
+            <field name="search_view_id" ref="account.view_account_move_filter"/>
+            <field name="domain">[('payment_method', '=', 'check')]</field>
+        </record>
+
+        <menuitem
+            action="action_move_journal_line_mass_payment"
+            id="menu_action_move_journal_line_mass_payment"
+            parent="account.menu_finance_entries"
+            groups="account.group_account_user"
+            sequence="2"/>
+
+    </data>
+</odoo>

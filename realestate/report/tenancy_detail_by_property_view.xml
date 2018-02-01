@@ -1,0 +1,59 @@
+<odoo> 
+	<data>
+
+		<!--Template For Tenancy Details By Property Report-->
+		<template id="report_tenancy_by_property">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="realestate.property_internal_layout"/>
+						<div class="page">
+							<div class="row">
+								<h2>
+									<span><center>Tenancy Details By Property</center></span>
+								</h2>
+							</div>
+							<br/><br/>
+							<table width="100%">
+								<tr> 
+									<td width="33%" style="text-align:left">
+										<strong>Property name :</strong>
+										<span t-esc="data['form']['property_name']"/>
+									</td>
+									<td width="33%" style="text-align:left">&#160;</td>
+									<td width="34%" style="text-align:left">
+										<strong>From:</strong>
+										<span t-esc="formatLang(data['form']['start_date'], date=True)"/>&#160;&#160;&#160;
+										<strong>To:</strong>
+										<span t-esc="formatLang(data['form']['end_date'], date=True)"/>
+									</td>
+								</tr>
+							</table>
+							<br />
+							<table class="table table-condensed">
+								<tr style="background-color:#f9f9f9;">
+									<td><strong>Tenancy Name</strong></td>
+									<td><strong>Tenant Name</strong></td>
+									<td><strong>Start date</strong></td>
+									<td><strong>End date</strong></td>
+									<td><strong>Rent</strong></td>
+									<td><strong>Rent Type</strong></td>
+									<td><strong>State</strong></td>
+								</tr>
+								<tr t-foreach="get_details(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])" t-as="t">
+									<td><span t-field="t.name"/></td>
+									<td><span t-field="t.tenant_id.name"/></td>
+									<td><span t-esc="formatLang(t.date_start,date=True)"/></td> 
+									<td><span t-esc="formatLang(t.date,date=True)"/></td>
+									<td><span t-field="t.rent"/></td>
+									<td><span t-field="t.rent_type_id.name"/>&#160;<span t-field="t.rent_type_id.renttype"/></td>
+									<td><span t-field="t.state"/></td>
+								</tr>
+							</table>
+						</div>
+					<t t-call="report.external_layout_footer"/>
+				</t>
+			</t>
+		</template>
+
+</data>
+</odoo>

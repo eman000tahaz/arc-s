@@ -1,0 +1,99 @@
+<odoo> 
+<data>
+
+
+<!--Template for account move-->
+<template id="report_acc_move_prop">
+	<t t-call="report.html_container">
+		<t t-foreach="docs" t-as="o">
+			<t t-call="report.external_layout">
+				<div class="page">
+					<br/><br/>
+					<div class="row">
+						<h3>
+							<span><center><u>Account Move Report</u></center></span>
+						</h3>
+					</div>
+					<br />
+					<table width="100%">
+						<tr>
+							<td width="50%" style="text-align:left;font-size: 18px;"><strong>Name :</strong>
+							<span style="font-size: 18px;" t-field="o.name"/></td>
+							<td width="50%" style="text-align:right;font-size: 18px;"><strong>Date :</strong>
+							<span style="font-size: 18px;" t-field="o.date"/></td>
+						</tr>
+						<tr>
+							<td>&#160;</td>
+							<td>&#160;</td>
+						</tr>
+						<tr>
+							<td width="50%" style="text-align:left;font-size: 18px;"><strong>Journal  :</strong>
+							<span style="font-size: 18px;" t-field="o.journal_id.name"/></td>
+							<td width="50%" style="text-align:right;font-size: 18px;"><strong>Reference :</strong>
+							<span style="font-size: 18px;" t-field="o.ref"/></td>
+						</tr>
+						<tr>
+							<td>&#160;</td>
+							<td>&#160;</td>
+						</tr>
+						<tr>
+							<td width="50%" style="text-align:left;font-size: 18px;"><strong>Partner Name :</strong>
+							<span style="font-size: 18px;" t-field="o.partner_id.name"/></td>
+							<td width="50%" style="text-align:right;font-size: 18px;">&#160;</td>
+						</tr>
+					</table>
+					<br /><br />
+					<p style="font-size: 18px;">
+						Details of Journal Items.
+					</p>
+					<table class="table table-condensed">
+						<thead>
+							<tr>
+								<th>Account</th>
+								<th>Label</th>
+								<th>Analytic Account</th>
+								<th>Debit</th>
+								<th>Credit</th>
+							</tr>
+						</thead>
+						<tbody>
+							<t t-foreach="o.line_ids" t-as="move">
+								<tr>
+									<td ><t t-if="move.account_id">
+										<span t-field="move.account_id.name"/></t>
+									</td>
+									<td ><t t-if="move.name">
+										<span t-field="move.name"/></t>
+									</td>
+									<td ><t t-if="move.analytic_account_id">
+										<span t-field="move.analytic_account_id.name"/></t>
+									</td>
+									<td >
+										<span t-field="move.debit"/>
+									</td>
+									<td >
+										<span t-field="move.credit"/>
+									</td>
+								</tr>
+							</t>
+						</tbody>
+					</table>
+				</div>
+			</t>
+		</t>
+	</t>
+</template>
+
+<!--Report for account move -->
+<report 
+	id="report_account_move_property"
+	string="Account Move"
+	model="account.move"
+	report_type="qweb-pdf"
+	file="realestate.report_acc_move_prop"
+	name="realestate.report_acc_move_prop"
+	menu="False" 
+/>
+
+</data>
+</odoo>

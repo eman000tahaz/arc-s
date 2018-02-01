@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+<template id="report_transfer_document">
+    <div class="page">
+        <div class="row mt32 mb32">
+            <div class="mt32 mb32">
+                <span style="padding-bottom: 10px;"><strong>Date:  </strong></span>
+                <span t-field="o.payment_date" t-field-options='{"format": "d MMMM Y"}'/>
+            </div>
+
+            <div class="mt32 mb32">
+                <span t-field="o.journal_id.bank_officer"/><br/>
+                <span t-field="o.journal_id.bank_officer_design"/><br/>
+                <span t-field="o.journal_id.name"/><br/>
+                <span t-field="o.journal_id.bank_branch"/>
+            </div>
+
+            <div class="text-center">
+                <strong><u>Subject: Transfer Total Amount of <!-- <span t-field="o.journal_id.currency_id.name"/> --> <span t-field="o.amount"/>/-</u></strong>
+            </div>
+            <div class="mb16">
+                Dear <span t-field="o.journal_id.bank_officer"/>,
+                <p/>
+                <p>Regarding to above-mentioned subject, kindly, transfer total amount of <span t-field="o.journal_id.currency_id.name"/> <span t-field="o.amount"/>/- (<span t-esc="get_amount_in_word"/> Only) to the following account:
+                </p>
+            </div>
+            <table class="table table-condensed">
+                <tr>
+                    <td>
+                        A Beneficiary Name :
+                    </td>
+                    <td>
+                        <span t-field="o.partner_id.name" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Bank Name &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;:
+                        </td>
+                    <td>
+                        <span t-field="o.partner_id.bank" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Account No &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;:
+                    </td>
+                    <td>
+                        <span t-field="o.partner_id.acc_number" />
+                    </td>
+                </tr>
+                <tr t-if="o.partner_id.iban_no">
+                    <td>
+                        IBAN No &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;:
+                    </td>
+                    <td>
+                        <span t-field="o.partner_id.iban_no" />
+                    </td>
+                </tr>
+                <tr t-if="o.partner_id.swift_code">
+                    <td>
+                        Swift Code &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;:
+                    </td>
+                    <td>
+                        <span t-field="o.partner_id.swift_code" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Narration &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;:
+                    </td>
+                    <td>
+                        <span t-field="o.communication" />
+                    </td>
+                </tr>
+            </table>
+            <p>And debits from my account no. 
+                (<span t-if="o.payment_type=='outbound'"><span t-field="o.journal_id.default_debit_account_id.code" /></span>
+                <span t-if="o.payment_type=='inbound'"><span t-field="o.journal_id.default_credit_account_id.code" /></span>) equivalent to <span t-field="o.currency_id.name" /> accordingly.</p>
+                <!-- Kuwaiti Dinars -->
+
+            <p><strong>Please Note: All Bank Charges to be deducted from our account.</strong> </p>
+            <p>Regards,</p>
+            <p class="mt64 mb0"><strong>General Manager </strong></p>
+            <span t-field="o.journal_id.authorize_sign_id.name" />
+        </div>
+    </div>
+</template>
+
+<template id="report_transfer">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="mass_payment.report_transfer_document"/>
+        </t>
+    </t>
+</template>
+
+</data>
+</odoo>

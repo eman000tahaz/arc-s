@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<!-- Income Expenditure Report wizard Form View  -->
+		<record id="income_expenditure_report" model="ir.ui.view">
+			<field name="name">Income Expenditure Report</field>
+			<field name="model">income.report</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Income Expenditure Report">
+					<separator string = "Income Expenditure Report" colspan="4"/>
+					<group>
+						<field name="start_date" />
+						<field name="end_date" />
+					</group>
+					<footer>
+						<button special="cancel" string="Cancel" icon="gtk-cancel" class="oe_highlight"/>
+						<button name="print_report" string="Print" type="object" icon="gtk-print" class="oe_highlight"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<!--Action For Income Expenditure Report wizard  -->
+		<record id="action_income_expenditure" model="ir.actions.act_window">
+			<field name="name">Income Expenditure Report</field>
+			<field name="res_model">income.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+		<menuitem name="Income Expenditure" id="menu_income_expenditure" parent="menu_report_sub" action="action_income_expenditure"/>
+
+	</data>
+</odoo>

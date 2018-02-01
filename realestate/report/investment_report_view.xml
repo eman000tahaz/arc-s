@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+	<!--Pivot View Of Investment Analysis Report-->
+	<record id="view_investment_analysis_report_pivot" model="ir.ui.view">
+		<field name="name">investment.analysis.report.pivot</field>
+		<field name="model">investment.analysis.report</field>
+		<field name="arch" type="xml">
+			<pivot string="Investment Analysis" disable_linking="True">
+				<field name="name" type="row"/>
+				<field name="type_id" type="col"/>
+				<field name="purchase_price" type="measure"/>
+			</pivot>
+		</field>
+	</record>
+
+	<!--Graph View Of Investment Analysis Report-->
+	<record id="view_investment_analysis_report" model="ir.ui.view">
+		<field name="name">investment.analysis.report.graph</field>
+		<field name="model">investment.analysis.report</field>
+		<field name="arch" type="xml">
+			<graph string="Investment Analysis" type="pivot" stacked="True">
+				<field name="name" type="row"/>
+				<field name="type_id" type="col"/>
+				<field name="purchase_price" type="measure"/>
+			</graph>
+		</field>
+	</record>
+
+	<!--Search View Of Investment Analysis Report-->
+	<record id="view_investment_analysis_search" model="ir.ui.view">
+		<field name="name">investment.analysis.report.search</field>
+		<field name="model">investment.analysis.report</field>
+		<field name="arch" type="xml">
+			<search string="Investment Analysis">
+				<separator/>
+                <field name="name"/>
+                <field name="roi"/>
+                <field name="return_period"/>
+				<field name="type_id"/>
+				<field name="parent_id"/>
+				<field name="active"/>
+				<filter string="Parent Properties" name="parent" domain="[('parent_id','=',False)]"/>
+				<filter string="Child Properties" name="child" domain="[('parent_id','!=',False)]"/>
+				<filter string="Active" name="active" domain="[('active','=',True)]"/>
+				<group expand="1" string="Group By">
+					<filter string="Property" name="Property" context="{'group_by':'name'}"/>
+					<separator/>
+					<filter string="Purchase Month" context="{'group_by':'date:month'}"/>
+					<separator/>
+					<filter string="Property Type" name="Type" context="{'group_by':'type_id'}"/>
+					<separator/>
+					<filter string="ROI" name="ROI" context="{'group_by':'roi'}"/>
+					<separator/>
+					<filter string="Return Period" name="Return Period" context="{'group_by':'return_period'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<!--Action For Investment Analysis Report-->
+	<record id="action_investment_analysis_report" model="ir.actions.act_window">
+		<field name="name">Investment Analysis</field>
+		<field name="res_model">investment.analysis.report</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">pivot,graph</field>
+		<field name="search_view_id" ref="view_investment_analysis_search"/>
+		<field name="view_id" ref="view_investment_analysis_report_pivot"/>
+	</record>
+
+	<menuitem action="action_investment_analysis_report" id="menu_report_property_chart" parent="realestate.menu_report_sub" sequence="10"/>
+
+</data>
+</odoo>

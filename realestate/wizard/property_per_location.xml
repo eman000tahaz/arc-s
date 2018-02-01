@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<!--Property Per Location Wizard Form View -->
+		<record id="property_per_location_wiz" model="ir.ui.view">
+			<field name="name">Property Per Location Report</field>
+			<field name="model">property.per.location</field>
+			<field name="arch" type="xml">
+				<form string="Property Per Location">
+					<separator string = "Property Per Location Report" colspan="4"/>
+					<group>
+						<field name="state_id" required="1"/>
+					</group>
+					<footer>
+						<button special="cancel" string="Cancel" icon="gtk-cancel" class="oe_highlight"/>
+						<button name="print_report" string="Print" type="object" icon="gtk-print" class="oe_highlight"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<!--Action For Property Per Location Wizard-->
+		<record id="action_property_per_location" model="ir.actions.act_window">
+			<field name="name">Property Per Location</field>
+			<field name="res_model">property.per.location</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+            <field name="key2">False</field>
+		</record>
+
+		<menuitem name="Properties Per Location" id="menu_properties_per_location" parent="menu_report_sub" action="action_property_per_location"/>
+
+	</data>
+</odoo>

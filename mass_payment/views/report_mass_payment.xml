@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+<template id="assets_pdf" name="mass_payment assets" inherit_id="report.assets_pdf">
+    <xpath expr="." position="inside">
+         <link rel='stylesheet' href='/mass_payment/static/src/css/mass_payment.css'/>
+    </xpath>
+</template>
+
+<template id="report_mass_payment_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="row mt32 mb32">
+                <div class="col-xs-6 col-xs-offset-7" t-if="o.name">
+                    <div>
+                        <span style="padding-bottom: 5px;"><strong>SL NO. </strong></span>
+                    </div>
+                    <div>
+                        <span style="padding-bottom: 5px;"><strong>Payment Date:  </strong></span>
+                        <span t-field="o.payment_date" t-field-options='{"format": "d MMMM Y"}'/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt8 mb0">
+                <div class="col-xs-6 mt5 mb0">
+                    <hr style="margin-top:0px;margin-bottom:0px;background-color:deepskyblue;display:block;padding:2px;"/>
+                    <hr style="margin-top:0px;margin-bottom:0px;background-color:black;display:block;padding:1px;"/>
+                </div>
+                <div class="col-xs-5 mt5 mb0">
+                    <h3 class="text-center" style="margin-top:0px;margin-bottom:0px;"><strong>BANK PAYMENT</strong></h3>
+                </div>
+                <div class="col-xs-1 mt5 mb0">
+                    <hr style="margin-top:0px;margin-bottom:0px;background-color:deepskyblue;display:block;padding:2px;"/>
+                    <hr style="margin-top:0px;margin-bottom:0px;background-color:black;display:block;padding:1px;"/>
+                </div>
+            </div>
+
+            <fieldset class="scheduler-border col-xs-6 mb16">
+                <legend class="scheduler-border"><strong>ATTENTION</strong></legend>
+                <div>
+                    <t t-set="approver" t-value="get_payment_approver"/>
+                    <table class="table table-condensed mb0 mt0">
+                        <tr>
+                            <td style="padding-left:50px;border-top: 0px solid white !important;border-bottom: 1px;">
+                                <span class="mb0 mt0" style="margin-top:0px;margin-bottom:0px;" t-field="approver.name"/>
+                                <hr class="mb0 mt0"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:50px;border-top: 0px solid white !important;border-bottom: 1px;">
+                                <span class="mb0 mt0" style="margin-top:0px;margin-bottom:0px;" t-field="approver.job_id.name"/>
+                                <hr class="mb0 mt0"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:50px;border-top: 0px solid white !important;border-bottom: 1px;">
+                                <hr  class="mb0 mt8"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:50px;border-top: 0px solid white !important;border-bottom: 1px;">
+                                <hr  class="mb0 mt8"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </fieldset>
+
+            <table class="table table-condensed table-bordered mt16" style="height:90mm;border: 1px solid black;margin-bottom:0px;">
+                <thead>
+                    <tr>
+                        <th style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom:1px solid black;">Description</th>
+                        <th style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom:1px solid black;">Invoice#</th>
+                        <th style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom:1px solid black;">GL#</th>
+                        <th style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom:1px solid black;" class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="o.invoice_payment_id" t-as="l">
+                        <td style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom:1px solid black;">
+                            Settlement of 
+                            <span t-field="o.partner_id.name"/>
+                            <span t-if="o.payment_type=='inbound'"> Payable</span>
+                            <span t-if="o.payment_type=='outbound'"> Receivable</span> Balance
+                        </td>
+                        <td style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom:1px solid black;">
+                            <span t-field="l.invoice_id.number"/>
+                        </td>
+                        <td style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom:1px solid black;">
+                            <span t-if="o.payment_type=='inbound'"><span t-field="o.partner_id.property_account_receivable_id.name"/></span>
+                            <span t-if="o.payment_type=='outbound'"><span t-field="o.partner_id.property_account_payable_id.name"/></span>
+                        </td>
+                        <td style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom:1px solid black;background-color: deepskyblue;" class="text-right">
+                            <span t-field="l.invoice_id.amount_total"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-xs-4 pull-right">
+                    <t t-set="total" t-value="get_payment_total"/>
+                    <table width="100%" class="table table-condensed table-bordered" style="border: 1px solid black;">
+                        <tr>
+                            <td width="57.5%" style="border-left: 1px solid black;border-top: 0px solid white;border-right: 1px solid black;"><strong>Subtotal</strong></td>
+                            <td width="42.5%" style="border-left: 1px solid black;border-top: 0px solid white;border-right: 1px solid black;background-color: deepskyblue;" class="text-right">
+                                <span t-esc="total['subtotal']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="57.5%" style="border-left: 1px solid black;border-top: 0px solid white;border-right: 1px solid black;border-bottom:0px solid white;">
+                                <p></p>
+                            </td>
+                            <td width="42.5%" style="border-left: 1px solid black;border-top: 0px solid white;border-right: 1px solid black;border-bottom:0px solid white;">
+                                <p></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="57.5%" style="border-left: 1px solid black;border-top: 1px light gray;border-right: 1px solid black;border-bottom:1px solid black;"><strong>Less: (Advance Payment)</strong></td>
+                            <td width="42.5%" style="border-left: 1px solid black;border-top: 1px light gray;border-right: 1px solid black;border-bottom:1px solid black;background-color: deepskyblue;" class="text-right">
+                                <span t-esc="total['less_total']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                <p class="mb32"> </p>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td width="57.5%" style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom:1px solid black;"><strong>Total</strong></td>
+                            <td width="42.5%" style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;border-bottom:1px solid black;background-color: deepskyblue;" class="text-right">
+                                <span t-esc="total['total']" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <fieldset class="scheduler-border col-xs-6 mb0 mt0">
+                <legend class="scheduler-border"><strong>Payment Details</strong></legend>
+                <table class="table table-condensed mb0 mt0">
+                    <tr>
+                        <td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;">
+                            <div>
+                                <t t-if="o.check_no">
+                                    <div style="display: table-cell; border:1px solid black; height:20px; width:20px; background: yellow;" />
+                                </t>
+                                <t t-if="not o.check_no">
+                                    <div style="display: table-cell; border:1px solid black; height:20px; width:20px;" />
+                                </t>
+                                <div style="padding-left: 5px; display: table-cell">
+                                Check No: <u><span t-field="o.check_no" /></u>
+                                </div>
+                            </div>
+                                
+                        </td>
+                        <td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;">
+                            Bank: <u><span t-field="o.journal_id.name" /></u>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;">
+                            <div>
+                                <t t-if="not o.check_no">
+                                    <div style="display: table-cell; border:1px solid black; height:20px; width:20px; background: yellow;" />
+                                </t>
+                                <t t-if="o.check_no">
+                                    <div style="display: table-cell; border:1px solid black; height:20px; width:20px;" />
+                                </t>
+                                <div style="padding-left: 5px; display: table-cell">
+                                Bank Transfer
+                                </div>
+                            </div>
+                        </td>
+                        <td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;">
+                            GL#: <span t-if="o.payment_type=='outbound'"><u><span t-field="o.journal_id.default_debit_account_id.code" /></u></span>
+                            <span t-if="o.payment_type=='inbound'"><u><span t-field="o.journal_id.default_credit_account_id.code" /></u></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-left: 0px solid white;border-top: 0px solid white;border-right: 0px solid white;border-bottom:0px solid white;" colspan="2">
+                            <span colspan="1" style="float:left;">PAYEE:</span>
+                            <span style="padding-left: 60px;" t-field="o.partner_id.name" />
+                            <hr style="margin-top:8px;margin-bottom:0px;background-color:black;display:block;padding:1px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-left:50px;border-top: 0px solid white !important;border-bottom: 1px;" colspan="2">
+                            <hr style="margin-top:8px;margin-bottom:0px;background-color:black;display:block;padding:1px;"/>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+
+            <div class="row mt0">
+                <div class="col-xs-12 mb32 mt32">
+                    <strong>Amount: <span t-field="o.currency_id.name"/> <span t-esc="total['amount_word']"/> ONLY</strong>
+                </div>
+            </div>
+
+            <div>
+                <span><strong>PAYMENT DETAILS:</strong></span>
+                <hr style="margin-top:8px;margin-bottom:0px;background-color:deepskyblue;display:block;padding:2px;"/>
+                <hr style="margin-top:0px;margin-bottom:8px;background-color:black;display:block;padding:1px;"/>
+                <table width='100%' class="table">
+                    <tr>
+                        <td style="border-top: 0px solid white;border-left: 0px solid white;border-bottom: 1px solid white;border-right: 1px solid white;">
+                            <strong>Prepared By</strong>
+                        </td>
+                        <td style="border-top: 0px solid white;border-left: 0px solid white;border-bottom: 1px solid white;border-right: 1px solid white;">
+                            <strong>Checked By</strong>
+                        </td>
+                        <td style="border-top: 0px solid white;border-left: 0px solid white;border-bottom: 1px solid white;border-right: 1px solid white;">
+                            <strong>Approved By</strong>
+                        </td>
+                        <td style="border-top: 0px solid white;border-left: 0px solid white;border-bottom: 1px solid white;border-right: 1px solid white;">
+                            <strong>Chq. Received By:</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div style="display: table-cell; border:1px solid black; height:40px; width:120px; align:center;">
+                                <span t-field="user.name" />
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div style="display: table-cell; border:1px solid black; height:40px; width:120px; align:center;" />
+                        </td>
+                        <td class="text-center">
+                            <div style="display: table-cell; border:1px solid black; height:40px; width:120px; align:center;" />
+                        </td>
+                        <td class="text-center">
+                            <div style="display: table-cell; border:1px solid black; height:40px; width:120px; align:center;" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="report_mass_payment">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="mass_payment.report_mass_payment_document"/>
+        </t>
+    </t>
+</template>
+
+</data>
+</odoo>

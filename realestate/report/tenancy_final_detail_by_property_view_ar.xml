@@ -1,0 +1,1190 @@
+<odoo>
+    <data>
+
+        <!--Template For Tenancy Final Details By Property Report-->
+        <template id="report_tenancy_final_by_property_ar">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="realestate.property_internal_layout"/>
+                    <div class="page">
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>بيان المبالغ المستحق والمحصل</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" width="100%">
+                            <tr>
+                                <td width="33%" style="text-align:left">
+                                    <strong>اسم العقار :</strong>
+                                    <span t-esc="data['form']['property_name']"/>
+                                </td>
+                                <td width="33%" style="text-align:left">&#160;</td>
+                                <td width="34%" style="text-align:left">
+                                    <strong>من :</strong>
+                                    <span t-esc="formatLang(data['form']['start_date'], date=True)"/>&#160;&#160;&#160;
+                                    <strong>الي :</strong>
+                                    <span t-esc="formatLang(data['form']['end_date'], date=True)"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>رقم العين</strong>
+                                </td>
+                                <td>
+                                    <strong>المستاجر</strong>
+                                </td>
+                                <td>
+                                    <strong>القيمة الايجارية</strong>
+                                </td>
+                                <td>
+                                    <strong>مستحق الشهر</strong>
+                                </td>
+                                <td>
+                                    <strong>مستحق شهور سابقة</strong>
+                                </td>
+                                <td>
+                                    <strong>مستحق سنوات سابقة</strong>
+                                </td>
+                                <td>
+                                    <strong>رصيد مقدمات</strong>
+                                </td>
+                                <td>
+                                    <strong>المسدد عن الشهر الحالي</strong>
+                                </td>
+                                <td>
+                                    <strong>المحصل عن سابق</strong>
+                                </td>
+                                <td>
+                                    <strong>المحصل مقدما</strong>
+                                </td>
+                                <td>
+                                    <strong>من المقدم</strong>
+                                </td>
+                                <td>
+                                    <strong>ايرادات اخرى</strong>
+                                </td>
+                                <td>
+                                    <strong>المتاخر عن السداد</strong>
+                                </td>
+                                <td>
+                                    <strong>المتاخر عن سداد الشهر</strong>
+                                </td>
+                                <td>
+                                    <strong>الشواغر</strong>
+                                </td>
+                                <td>
+                                    <strong>التامين</strong>
+                                </td>
+                                <td>
+                                    <strong>المجموع</strong>
+                                </td>
+                            </tr>
+                            <tr t-foreach="get_current_month_deserved(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                                t-as="t">
+                                <td>
+                                    <span t-esc="t['property_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['tenant']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['basic_rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['current_reserve_rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['months_before_reserve_rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['years_before_reserve_rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['Advance_Balance']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['current_paid_rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['months_before_paid_rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['advance_paid_rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['from_advance_paid_rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['other_income']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['delay_on_pay']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['delay_on_current_pay']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['unoccupied']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['insurance']"/>
+                                </td>
+                                <td></td>
+                            </tr>
+
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>المجموع</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['basic_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['current_reserve_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['months_before_reserve_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['years_before_reserve_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['Advance_Balance']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['current_paid_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['months_before_paid_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['advance_paid_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['from_advance_paid_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['other_income']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['delay_on_pay']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['delay_on_current_pay']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['unoccupied']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['insurance']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['Total']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>مصاريف اعمال الصيانة والحراسة</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>رقم العين</strong>
+                                </td>
+                                <td>
+                                    <strong>الاعمال</strong>
+                                </td>
+                                <td>
+                                    <strong>التكلفة</strong>
+                                </td>
+                                <td>
+                                    <strong>ملاحظات</strong>
+                                </td>
+                            </tr>
+                            <tr t-foreach="get_maintenance_details(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                                t-as="t">
+                                <td>
+                                    <span t-esc="t['property_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['type']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['cost']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['notes']"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>المجموع</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total()['total_maintenance']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong></strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>حركة تامينات المستاجرين</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>رقم العين</strong>
+                                </td>
+                                <td>
+                                    <strong>المستاجر</strong>
+                                </td>
+                                <td>
+                                    <strong>الجنسية</strong>
+                                </td>
+                                <td>
+                                    <strong>تاريخ بداية العقد</strong>
+                                </td>
+                                <td>
+                                    <strong>التامين</strong>
+                                </td>
+                                <td>
+                                    <strong>تحويل التامين الى ايجار</strong>
+                                </td>
+                                <td>
+                                    <strong>التامين المسترد</strong>
+                                </td>
+                                <td>
+                                    <strong>ايرادات اخرى</strong>
+                                </td>
+                                <td>
+                                    <strong>تامين جديد</strong>
+                                </td>
+                                <td>
+                                    <strong>رصيد التامين</strong>
+                                </td>
+                            </tr>
+                            <tr t-foreach="get_insurance_details(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                                t-as="t">
+                                <td>
+                                    <span t-esc="t['property_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['tenant']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['nationality']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['start_date']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['insurance']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['convert_to_rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['insurance_returned']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['other_income']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['new_insurance']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['insurance_balance']"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>المجموع</strong>
+                                </td>
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_insurance_total()['total_insurnace']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_insurance_total()['total_convert_to_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_insurance_total()['total_insurance_returned']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_insurance_total()['total_other_income']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_insurance_total()['total_new_insurance']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_insurance_total()['total_insurance_balance']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>العقود الجديدة المؤجرة في الشهر الحالي</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>رقم العين</strong>
+                                </td>
+                                <td>
+                                    <strong>المستاجر</strong>
+                                </td>
+                                <td>
+                                    <strong>القيمة الايجارية</strong>
+                                </td>
+                                <td>
+                                    <strong>العمولة</strong>
+                                </td>
+
+                            </tr>
+                            <tr t-foreach="get_new_contract_details(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                                t-as="t">
+                                <td>
+                                    <span t-esc="t['property_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['tenant']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['comession']"/>
+                                </td>
+
+                            </tr>
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>المجموع</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_new_contract()['total_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_new_contract()['total_comession']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>العقود الجديدة المؤجرة مقدما</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>رقم العين</strong>
+                                </td>
+                                <td>
+                                    <strong>المستاجر</strong>
+                                </td>
+                                <td>
+                                    <strong>القيمة الايجارية</strong>
+                                </td>
+                                <td>
+                                    <strong>العمولة</strong>
+                                </td>
+
+                            </tr>
+                            <tr t-foreach="get_new_contract_next_months(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                                t-as="t">
+                                <td>
+                                    <span t-esc="t['property_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['tenant']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['comession']"/>
+                                </td>
+
+                            </tr>
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>المجموع</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_new_contract_next_months()['total_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_new_contract_next_months()['total_comession']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>استحقاق العقود الجديدة المؤجرة</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>رقم العين</strong>
+                                </td>
+                                <td>
+                                    <strong>المستاجر</strong>
+                                </td>
+                                <td>
+                                    <strong>القيمة الايجارية</strong>
+                                </td>
+                                <td>
+                                    <strong>العمولة</strong>
+                                </td>
+
+                            </tr>
+                            <tr t-foreach="get_new_contract_deserved(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                                t-as="t">
+                                <td>
+                                    <span t-esc="t['property_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['tenant']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['comession']"/>
+                                </td>
+
+                            </tr>
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>المجموع</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_new_contract_deserved()['total_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_new_contract_deserved()['total_comession']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>المتاخر عن السداد</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>رقم العين</strong>
+                                </td>
+                                <td>
+                                    <strong>المستاجر</strong>
+                                </td>
+                                <td>
+                                    <strong>عدد الاشهر</strong>
+                                </td>
+                                <td>
+                                    <strong>القيمة الايجارية</strong>
+                                </td>
+                                <td>
+                                    <strong>العمولة</strong>
+                                </td>
+
+                            </tr>
+                            <tr t-foreach="get_current_delay(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                                t-as="t">
+                                <td>
+                                    <span t-esc="t['property_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['tenant']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['no_months']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['rent']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['comession']"/>
+                                </td>
+
+                            </tr>
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>المجموع</strong>
+                                </td>
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_current_delay()['total_rent']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_current_delay()['total_comession']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>القضايا</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>رقم العين</strong>
+                                </td>
+                                <td>
+                                    <strong>المستاجر</strong>
+                                </td>
+                                <td>
+                                    <strong>الاشهر المتراكمة</strong>
+                                </td>
+                                <td>
+                                    <strong>نوع القضية</strong>
+                                </td>
+                                <td>
+                                    <strong>المحصل من القضايا في الشهر</strong>
+                                </td>
+                                <td>
+                                    <strong>المحصل من القضايا لغاية الشهر الحالي</strong>
+                                </td>
+                                <td>
+                                    <strong>المبالغ المستحقة</strong>
+                                </td>
+
+                            </tr>
+                            <tr t-foreach="get_legal_cases(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                                t-as="t">
+                                <td>
+                                    <span t-esc="t['property_name']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['tenant']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['no_months']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['case_type']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['rec_current_month']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['rec_to_this_month']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="t['deserved_amount']"/>
+                                </td>
+
+                            </tr>
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>المجموع</strong>
+                                </td>
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong></strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_legal_cases()['total_rec_current_month']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_legal_cases()['total_rec_to_this_month']"/>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_total_legal_cases()['total_deserved_amount']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>بيان بقائمة الدخل</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>البيان</strong>
+                                </td>
+                                <td>
+                                    <strong>الشهر الحالي</strong>
+                                </td>
+                                <!--<td>-->
+                                    <!--<strong>السنة الحالية</strong>-->
+                                <!--</td>-->
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>ايرادات الايجار</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_profit_loss_account()['rental_income_current']"/>
+                                    </strong>
+                                </td>
+                                <!--<td>-->
+                                    <!--<strong>-->
+                                        <!--<span t-esc="get_profit_loss_account()['rental_income_year']"/>-->
+                                    <!--</strong>-->
+                                <!--</td>-->
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>عمولة ادارة العقار</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_profit_loss_account()['realestate_fees_current']"/>
+                                    </strong>
+                                </td>
+                                <!--<td>-->
+                                    <!--<strong>-->
+                                        <!--<span t-esc="get_profit_loss_account()['realestate_fees_year']"/>-->
+                                    <!--</strong>-->
+                                <!--</td>-->
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>مصاريف اعمال الصيانة والحراسة</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_profit_loss_account()['expenses_current']"/>
+                                    </strong>
+                                </td>
+                                <!--<td>-->
+                                    <!--<strong>-->
+                                        <!--<span t-esc="get_profit_loss_account()['expenses_year']"/>-->
+                                    <!--</strong>-->
+                                <!--</td>-->
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>ايرادات اخرى</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_profit_loss_account()['other_revenue_current']"/>
+                                    </strong>
+                                </td>
+                                <!--<td>-->
+                                    <!--<strong>-->
+                                        <!--<span t-esc="get_profit_loss_account()['other_revenue_year']"/>-->
+                                    <!--</strong>-->
+                                <!--</td>-->
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>عمولة تاجير شقق جديدة</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_profit_loss_account()['rental_brokerage_fees_current']"/>
+                                    </strong>
+                                </td>
+                                <!--<td>-->
+                                    <!--<strong>-->
+                                        <!--<span t-esc="get_profit_loss_account()['rental_brokerage_fees_year']"/>-->
+                                    <!--</strong>-->
+                                <!--</td>-->
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>صافي الدخل</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_profit_loss_account()['net_income_current']"/>
+                                    </strong>
+                                </td>
+                                <!--<td>-->
+                                    <!--<strong>-->
+                                        <!--<span t-esc="get_profit_loss_account()['net_income_year']"/>-->
+                                    <!--</strong>-->
+                                <!--</td>-->
+                            </tr>
+
+
+                        </table>
+
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>قائمة التدفقات النقدية</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>البيان</strong>
+                                </td>
+                                <td>
+                                    <strong>الشهر الحالي</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>صافي الدخل</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_profit_loss_account()['net_income_current']"/>
+                                    </strong>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>الايجارات الغير محصلة - المتاخر عن السداد الشهر الحالي</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['uncollected_income']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>عمولة الايجارات الغير محصلة - المتاخر عن السداد الشهر الحالي</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['unpaid_realestate_fees']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>المحصل عن اشهر سابقة</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['collected_income']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>عمولة الادارة - لمحصل عن اشهر سابقة</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['paid_realestate_fees']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>المحصل مقدما للشهر الحالي</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['unaccrued_income']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>عمولة الادارة - المحصل مقدما للشهر الحالي</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['advance_payment_realestate_fees']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>المحصل عن اشهر سابقة</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['accrued_income']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>عمولة الادارة - لمحصل عن اشهر سابقة</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['accrued_rental_brokerage_fees']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>العقود الجديدة المؤجرة مقدما</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['accrued_rental_brokerage_fees2']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>استحقاق العقود الجديدة المؤجرة مقدما</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['advance_payment_rental_brokerage_fees']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>تامين مدفوع (رد التامين + ايرادات اخرى)</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['paid_insurance_tenants']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>تامين جديد مستلم</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['insurance_tenants']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>صافي الحركة النقدية</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_cash_flow_statement()['net_cash_flow_statement']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+
+                        </table>
+
+                        <div class="row">
+                            <h2>
+                                <span>
+                                    <center>بيان المركز المالي</center>
+                                </span>
+                            </h2>
+                        </div>
+                        <br/>
+                        <table dir="rtl" style="text-align:right" class="table table-condensed">
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>البيان</strong>
+                                </td>
+                                <td>
+                                    <strong>الشهر الحالي</strong>
+                                </td>
+                            </tr>
+
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>الاصول</strong>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>النقد</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_balance_sheet()['cash']"/>
+                                    </strong>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>عمولة الادارة المحصل مقدما</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_balance_sheet()['advance_payment_for_property_manager']"/>
+                                    </strong>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>العقود الجديدة المؤجرة مقدما</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_balance_sheet()['new_contract_advance_payment_management_fees']"/>
+                                    </strong>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <strong>الايجارات الغير محصلة - المتاخر عن السداد</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_balance_sheet()['uncollected_income']"/>
+                                    </strong>
+                                </td>
+
+                            </tr>
+
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>اجمالي الاصول</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_balance_sheet()['total_asset']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>الالتزامات</strong>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>عمولة الايجارات الغير محصلة</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_balance_sheet()['realestate_fees_for_uncollected_income']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>المحصل مقدما</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_balance_sheet()['unaccrued_income']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <strong>التامين</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_balance_sheet()['insurance_tenants']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>اجمالي الالتزامات</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_balance_sheet()['total_liabilities']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                            <tr style="background-color:#f9f9f9;">
+                                <td>
+                                    <strong>صافي الدخل المتراكم</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="get_balance_sheet()['accumlative_net_income']"/>
+                                    </strong>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+                    <t t-call="report.external_layout_footer"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

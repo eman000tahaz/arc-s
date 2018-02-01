@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!--###########################################################
+			###						 Views   						###
+			###########################################################-->
+
+<!--######################### PROPERTY ACCOUNT CATEGORY ####################-->
+
+		<!--Property Accounts Category Form View-->
+        <record model="ir.ui.view" id="view_account_category_form">
+            <field name="name">property.account.category.form</field>
+            <field name="model">property.account.category</field>
+            <field name="arch" type="xml">
+                <form string="Property &amp; Vendors &amp; Customers Account Category">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <field name="income_acc_id" required="1"/>
+                                <field name="expenses_acc_id" required="1"/>
+                            </group>
+                            <group>
+                                <field name="vendor_payable_acc_id" required="1"/>
+                                <field name="customer_receivable_acc_id" required="1"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- Property Accounts Category Tree View-->
+        <record id="property_category_account_view_tree" model="ir.ui.view">
+            <field name="name">property.account.category.tree</field>
+            <field name="model">property.account.category</field>
+            <field name="arch" type="xml">
+                <tree string="Maintenance &amp; Repairs">
+                    <field name="name" required="1"/>
+                    <field name="income_acc_id" required="1"/>
+                    <field name="expenses_acc_id" required="1"/>
+                    <field name="vendor_payable_acc_id" required="1"/>
+                    <field name="customer_receivable_acc_id" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Property Accounts Category Search View-->
+        <record id="property_account_category_search_view" model="ir.ui.view">
+            <field name="name">property.account.category.search.view</field>
+            <field name="model">property.account.category</field>
+            <field name="arch" type="xml">
+                <search string="Property Account Category">
+                    <field name="name"/>
+                    <field name="income_acc_id"/>
+                    <field name="expenses_acc_id"/>
+                    <field name="vendor_payable_acc_id"/>
+                    <field name="customer_receivable_acc_id"/>
+                    <newline/>
+                    <group expand="0" string="Group By..." colspan="4" col="10" groups="base.group_extended">
+                        <filter string="Property Income Account" name="income_acc_id" icon="terp-personal" domain="[]"
+                                context="{'group_by':'income_acc_id'}"/>
+                        <filter string="Property Expenses Account" name="expenses_acc_id" icon="terp-personal"
+                                domain="[]" context="{'group_by':'expenses_acc_id'}"/>
+                        <filter string="Vendor Payable Account" name="vendor_payable_acc_id" icon="terp-personal"
+                                domain="[]" context="{'group_by':'vendor_payable_acc_id'}"/>
+                        <filter string="Customer Receivable Account" name="customer_receivable_acc_id"
+                                icon="terp-personal" domain="[]" context="{'group_by':'customer_receivable_acc_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+<!--############################ PROPERTY ###################################-->
+
+		<!-- Property Form View  Inherit -->
+        <record model="ir.ui.view" id="view_account_asset_asset_property_account_category_form_inherit">
+            <field name="name">account.asset.asset.property.account.category.form</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='income_acc_id']" position="before">
+                    <field name="property_account_category_id" required='1'/>
+                    <field name="discount_acc_id" required='1'/>
+                </xpath>
+            </field>
+        </record>
+
+<!--############################ PARTNER ###################################-->
+
+		<!-- Partner Form View Inherit -->
+        <record model="ir.ui.view" id="view_res_partner_property_account_category_form_inherit">
+            <field name="name">res.partner.inherit.property.account.category.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='property_account_receivable_id']" position="before">
+                    <field name="property_account_category_id" required='1'/>
+                </xpath>
+            </field>
+        </record>
+
+<!--############################ TENANT ###################################-->
+
+		<!-- Tenant Form View Inherit -->
+        <record model="ir.ui.view" id="view_tenant_partner_property_account_category_form_inherit">
+            <field name="name">tenant.partner.inherit.property.account.category.form</field>
+            <field name="model">tenant.partner</field>
+            <field name="inherit_id" ref="realestate.property_tenant_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='property_account_receivable_id']" position="before">
+                    <field name="property_account_category_id" required='1'/>
+
+                </xpath>
+            </field>
+        </record>        
+
+
+        <!--###########################################################
+			###						Actions 						###
+			###########################################################-->
+
+<!--######################### PROPERTY ACCOUNT CATEGORY #################### -->
+
+		<!--Action For Property Accounts category -->
+        <record model="ir.actions.act_window" id="action_property_account_category_view">
+            <field name="name">Propert Account Category</field>
+            <field name="res_model">property.account.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="realestate.property_account_category_search_view"/>
+        </record>
+
+        <!--Action For  Property Account Category Form view-->
+        <record id="action_property_account_category_form_view" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_account_category_form"/>
+            <field name="act_window_id" ref="action_property_account_category_view"/>
+        </record>
+
+        <!--Action For  Property Account Category Tree view-->
+        <record id="action_property_account_category_tree_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_category_account_view_tree"/>
+            <field name="act_window_id" ref="action_property_account_category_view"/>
+        </record>
+
+        <!--###########################################################
+			###						MenuItems						###
+			###########################################################-->
+
+		<menuitem name="Property Account Category" id="menu_property_account_category" parent="menu_types_main" action="action_property_account_category_view" sequence="6"/>
+
+	</data>
+</odoo>

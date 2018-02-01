@@ -1,0 +1,30 @@
+<odoo> 
+<data>
+	
+	<template id="property_internal_layout">
+	    <div class="header">
+	        <div class="row">
+	            <div class="col-xs-3">
+	                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
+	            </div>
+	            <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>
+	        </div>
+	        <div class="row zero_min_height">
+	            <div class="col-xs-12">
+	                <div style="border-bottom: 1px solid black;"></div>
+	            </div>
+	        </div>
+			<div class="row">
+				<div class="col-xs-3">
+					<div t-field="company.partner_id"/>
+					<div t-field="company.street"/>
+					<div>
+						<div t-field="company.city"/><div t-field="company.zip"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+</data>
+
+</odoo>
