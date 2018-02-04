@@ -51,6 +51,7 @@
         'views/sale_views.xml',
     ],
     'demo': [
+        'data/account_asset_demo.xml',
     ],
     'qweb': [],
     'installable': True,

@@ -1,0 +1,1519 @@
+<?xml version="1.0" ?>
+<odoo>
+
+	<data noupdate="0">
+
+
+		<record id="account_asset.account_asset_asset_vehicles0" model="account.asset.asset">
+			<field name="active" eval="False"/>
+		</record>
+		<record id="account_asset.account_asset_asset_cab0" model="account.asset.asset">
+			<field name="active" eval="False"/>
+		</record>
+		<record id="account_asset.account_asset_asset_office0" model="account.asset.asset">
+			<field name="active" eval="False"/>
+		</record>
+
+<!--
+		######################################################################
+						Demonstration Data For Asset Category
+		######################################################################							-->
+
+		<record id="account_asset.account_asset_category_fixedassets0" model="account.asset.category">
+			<field name="account_depreciation_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="journal_id">1</field>
+			<field name="name">Property - 3 Years</field>
+			<field name="method_number">3</field>
+			<field name="account_asset_id">1</field>
+			<field name="account_analytic_id"></field>
+		</record>
+
+<!--
+		######################################################################
+					Demonstration Data For Property Configuration
+		######################################################################					-->
+
+		<record id="tenant1" model="tenant.partner">
+			<field name="name">Malay Khamar</field>
+			<field name="email">malay@gmail.com</field>
+			<field name="tenant">True</field>
+		</record>
+
+		<record id="tenant2" model="tenant.partner">
+			<field name="name">Arpan Vaishnav</field>
+			<field name="email">arpan@gmail.com</field>
+			<field name="tenant">True</field>
+		</record>
+
+		<record model='res.country.state' id='guj99'>
+			<field name='name'>Gujarat</field>
+			<field name='code'>GUJ</field>
+			<field search="[('code','=','IN')]" model='res.country' name='country_id'/> 
+		</record>
+
+		<record id="property_type1" model="property.type">
+			<field name="name">Bungalow</field>
+		</record>
+		<record id="property_type2" model="property.type">
+			<field name="name">Flat</field>
+		</record>
+		<record id="property_type3" model="property.type">
+			<field name="name">Shop</field>
+		</record>
+		<record id="property_type4" model="property.type">
+			<field name="name">Land</field>
+		</record>
+		<record id="property_type5" model="property.type">
+			<field name="name">Office</field>
+		</record>
+		<record id="property_type6" model="property.type">
+			<field name="name">Serviced Office</field>
+		</record>
+		<record id="property_type7" model="property.type">
+			<field name="name">Serviced Apartment</field>
+		</record>
+		<record id="property_type8" model="property.type">
+			<field name="name">Condominium</field>
+		</record>
+		<record id="property_type9" model="property.type">
+			<field name="name">Hotel / Resort</field>
+		</record>
+		<record id="property_type10" model="property.type">
+			<field name="name">Villa</field>
+		</record>
+		<record id="property_type11" model="property.type">
+			<field name="name">Apartment</field>
+		</record>
+		<record id="rent_type1" model="rent.type">
+			<field name="name">1</field>
+			<field name="renttype">Month</field>
+		</record>
+		<record id="rent_type2" model="rent.type">
+			<field name="name">3</field>
+			<field name="renttype">Month</field>
+		</record>
+		<record id="rent_type3" model="rent.type">
+			<field name="name">6</field>
+			<field name="renttype">Month</field>
+		</record>
+		<record id="rent_type4" model="rent.type">
+			<field name="name">1</field>
+			<field name="renttype">Year</field>
+		</record>
+		<record id="room_type1" model="room.type">
+			<field name="name">Drawing Room</field>
+		</record>
+		<record id="room_type2" model="room.type">
+			<field name="name">Bed Room</field>
+		</record>
+		<record id="room_type3" model="room.type">
+			<field name="name">Kitchen</field>
+		</record>
+		<record id="place_type1" model="place.type">
+			<field name="name">Hotel</field>
+		</record>
+		<record id="place_type2" model="place.type">
+			<field name="name">Hospital</field>
+		</record>
+		<record id="place_type3" model="place.type">
+			<field name="name">Petrolpump</field>
+		</record>
+		<record id="place_type4" model="place.type">
+			<field name="name">shopping complex</field>
+		</record>
+		<record id="utility1" model="utility">
+			<field name="name">Electronics Services</field>
+		</record>
+		<record id="utility2" model="utility">
+			<field name="name">Security Services</field>
+		</record>
+		<record id="utility3" model="utility">
+			<field name="name">Water Services</field>
+		</record>
+		<record id="utility4" model="utility">
+			<field name="name">Garden Services</field>
+		</record>
+		<record id="utility_type1" model="utility">
+			<field name="name">Gas Connection</field>
+		</record>
+		<record id="utility_type2" model="utility">
+			<field name="name">Air Conditioner</field>
+		</record>
+		<record id="utility_type3" model="utility">
+			<field name="name">Electricity</field>
+		</record>
+		<record id="utility_type4" model="utility">
+			<field name="name">Garden</field>
+		</record>
+		<record id="utility_type5" model="utility">
+			<field name="name">Garage</field>
+		</record>
+		<record id="utility_type6" model="utility">
+			<field name="name">House Alarms</field>
+		</record>
+		<record id="utility_type7" model="utility">
+			<field name="name">Parking</field>
+		</record>
+		<record id="utility_type8" model="utility">
+			<field name="name">Smoke Alarms</field>
+		</record>
+		<record id="maintenance_type1" model="maintenance.type">
+			<field name="name">Gas Connection</field>
+		</record>
+		<record id="maintenance_type2" model="maintenance.type">
+			<field name="name">Air Conditioner</field>
+		</record>
+		<record id="maintenance_type3" model="maintenance.type">
+			<field name="name">Electricity</field>
+		</record>
+		<record id="maintenance_type4" model="maintenance.type">
+			<field name="name">Electronic Items</field>
+		</record>
+		<record id="maintenance_type5" model="maintenance.type">
+			<field name="name">Paint</field>
+		</record>
+
+
+<!--	######################################################################
+				Demonstration Data For Account Asset Asset	(Property)
+		######################################################################							-->
+
+
+		<record id="property1" model="account.asset.asset">
+			<field name="name">Golden Villa</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-6.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">Lincoln Avenue</field>
+			<field name="township"></field>
+			<field name="city">Salinas</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">93901</field>
+			<field name="type_id" ref="property_type1"/>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="floor">3</field>
+			<field name="bedroom">4</field>
+			<field name="bathroom">2</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="furnished">full_furnished</field>
+			<field name="facing">west</field>
+			<field name="value">2000000</field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="sale_price">2200000</field>
+			<field name="video_url">//www.youtube.com/embed/mwuPTI8AT7M?rel=0</field>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="childproperty1" model="account.asset.asset">
+			<field name="name">Grimfield</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-9.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">Lincoln Avenue</field>
+			<field name="city">Salinas</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">93901</field>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="value">15000</field>
+			<field name="value_residual">30000</field>
+			<field name="ground_rent">6000</field>
+			<field name="sale_price">500000</field>
+			<field name="furnished">full_furnished</field>
+			<field name="facing">east</field>
+			<field name="type_id" ref="property_type1"/>
+			<field name="floor">2</field>
+			<field name="bedroom">5</field>
+			<field name="bathroom">2</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="parent_id" ref="property1"></field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="property2" model="account.asset.asset">
+			<field name="name">Diamond Crest</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-7.jpg"></field>
+			<field name="state">book</field>
+			<field name="color">2</field>
+			<field name="street">Mortensen Avenue</field>
+			<field name="city">Salinas</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">93905</field>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="facing">west</field>
+			<field name="furnished">full_furnished</field>
+			<field name="floor">2</field>
+			<field name="bedroom">3</field>
+			<field name="bathroom">2</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="type_id" ref="property_type1"/>
+			<field name="gfa_feet">100.00</field>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="value">1000000</field>
+			<field name="sale_price">1200000</field>
+			<field name="video_url">//www.youtube.com/embed/mwuPTI8AT7M?rel=0</field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="childproperty2" model="account.asset.asset">
+			<field name="name">Dawson Drive</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-10.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">Mortensen Avenue</field>
+			<field name="city">Salinas</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">93905</field>
+			<field name="type_id" ref="property_type1"/>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="value">20000</field>
+			<field name="value_residual">50000</field>
+			<field name="ground_rent">7000</field>
+			<field name="ground_rent">45000</field>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="furnished">full_furnished</field>
+			<field name="facing">west</field>
+			<field name="floor">2</field>
+			<field name="bedroom">4</field>
+			<field name="bathroom">2</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="parent_id" ref="property2"></field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="property3" model="account.asset.asset">
+			<field name="name">Royal Manor</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-8.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">Rea Avenue</field>
+			<field name="city">California City</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">93505</field>
+			<field name="type_id" ref="property_type1"/>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="furnished">semi_furnished</field>
+			<field name="facing">south</field>
+			<field name="floor">3</field>
+			<field name="bedroom">2</field>
+			<field name="bathroom">2</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="value">1500000</field>
+			<field name="sale_price">1700000</field>
+			<field name="video_url">//www.youtube.com/embed/mwuPTI8AT7M?rel=0</field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="childproperty3" model="account.asset.asset">
+			<field name="name">Glohork Villa</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-11.jpg"></field>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">Rea Avenue</field>
+			<field name="city">California City</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">93505</field>
+			<field name="type_id" ref="property_type1"/>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="value">20000</field>
+			<field name="value_residual">50000</field>
+			<field name="ground_rent">7000</field>
+			<field name="furnished">semi_furnished</field>
+			<field name="facing">east</field>
+			<field name="floor">2</field>
+			<field name="bedroom">2</field>
+			<field name="bathroom">2</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="parent_id" ref="property3"></field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="property_4" model="account.asset.asset">
+			<field name="name">Cloud Haven</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-1.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">Chestnut Avenue</field>
+			<field name="city">Oakland</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">382007</field>
+			<field name="type_id" ref="property_type2"/>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="furnished">full_furnished</field>
+			<field name="facing">east</field>
+			<field name="floor">2</field>
+			<field name="bedroom">4</field>
+			<field name="bathroom">2</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="value">15000</field>
+			<field name="sale_price">2200000</field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="video_url">//www.youtube.com/embed/mwuPTI8AT7M?rel=0</field>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="childproperty4" model="account.asset.asset">
+			<field name="name">Cleveland</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-13.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">Chestnut Avenue</field>
+			<field name="city">Oakland</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">382007</field>
+			<field name="type_id" ref="property_type2"/>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="value">20000</field>
+			<field name="sale_price">30000.0</field>
+			<field name="value_residual">50000</field>
+			<field name="ground_rent">7000</field>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="furnished">full_furnished</field>
+			<field name="facing">east</field>
+			<field name="floor">2</field>
+			<field name="bedroom">4</field>
+			<field name="bathroom">2</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="parent_id" ref="property_4"></field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="property_5" model="account.asset.asset">
+			<field name="name">Trek Rise</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-2.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">West Alisal St</field>
+			<field name="city">Salinas</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">93901</field>
+			<field name="type_id" ref="property_type2"/>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="furnished">semi_furnished</field>
+			<field name="facing">south</field>
+			<field name="floor">3</field>
+			<field name="bedroom">2</field>
+			<field name="bathroom">2</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="ground_rent">6000</field>
+			<field name="value">15000</field>
+			<field name="video_url">//www.youtube.com/embed/mwuPTI8AT7M?rel=0</field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="childproperty5" model="account.asset.asset">
+			<field name="name">New Plazza</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-12.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">West Alisal St</field>
+			<field name="city">Salinas</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">93901</field>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="furnished">semi_furnished</field>
+			<field name="facing">west</field>
+			<field name="floor">2</field>
+			<field name="bedroom">3</field>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="value">20000</field>
+			<field name="sale_price">900000</field>
+			<field name="value_residual">50000</field>
+			<field name="type_id" ref="property_type2"/>
+			<field name="bathroom">2</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="parent_id" ref="property_5"></field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="property_6" model="account.asset.asset">
+			<field name="name">White Villa</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-3.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">Adams Avenue</field>
+			<field name="city">San Diego</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">11001</field>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="furnished">full_furnished</field>
+			<field name="facing">west</field>
+			<field name="floor">2</field>
+			<field name="type_id" ref="property_type2"/>
+			<field name="bedroom">2</field>
+			<field name="bathroom">5</field>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="ground_rent">7000</field>
+			<field name="video_url">//www.youtube.com/embed/mwuPTI8AT7M?rel=0</field>
+			<field name="value">15000</field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+		</record>
+		<record id="property_7" model="account.asset.asset">
+			<field name="name">Silver Rock</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-4.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">Adams Avenue</field>
+			<field name="city">San Diego</field>
+			<field name="country_id" ref="base.us"></field>
+			<field name="state_id" model="res.country.state"  search="[('code','ilike','ca')]"/>
+			<field name="zip">11001</field>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="furnished">full_furnished</field>
+			<field name="facing">north</field>
+			<field name="floor">1</field>
+			<field name="bedroom">2</field>
+			<field name="bathroom">2</field>
+			<field name="type_id" ref="property_type2"/>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="ground_rent">4500</field>
+			<field name="value">15000.0</field>
+			<field name="sale_price">300000</field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="ground_rent">8000</field>
+			<field name="parent_id" ref="property_6"></field>
+		</record>
+		<record id="property_8" model="account.asset.asset">
+			<field name="name">Siddhraj Zavod</field>
+			<field name="image" type="base64" file="realestate/static/src/img/home-5.jpg"></field>
+			<field name="state">draft</field>
+			<field name="color">4</field>
+			<field name="street">301, Siddhraj Zavod,</field>
+			<field name="street2">Sargasan Road</field>
+			<field name="township">Gandhinagar</field>
+			<field name="city">Gandhinagar</field>
+			<field name="country_id" ref="base.in"></field>
+			<field name="state_id" ref="guj99"></field>
+			<field name="zip">382423</field>
+			<field name="category_id" ref="account_asset.account_asset_category_fixedassets0"/>
+			<field name="age_of_property" eval="DateTime.now()"/>
+			<field name="furnished">full_furnished</field>
+			<field name="facing">east</field>
+			<field name="floor">2</field>
+			<field name="bedroom">3</field>
+			<field name="bathroom">3</field>
+			<field name="type_id" ref="property_type1"/>
+			<field name="gfa_meter">9.29</field>
+			<field name="gfa_feet">100.00</field>
+			<field name="ground_rent">20000</field>
+			<field name="value">15500</field>
+			<field name="property_manager" ref="base.res_partner_1"/>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
+			<field name="ground_rent">8000</field>
+		</record>
+
+<!--	######################################################################
+						Demonstration Data For Property photo
+		######################################################################						-->
+
+		<record id="photo_id1" model="property.photo">
+			<field name="photos_description">Well Furnished Kitchen</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/kitchen.jpg"></field>
+			<field name="photo_id" ref="property1"></field>
+		</record>
+		<record id="photo_id11" model="property.photo">
+			<field name="photos_description">Well Furnished</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/living_room.jpg"></field>
+			<field name="photo_id" ref="property1"></field>
+		</record>
+		<record id="photo_id15" model="property.photo">
+			<field name="photos_description">Well Furnished</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room2.jpg"></field>
+			<field name="photo_id" ref="property1"></field>
+		</record>
+		<record id="photo_id2" model="property.photo">
+			<field name="photos_description">Luxurious Living Hall</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/living_room.jpg"></field>
+			<field name="photo_id" ref="property2"></field>
+		</record>
+		<record id="photo_id24" model="property.photo">
+			<field name="photos_description">Luxurious Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r4.jpg"></field>
+			<field name="photo_id" ref="property2"></field>
+		</record>
+		<record id="photo_id25" model="property.photo">
+			<field name="photos_description">Luxurious Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r5.jpg"></field>
+			<field name="photo_id" ref="property2"></field>
+		</record>
+		<record id="photo_id3" model="property.photo">
+			<field name="photos_description">Beautiful Master Badroom</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/master_badroom.jpg"></field>
+			<field name="photo_id" ref="property3"></field>
+		</record>
+		<record id="photo_id31" model="property.photo">
+			<field name="photos_description">Beautiful Badroom</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r4.jpg"></field>
+			<field name="photo_id" ref="property3"></field>
+		</record>
+		<record id="photo_id32" model="property.photo">
+			<field name="photos_description">Beautiful Kids Badroom</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r5.jpg"></field>
+			<field name="photo_id" ref="property3"></field>
+		</record>
+		<record id="photo_id33" model="property.photo">
+			<field name="photos_description">Beautiful Badroom</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="property3"></field>
+		</record>
+		<record id="photo_id4" model="property.photo">
+			<field name="photos_description">Kids Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/kids_room.jpg"></field>
+			<field name="photo_id" ref="property_4"></field>
+		</record>
+		<record id="photo_id41" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="property_4"></field>
+		</record>
+		<record id="photo_id42" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room2.jpg"></field>
+			<field name="photo_id" ref="property_4"></field>
+		</record>
+		<record id="photo_id43" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r4.jpg"></field>
+			<field name="photo_id" ref="property_4"></field>
+		</record>
+		<record id="photo_id5" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r2.jpeg"></field>
+			<field name="photo_id" ref="property1"></field>
+		</record>
+		<record id="photo_id51" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r3.jpeg"></field>
+			<field name="photo_id" ref="property1"></field>
+		</record>
+		<record id="photo_id52" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room2.jpg"></field>
+			<field name="photo_id" ref="property1"></field>
+		</record>
+		<record id="photo_id6" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r3.jpeg"></field>
+			<field name="photo_id" ref="property2"></field>
+		</record>
+		<record id="photo_id61" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r5.jpg"></field>
+			<field name="photo_id" ref="property2"></field>
+		</record>
+		<record id="photo_id62" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="property2"></field>
+		</record>
+		<record id="photo_id63" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r2.jpeg"></field>
+			<field name="photo_id" ref="property2"></field>
+		</record>
+		<record id="photo_id8" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r5.jpg"></field>
+			<field name="photo_id" ref="childproperty1"></field>
+		</record>
+		<record id="photo_id81" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="childproperty1"></field>
+		</record>
+		<record id="photo_id9" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room2.jpg"></field>
+			<field name="photo_id" ref="childproperty2"></field>
+		</record>
+		<record id="photo_id91" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="childproperty2"></field>
+		</record>
+		<record id="photo_id92" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room3.jpg"></field>
+			<field name="photo_id" ref="childproperty2"></field>
+		</record>
+		<record id="photo_id93" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r4.jpg"></field>
+			<field name="photo_id" ref="childproperty2"></field>
+		</record>
+		<record id="photo_id10" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room2.jpg"></field>
+			<field name="photo_id" ref="childproperty3"></field>
+		</record>
+		<record id="photo_id101" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="childproperty3"></field>
+		</record>
+		<record id="photo_id102" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room3.jpg"></field>
+			<field name="photo_id" ref="childproperty3"></field>
+		</record>
+		<record id="photo_id111" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room3.jpg"></field>
+			<field name="photo_id" ref="childproperty4"></field>
+		</record>
+		<record id="photo_id112" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="childproperty4"></field>
+		</record>
+		<record id="photo_id113" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room2.jpg"></field>
+			<field name="photo_id" ref="childproperty4"></field>
+		</record>
+		<record id="photo_id5" model="property.photo">
+			<field name="photos_description">Well Furnished Kitchen</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/kitchen.jpg"></field>
+			<field name="photo_id" ref="property_5"></field>
+		</record>
+		<record id="photo_id51" model="property.photo">
+			<field name="photos_description">Well Furnished Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r4.jpg"></field>
+			<field name="photo_id" ref="property_5"></field>
+		</record>
+		<record id="photo_id52" model="property.photo">
+			<field name="photos_description">Well Furnished Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r5.jpg"></field>
+			<field name="photo_id" ref="property_5"></field>
+		</record>
+		<record id="photo_id6" model="property.photo">
+			<field name="photos_description">Well Furnished Master Badroom</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/master_badroom.jpg"></field>
+			<field name="photo_id" ref="childproperty5"></field>
+		</record>
+		<record id="photo_id61" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="childproperty5"></field>
+		</record>
+		<record id="photo_id62" model="property.photo">
+			<field name="photos_description">Kids Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/kids_room.jpg"></field>
+			<field name="photo_id" ref="childproperty5"></field>
+		</record>
+		<record id="photo_id17" model="property.photo">
+			<field name="photos_description">Well Furnished Master Badroom</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/master_badroom.jpg"></field>
+			<field name="photo_id" ref="property1"></field>
+		</record>
+		<record id="photo_id172" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="property1"></field>
+		</record>
+		<record id="photo_id173" model="property.photo">
+			<field name="photos_description">Kids Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/kids_room.jpg"></field>
+			<field name="photo_id" ref="property1"></field>
+		</record>
+		<record id="photo_id18" model="property.photo">
+			<field name="photos_description">Well Furnished Master Badroom</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/master_badroom.jpg"></field>
+			<field name="photo_id" ref="property2"></field>
+		</record>
+		<record id="photo_id182" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="property2"></field>
+		</record>
+		<record id="photo_id183" model="property.photo">
+			<field name="photos_description">Kids Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/kids_room.jpg"></field>
+			<field name="photo_id" ref="property2"></field>
+		</record>
+		<record id="photo_id19" model="property.photo">
+			<field name="photos_description">Well Furnished Master Badroom</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/master_badroom.jpg"></field>
+			<field name="photo_id" ref="property3"></field>
+		</record>
+		<record id="photo_id192" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="property3"></field>
+		</record>
+		<record id="photo_id193" model="property.photo">
+			<field name="photos_description">Kids Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/kids_room.jpg"></field>
+			<field name="photo_id" ref="property3"></field>
+		</record>
+		<record id="photo_id12" model="property.photo">
+			<field name="photos_description">Well Furnished Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/master_badroom.jpg"></field>
+			<field name="photo_id" ref="property_8"></field>
+		</record>
+		<record id="photo_id13" model="property.photo">
+			<field name="photos_description">Well Furnished Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/kids_room.jpg"></field>
+			<field name="photo_id" ref="property_8"></field>
+		</record>
+		<record id="photo_id14" model="property.photo">
+			<field name="photos_description">Well Furnished Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="property_8"></field>
+		</record>
+		<record id="photo_id22" model="property.photo">
+			<field name="photos_description">Luxurious Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room1.jpg"></field>
+			<field name="photo_id" ref="property_7"></field>
+		</record>
+		<record id="photo_id21" model="property.photo">
+			<field name="photos_description">Luxurious Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room2.jpg"></field>
+			<field name="photo_id" ref="property_7"></field>
+		</record>
+		<record id="photo_id23" model="property.photo">
+			<field name="photos_description">Luxurious Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room3.jpg"></field>
+			<field name="photo_id" ref="property_7"></field>
+		</record>
+		<record id="photo_id34" model="property.photo">
+			<field name="photos_description">Beautiful Master Badroom</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room2.jpg"></field>
+			<field name="photo_id" ref="property_6"></field>
+		</record>
+		<record id="photo_id7" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r4.jpg"></field>
+			<field name="photo_id" ref="property_6"></field>
+		</record>
+		<record id="photo_id71" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/r5.jpg"></field>
+			<field name="photo_id" ref="property_6"></field>
+		</record>
+		<record id="photo_id72" model="property.photo">
+			<field name="photos_description">Room</field>
+			<field name="photos" type="base64" file="realestate/static/src/img/room3.jpg"></field>
+			<field name="photo_id" ref="property_6"></field>
+		</record>
+
+<!--	######################################################################
+						Demonstration Data For Property utility
+		######################################################################						-->
+
+
+		<record id="utility_id1" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="property1"/>
+		</record>
+		<record id="utility_id11" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="property1"/>
+		</record>
+		<record id="utility_id111" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="property1"/>
+		</record>
+		<record id="utility_id2" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="contact_id" ref="tenant1"/>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="property2"/>
+		</record>
+		<record id="utility_id22" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="contact_id" ref="tenant1"/>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="property2"/>
+		</record>
+		<record id="utility_id222" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="contact_id" ref="tenant1"/>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="property2"/>
+		</record>
+		<record id="utility_id3" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="property3"/>
+		</record>
+		<record id="utility_id33" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="property3"/>
+		</record>
+		<record id="utility_id333" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="property3"/>
+		</record>
+		<record id="utility_id4" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="property_4"/>
+		</record>
+		<record id="utility_id44" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="property_4"/>
+		</record>
+		<record id="utility_id444" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="property_4"/>
+		</record>
+		<record id="utility_id5" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="property_5"/>
+		</record>
+		<record id="utility_id55" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="property_5"/>
+		</record>
+		<record id="utility_id555" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="property_5"/>
+		</record>
+		<record id="utility_id6" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="property_6"/>
+		</record>
+		<record id="utility_id66" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="property_6"/>
+		</record>
+		<record id="utility_id666" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="property_6"/>
+		</record>
+		<record id="utility_id7" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="property_7"/>
+		</record>
+		<record id="utility_id77" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="property_7"/>
+		</record>
+		<record id="utility_id777" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="property_7"/>
+		</record>
+		<record id="utility_id8" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="property_8"/>
+		</record>
+		<record id="utility_id88" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="property_8"/>
+		</record>
+		<record id="utility_id888" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="property_8"/>
+		</record>
+		<record id="utility_id9" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="childproperty1"/>
+		</record>
+		<record id="utility_id99" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="childproperty1"/>
+		</record>
+		<record id="utility_id999" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="childproperty1"/>
+		</record>
+		<record id="utility_id10" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="childproperty2"/>
+		</record>
+		<record id="utility_id101" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="childproperty2"/>
+		</record>
+		<record id="utility_id102" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="childproperty2"/>
+		</record>
+		<record id="utility_id103" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="childproperty3"/>
+		</record>
+		<record id="utility_id104" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="childproperty3"/>
+		</record>
+		<record id="utility_id105" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="childproperty3"/>
+		</record>
+		<record id="utility_id106" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="childproperty4"/>
+		</record>
+		<record id="utility_id107" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="childproperty4"/>
+		</record>
+		<record id="utility_id108" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="childproperty4"/>
+		</record>
+		<record id="utility_id109" model="property.utility">
+			<field name="utility_id" ref="utility1"></field>
+			<field name="ref">Electricity</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Electricity</field>
+			<field name="property_id" ref="childproperty5"/>
+		</record>
+		<record id="utility_id110" model="property.utility">
+			<field name="utility_id" ref="utility3"></field>
+			<field name="ref">Water Supply</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Water Supply</field>
+			<field name="property_id" ref="childproperty5"/>
+		</record>
+		<record id="utility_id1100" model="property.utility">
+			<field name="utility_id" ref="utility_type1"></field>
+			<field name="ref">Gas Connection</field>
+			<field name="issue_date" eval="DateTime.now()"></field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="note">Gas Connection</field>
+			<field name="property_id" ref="childproperty5"/>
+		</record>
+
+<!--	######################################################################
+						Demonstration Data For nearby Property
+		######################################################################						-->
+
+		<record id="nearby_property1" model="nearby.property">
+			<field name="name">First Awakenings Hotel</field>
+			<field name="distance">1.0</field>
+			<field name="type" ref="place_type1"/>
+			<field name="property_id" ref="property1"/>
+		</record>
+		<record id="nearby_property2" model="nearby.property">
+			<field name="name">First Awakenings Hotel</field>
+			<field name="distance">1.0</field>
+			<field name="type" ref="place_type1"/>
+			<field name="property_id" ref="childproperty1"/>
+		</record>
+		<record id="nearby_property3" model="nearby.property">
+			<field name="name">Comfort Inn and Suites</field>
+			<field name="distance">2.3</field>
+			<field name="type" ref="place_type1"/>
+			<field name="property_id" ref="property2"/>
+		</record>
+		<record id="nearby_property4" model="nearby.property">
+			<field name="name">Comfort Inn and Suites</field>
+			<field name="distance">2.3</field>
+			<field name="type" ref="place_type1"/>
+			<field name="property_id" ref="childproperty2"/>
+		</record>
+		<record id="nearby_property5" model="nearby.property">
+			<field name="name">Medical Center</field>
+			<field name="distance">1.0</field>
+			<field name="type" ref="place_type2"/>
+			<field name="property_id" ref="property3"/>
+		</record>
+		<record id="nearby_property6" model="nearby.property">
+			<field name="name">Medical Center</field>
+			<field name="distance">1.0</field>
+			<field name="type" ref="place_type2"/>
+			<field name="property_id" ref="childproperty3"/>
+		</record>
+		<record id="nearby_property7" model="nearby.property">
+			<field name="name">Pican Restaurant</field>
+			<field name="distance">1.0</field>
+			<field name="type" ref="place_type1"/>
+			<field name="property_id" ref="property_4"/>
+		</record>
+		<record id="nearby_property8" model="nearby.property">
+			<field name="name">Pican Restaurant</field>
+			<field name="distance">1.0</field>
+			<field name="type" ref="place_type1"/>
+			<field name="property_id" ref="childproperty4"/>
+		</record>
+		<record id="nearby_property9" model="nearby.property">
+			<field name="name">Eagle Restaurant</field>
+			<field name="distance">1.0</field>
+			<field name="type" ref="place_type1"/>
+			<field name="property_id" ref="property_5"/>
+		</record>
+		<record id="nearby_property10" model="nearby.property">
+			<field name="name">Eagle Restaurant</field>
+			<field name="distance">1.0</field>
+			<field name="type" ref="place_type1"/>
+			<field name="property_id" ref="childproperty5"/>
+		</record>
+		<record id="nearby_property11" model="nearby.property">
+			<field name="name">Rudford's Restaurant</field>
+			<field name="distance">1.0</field>
+			<field name="type" ref="place_type1"/>
+			<field name="property_id" ref="property_6"/>
+		</record>
+		<record id="nearby_property12" model="nearby.property">
+			<field name="name">Rudford's Restaurant</field>
+			<field name="distance">1.0</field>
+			<field name="type" ref="place_type1"/>
+			<field name="property_id" ref="property_7"/>
+		</record>
+		<record id="nearby_property13" model="nearby.property">
+			<field name="name">Infocity</field>
+			<field name="distance">4.0</field>
+			<field name="type" ref="place_type4"/>
+			<field name="property_id" ref="property_8"/>
+		</record>
+		<record id="nearby_property14" model="nearby.property">
+			<field name="name">Civil Hospital</field>
+			<field name="distance">8.0</field>
+			<field name="type" ref="place_type2"/>
+			<field name="property_id" ref="property_8"/>
+		</record>
+		<record id="nearby_property15" model="nearby.property">
+			<field name="name">Relince Petrolpump</field>
+			<field name="distance">3.0</field>
+			<field name="type" ref="place_type3"/>
+			<field name="property_id" ref="property_8"/>
+		</record>
+
+<!--
+		######################################################################
+				Demonstration Data For Account Analytic Account (Tenancy)
+		######################################################################
+																								-->
+
+		<record id="property_tenancy_t0" model="account.analytic.account">
+			<field name="date_start" eval="DateTime.now()"></field>
+			<field name="date" eval="(DateTime.now() + relativedelta(months=6))"></field>
+			<field name="rent_type_id" ref="rent_type1"></field>
+			<field name="state">draft</field>
+			<field name="name">Tenancy-001</field>
+			<field name="is_property">True</field>
+			<field name="property_id" ref="property2"/>
+			<field name="tenant_id" ref="tenant1"/>
+			<field name="deposit">5000.00</field>
+			<field name="rent">12000</field>
+			<field name="rent_entry_chck">False</field>
+		</record>
+		<record id="tenancy_rent_schedule_0" model="tenancy.rent.schedule">
+			<field name="start_date" eval="(DateTime.now())"></field>
+			<field name="amount">12000</field>
+			<field name="tenancy_id" ref="property_tenancy_t0"/>
+			<field name="currency_id" ref="base.USD"/>
+		</record>
+		<record id="tenancy_rent_schedule_1" model="tenancy.rent.schedule">
+			<field name="start_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="amount">12000</field>
+			<field name="tenancy_id" ref="property_tenancy_t0"/>
+			<field name="currency_id" ref="base.USD"/>
+		</record>
+		<record id="tenancy_rent_schedule_2" model="tenancy.rent.schedule">
+			<field name="start_date" eval="(DateTime.now() + relativedelta(months=2))"></field>
+			<field name="amount">12000</field>
+			<field name="tenancy_id" ref="property_tenancy_t0"/>
+			<field name="currency_id" ref="base.USD"/>
+		</record>
+		<record id="tenancy_rent_schedule_3" model="tenancy.rent.schedule">
+			<field name="start_date" eval="(DateTime.now() + relativedelta(months=3))"></field>
+			<field name="amount">12000</field>
+			<field name="tenancy_id" ref="property_tenancy_t0"/>
+			<field name="currency_id" ref="base.USD"/>
+		</record>
+		<record id="tenancy_rent_schedule_4" model="tenancy.rent.schedule">
+			<field name="start_date" eval="(DateTime.now() + relativedelta(months=4))"></field>
+			<field name="amount">12000</field>
+			<field name="tenancy_id" ref="property_tenancy_t0"/>
+			<field name="currency_id" ref="base.USD"/>
+		</record>
+		<record id="tenancy_rent_schedule_5" model="tenancy.rent.schedule">
+			<field name="start_date" eval="(DateTime.now() + relativedelta(months=5))"></field>
+			<field name="amount">12000</field>
+			<field name="tenancy_id" ref="property_tenancy_t0"/>
+			<field name="currency_id" ref="base.USD"/>
+		</record>
+
+<!--
+		######################################################################
+					Demonstration Data For Property Maintenance
+		######################################################################					-->
+
+		<record id="property_maintenance_leakage0" model="property.maintenance">
+			<field name="property_id" ref="property2"></field>
+			<field name="type" ref="maintenance_type1"></field>
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="name">Repair</field>
+			<field name="cost">140</field>
+			<field name="account_code" ref="l10n_generic_coa.conf_a_pay"/>
+			<field name="assign_to" ref="base.res_partner_address_2"/>
+		</record>
+		<record id="property_maintenance_weakcooling0" model="property.maintenance">
+			<field name="property_id" ref="property2"></field>
+			<field name="type" ref="maintenance_type2"></field>
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="name">Renew</field>
+			<field name="cost">190</field>
+			<field name="account_code" ref="l10n_generic_coa.conf_a_pay"/>
+			<field name="assign_to" ref="base.res_partner_address_2"/>
+		</record>
+		<record id="property_maintenance_failure0" model="property.maintenance">
+			<field name="property_id" ref="property2"></field>
+			<field name="type" ref="maintenance_type3"></field>
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="name">Repair</field>
+			<field name="cost">1500</field>
+			<field name="account_code" ref="l10n_generic_coa.conf_a_pay"/>
+			<field name="assign_to" ref="base.res_partner_address_2"/>
+		</record>
+		<record id="property_maintenance_fanrepair0" model="property.maintenance">
+			<field name="property_id" ref="property2"></field>
+			<field name="type" ref="maintenance_type4"></field>
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="name">Repair</field>
+			<field name="cost">170</field>
+			<field name="account_code" ref="l10n_generic_coa.conf_a_pay"/>
+			<field name="assign_to" ref="base.res_partner_address_2"/>
+		</record>
+
+<!--
+		######################################################################
+						Demonstration Data For Property Room
+		######################################################################						-->
+
+		<record id="property_room_room0" model="property.room">
+			<field name="name">Room-1</field>
+			<field name="note">Fully Luxury Drawing Room.</field>
+			<field name="property_id" ref="property2"/>
+			<field name="type_id" ref="room_type1"/>
+			<field name="length">250.00</field>
+			<field name="width">150.00</field>
+			<field name="height">50.00</field>
+		</record>
+		<record id="room_assets_soffa0" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">movable</field>
+			<field name="name">Soffa</field>
+			<field name="room_id" ref="property_room_room0"/>
+		</record>
+		<record id="room_assets_cupboard0" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">fixed</field>
+			<field name="name">Cupboard</field>
+			<field name="room_id" ref="property_room_room0"/>
+		</record>
+		<record id="room_assets_table0" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">movable</field>
+			<field name="name">Table</field>
+			<field name="room_id" ref="property_room_room0"/>
+		</record>
+		<record id="room_assets_chair0" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">movable</field>
+			<field name="name">Chair</field>
+			<field name="room_id" ref="property_room_room0"/>
+		</record>
+		<record id="property_room_room1" model="property.room">
+			<field name="name">Room-2</field>
+			<field name="attach">True</field>
+			<field name="note">Fully Luxury Bed Room.</field>
+			<field name="property_id" ref="property2"/>
+			<field name="type_id" ref="room_type2"/>
+			<field name="length">150.00</field>
+			<field name="width">100.00</field>
+			<field name="height">50.00</field>
+		</record>
+		<record id="room_assets_bed0" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">fixed</field>
+			<field name="name">Bed</field>
+			<field name="room_id" ref="property_room_room1"/>
+		</record>
+		<record id="room_assets_soffa1" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">fixed</field>
+			<field name="name">Soffa</field>
+			<field name="room_id" ref="property_room_room1"/>
+		</record>
+		<record id="room_assets_chair1" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">movable</field>
+			<field name="name">Chair</field>
+			<field name="room_id" ref="property_room_room1"/>
+		</record>
+		<record id="property_room_room2" model="property.room">
+			<field name="name">Room-3</field>
+			<field name="note">Fully Luxury Kitchen.</field>
+			<field name="property_id" ref="property2"/>
+			<field name="type_id" ref="room_type3"/>
+			<field name="length">150.00</field>
+			<field name="width">100.00</field>
+			<field name="height">50.00</field>
+		</record>
+		<record id="room_assets_bed1" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">fixed</field>
+			<field name="name">Chimney</field>
+			<field name="room_id" ref="property_room_room2"/>
+		</record>
+		<record id="room_assets_soffa2" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">fixed</field>
+			<field name="name">Table</field>
+			<field name="room_id" ref="property_room_room2"/>
+		</record>
+		<record id="room_assets_chair2" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">movable</field>
+			<field name="name">Chair</field>
+			<field name="room_id" ref="property_room_room2"/>
+		</record>
+		<record id="room_assets_cupboard1" model="room.assets">
+			<field name="date" eval="(DateTime.now())"></field>
+			<field name="type">fixed</field>
+			<field name="name">Cupboard</field>
+			<field name="room_id" ref="property_room_room2"/>
+		</record>
+
+<!--
+		######################################################################
+						Demonstration Data For Property Insurance
+		######################################################################						-->
+
+		<record id="property_insurance_fireinsurance0" model="property.insurance">
+			<field name="policy_no">INC45365474</field>
+			<field name="end_date" eval="(DateTime.now() + relativedelta(months=6))"></field>
+			<field name="payment_mode_type">yearly</field>
+			<field name="start_date" eval="DateTime.now()"></field>
+			<field name="name">Fire insurance</field>
+			<field name="property_insurance_id" ref="property2"/>
+		</record>
+		<record id="property_insurance_houseinsurance0" model="property.insurance">
+			<field name="policy_no">INC545436587</field>
+			<field name="end_date" eval="(DateTime.now() + relativedelta(months=6))"></field>
+			<field name="payment_mode_type">yearly</field>
+			<field name="start_date" eval="DateTime.now()"></field>
+			<field name="name">House Insurance</field>
+			<field name="property_insurance_id" ref="property2"/>
+		</record>
+		<record id="property_insurance_earthquakeinsurance0" model="property.insurance">
+			<field name="policy_no">INC95346743</field>
+			<field name="end_date" eval="(DateTime.now() + relativedelta(months=6))"/>
+			<field name="payment_mode_type">yearly</field>
+			<field name="start_date" eval="DateTime.now()"/>
+			<field name="name">Earthquake Insurance</field>
+			<field name="property_insurance_id" ref="property2"/>
+		</record>
+
+<!--
+		######################################################################
+					Demonstration Data For Property Safety Certificate
+		######################################################################						-->
+
+		<record id="property_safety_certificate_firesafety1" model="property.safety.certificate">
+			<field name="name">Fire Safety</field>
+			<field name="contact_id" ref="tenant1"/>
+			<field name="ref">Fire Safety</field>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="property_id" ref="property2"/>
+		</record>
+		<record id="property_safety_certificate_buildingsafety2" model="property.safety.certificate">
+			<field name="name">Building Safety</field>
+			<field name="ref">Building Safety</field>
+			<field name="contact_id" ref="tenant1"/>
+			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
+			<field name="property_id" ref="property2"/>
+		</record>
+
+
+	</data>
+</odoo>
