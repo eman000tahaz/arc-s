@@ -8,6 +8,7 @@ class AccountMove(models.Model):
 
 	schedule_date = fields.Date('Schedule Date',help='Rent Schedule Date.')
 	source = fields.Char('Source', help='Source from where account move created.')
+	asset_id = fields.Many2one('account.asset.asset')
 
 	@api.multi
 	def assert_balanced(self):
