@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="Change Tree Fields">
                 <group>
-                    <field name="model"/>
+                    <field name="model" invisible="1"/>
                     <field name="fields">
                         <tree>
 <!--                             <field name="sequance" readonly="1" widget="handle"/>
