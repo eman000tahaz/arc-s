@@ -1,4 +1,3 @@
-
 odoo.define('sismatix_report.ListView', function (require) {
 "use strict";
 
