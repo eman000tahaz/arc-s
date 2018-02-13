@@ -1,4 +1,4 @@
-odoo.define('sismatix_report', function (require) {
+odoo.define('sismatix_report.export', function (require) {
 "use strict";
 
     var core = require('web.core');

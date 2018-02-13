@@ -1,12 +1,10 @@
 odoo.define('sismatix_report.framework', function (require) {
 "use strict";
-var framework = require('web.framework');
 
 var core = require('web.core');
 var crash_manager = require('web.crash_manager');
 var ajax = require('web.ajax');
 var Widget = require('web.Widget');
-
 var _t = core._t;
 
 function redirect (url, wait) {
