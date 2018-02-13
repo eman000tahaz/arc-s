@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_sismatix">
+		<t t-call="report.html_container">
+	        <t t-call="report.internal_layout">
+	            <div class="page">
+	            	<h2 class="text-center"><span t-esc="report_name"/> Report</h2>
+	            	<br></br>
+	            	<br></br>
+	            	
+	            	<table class="table table-condensed" style="table-layout: fixed;">
+		                    <thead>
+		                        <tr>
+		                        	<t t-foreach="fields" t-as="field">
+		                        		<th><span t-esc="field"/></th>
+		                        	</t>
+		                        </tr>
+		                    </thead>
+		                    <tbody>
+		                    	<tr t-foreach="rows" t-as="row">
+		                    		<td t-foreach="range(no)" t-as="i">
+		                    			<span t-esc="row[i]"/>
+		                    		</td>
+		                    	</tr>
+		                    </tbody>
+		                </table>
+	            </div>
+	        </t>
+		</t>
+	</template>
+</odoo>

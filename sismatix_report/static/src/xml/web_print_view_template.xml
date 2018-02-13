@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+<t t-name="WebPrintTreeViewPdf">
+    <div class="o_cp_sidebar btn-group btn-group-sm">
+        <button class="btn btn-default print_treeview_Pdf" type="button" title="Print pdf">
+            <i t-translation="off" class="fa fa-print"></i>
+        </button>
+    </div>
+</t>
+</templates>

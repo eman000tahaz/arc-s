@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets" name="assets_backend" inherit_id="web.assets_backend">
+    	<xpath expr="." position="inside">
+            <script type="text/javascript" src="/sismatix_report/static/src/js/list_view.js"></script>
+            <!-- return view when logout js file -->
+            <script type="text/javascript" src="/sismatix_report/static/src/js/misc.js"></script>
+            <!-- print button js file -->
+            <script type="text/javascript" src="/sismatix_report/static/src/js/web_print_view.js"></script>
+            <!-- export button js file -->
+            <script type="text/javascript" src="/sismatix_report/static/src/js/web_export_view.js"></script>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <report 
+            id="sismatix_report_action"
+            model="change.tree.fields"
+            string="pdf Report"
+            report_type="qweb-pdf"
+            name="sismatix_report.report_sismatix"
+            file="sismatix_report.report_sismatix"
+            />
+
+    </data>
+</odoo>
