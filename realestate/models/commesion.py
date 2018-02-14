@@ -7,7 +7,7 @@ class property_commession(models.Model):
     _name = "property.commession"
 
     name = fields.Char('Commession Name',required=True)
-    value = fields.Float('Commession Value in Percent (10%)',required=True)
+    value = fields.Float('Commession Value in Percent (%)',required=True)
     journal_id = fields.Many2one('account.journal','Journal',required=True)
     management_journal_id = fields.Many2one('account.journal','Management Company Journal')
 

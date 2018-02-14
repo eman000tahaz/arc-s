@@ -287,7 +287,8 @@ class account_asset_asset(models.Model):
 	state = fields.Selection([('new_draft', 'Booking Open'), ('draft', 'Available'), ('book', 'Booked'), ('normal', 'On Lease'), ('close', 'Sale'), ('sold', 'Sold'), ('cancel', 'Cancel')], 'State',
 							required=True, default='draft')
 	rent_type_id = fields.Many2one('rent.type', 'Rent Type')
-
+	lat = fields.Float('Latitude')
+	lon = fields.Float('Longitude')
 
 	@api.model
 	def create(self, vals):
@@ -416,6 +417,16 @@ class account_asset_asset(models.Model):
 		@param self: The object pointer
 		"""
 		for property_brw in self:
+			if property_brw.lat and property_brw.lon:
+				rep_address = str(property_brw.lat)+","+str(property_brw.lon)
+				URL = "http://maps.google.com/?q=%s&ie=UTF8&z=18" % (rep_address)
+				return {
+					'name':'Go to website',
+					'res_model':'ir.actions.act_url',
+					'type':'ir.actions.act_url',
+					'target':'current',
+					'url': URL
+					}
 			if property_brw.street:
 				address_path = (property_brw.street and (property_brw.street + ',') or ' ') + (property_brw.street2 and (property_brw.street2 + ',') or ' ') + (property_brw.city and (property_brw.city + ',') or ' ') + (property_brw.state_id.name and (property_brw.state_id.name + ',') or ' ') + (property_brw.country_id.name and (property_brw.country_id.name + ',') or ' ')
 				rep_address = address_path.replace(' ', '+')

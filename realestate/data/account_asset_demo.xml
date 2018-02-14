@@ -179,7 +179,7 @@
 		######################################################################							-->
 
 
-		<record id="property1" model="account.asset.asset">
+		<!-- <record id="property1" model="account.asset.asset">
 			<field name="name">Golden Villa</field>
 			<field name="image" type="base64" file="realestate/static/src/img/home-6.jpg"></field>
 			<field name="state">draft</field>
@@ -553,13 +553,13 @@
 			<field name="rent_type_id" ref="rent_type1"></field>
 			<field name="income_acc_id" ref ='l10n_generic_coa.conf_xfa'/>
 			<field name="ground_rent">8000</field>
-		</record>
+		</record> -->
 
 <!--	######################################################################
 						Demonstration Data For Property photo
 		######################################################################						-->
 
-		<record id="photo_id1" model="property.photo">
+		<!-- <record id="photo_id1" model="property.photo">
 			<field name="photos_description">Well Furnished Kitchen</field>
 			<field name="photos" type="base64" file="realestate/static/src/img/kitchen.jpg"></field>
 			<field name="photo_id" ref="property1"></field>
@@ -849,13 +849,13 @@
 			<field name="photos" type="base64" file="realestate/static/src/img/room3.jpg"></field>
 			<field name="photo_id" ref="property_6"></field>
 		</record>
-
+ -->
 <!--	######################################################################
 						Demonstration Data For Property utility
 		######################################################################						-->
 
 
-		<record id="utility_id1" model="property.utility">
+		<!-- <record id="utility_id1" model="property.utility">
 			<field name="utility_id" ref="utility1"></field>
 			<field name="ref">Electricity</field>
 			<field name="issue_date" eval="DateTime.now()"></field>
@@ -1169,13 +1169,13 @@
 			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
 			<field name="note">Gas Connection</field>
 			<field name="property_id" ref="childproperty5"/>
-		</record>
+		</record> -->
 
 <!--	######################################################################
 						Demonstration Data For nearby Property
 		######################################################################						-->
 
-		<record id="nearby_property1" model="nearby.property">
+		<!-- <record id="nearby_property1" model="nearby.property">
 			<field name="name">First Awakenings Hotel</field>
 			<field name="distance">1.0</field>
 			<field name="type" ref="place_type1"/>
@@ -1264,7 +1264,7 @@
 			<field name="distance">3.0</field>
 			<field name="type" ref="place_type3"/>
 			<field name="property_id" ref="property_8"/>
-		</record>
+		</record> -->
 
 <!--
 		######################################################################
@@ -1272,7 +1272,7 @@
 		######################################################################
 																								-->
 
-		<record id="property_tenancy_t0" model="account.analytic.account">
+		<!-- <record id="property_tenancy_t0" model="account.analytic.account">
 			<field name="date_start" eval="DateTime.now()"></field>
 			<field name="date" eval="(DateTime.now() + relativedelta(months=6))"></field>
 			<field name="rent_type_id" ref="rent_type1"></field>
@@ -1320,14 +1320,14 @@
 			<field name="amount">12000</field>
 			<field name="tenancy_id" ref="property_tenancy_t0"/>
 			<field name="currency_id" ref="base.USD"/>
-		</record>
+		</record> -->
 
 <!--
 		######################################################################
 					Demonstration Data For Property Maintenance
 		######################################################################					-->
 
-		<record id="property_maintenance_leakage0" model="property.maintenance">
+		<!-- <record id="property_maintenance_leakage0" model="property.maintenance">
 			<field name="property_id" ref="property2"></field>
 			<field name="type" ref="maintenance_type1"></field>
 			<field name="date" eval="(DateTime.now())"></field>
@@ -1362,14 +1362,14 @@
 			<field name="cost">170</field>
 			<field name="account_code" ref="l10n_generic_coa.conf_a_pay"/>
 			<field name="assign_to" ref="base.res_partner_address_2"/>
-		</record>
+		</record> -->
 
 <!--
 		######################################################################
 						Demonstration Data For Property Room
 		######################################################################						-->
 
-		<record id="property_room_room0" model="property.room">
+	<!-- 	<record id="property_room_room0" model="property.room">
 			<field name="name">Room-1</field>
 			<field name="note">Fully Luxury Drawing Room.</field>
 			<field name="property_id" ref="property2"/>
@@ -1463,13 +1463,13 @@
 			<field name="name">Cupboard</field>
 			<field name="room_id" ref="property_room_room2"/>
 		</record>
-
+ -->
 <!--
 		######################################################################
 						Demonstration Data For Property Insurance
 		######################################################################						-->
 
-		<record id="property_insurance_fireinsurance0" model="property.insurance">
+<!-- 		<record id="property_insurance_fireinsurance0" model="property.insurance">
 			<field name="policy_no">INC45365474</field>
 			<field name="end_date" eval="(DateTime.now() + relativedelta(months=6))"></field>
 			<field name="payment_mode_type">yearly</field>
@@ -1492,14 +1492,14 @@
 			<field name="start_date" eval="DateTime.now()"/>
 			<field name="name">Earthquake Insurance</field>
 			<field name="property_insurance_id" ref="property2"/>
-		</record>
+		</record> -->
 
 <!--
 		######################################################################
 					Demonstration Data For Property Safety Certificate
 		######################################################################						-->
 
-		<record id="property_safety_certificate_firesafety1" model="property.safety.certificate">
+		<!-- <record id="property_safety_certificate_firesafety1" model="property.safety.certificate">
 			<field name="name">Fire Safety</field>
 			<field name="contact_id" ref="tenant1"/>
 			<field name="ref">Fire Safety</field>
@@ -1513,7 +1513,7 @@
 			<field name="expiry_date" eval="(DateTime.now() + relativedelta(months=1))"></field>
 			<field name="property_id" ref="property2"/>
 		</record>
-
+ -->
 
 	</data>
 </odoo>

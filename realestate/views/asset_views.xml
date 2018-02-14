@@ -37,6 +37,10 @@
 								<field string="Entries" name="entry_count" widget="statinfo" />
 							</button>
 						</div>
+						<group string="Location">
+							<field name="lat"/>
+							<field name="lon"/>
+						</group>
 						<group>
 							<group>
 							<label for="street" string="Address"/>
@@ -78,6 +82,7 @@
 								<field name="revenue" invisible="1"/>
 							</group>
 						</group>
+						
 						<notebook>
 							<page string="General">
 								<group>

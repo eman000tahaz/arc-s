@@ -18,7 +18,7 @@
                                 <field name="name" required="1"/>
                                 <field name="value" required="1"/>
                                 <field name="journal_id" required="1"/>
-                                <field name="management_journal_id" required="1"/>
+                                <field name="management_journal_id" invisible="1"/>
                             </group>
 
                         </group>

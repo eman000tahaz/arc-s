@@ -46,7 +46,7 @@
 							<field name="mobile"/>
 							<field name="fax"/>
 							<field name="email" widget="email" required="1"/>
-							<field name = "company_id" />
+							<field name="company_id" />
 							<field name="doc_name" readonly="0" invisible="1"/>
 							<field name="tenant" invisible="1"/>
 							<field name="id_attachment" filename="doc_name"/>
