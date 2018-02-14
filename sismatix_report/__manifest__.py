@@ -9,6 +9,7 @@
     'depends': ['web'],
     'data': [
         'security/sismatix_security.xml',
+        'views/ir_model_fields_view.xml',
         'views/sismatix_report.xml',
         'report/report_sismatix.xml',
         'wizard/change_tree_fields_view.xml',
