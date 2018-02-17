@@ -538,7 +538,7 @@ class tenancy_rent_schedule(models.Model):
 			current_currency = line.tenancy_id.currency_id.id
 			sign = -1
 			move_vals = {
-					'name':line.tenancy_id.ref or False,
+					'name':line.tenancy_id.name or False,
 					'date': depreciation_date,
 					'schedule_date':line.start_date,
 					'journal_id': journal_ids and journal_ids.ids[0],

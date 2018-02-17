@@ -330,6 +330,10 @@
                                         <field name="total_rent"/>
                                         <field name="contract_attachment" />
                                     </group>
+                                    <group>
+                                        <field name="sched" required="1" widget="radio"/>
+                                        <field name="sched_date" attrs="{'invisible': [('sched', '!=', 'chosen_date')], 'required': [('sched', '=', 'chosen_date')]}"/>
+                                    </group>
                                 </group>
                                 <separator string="Terms and Conditions" name="description"/>
                                 <field name="description" placeholder="Enter Terms and Conditions..."/>

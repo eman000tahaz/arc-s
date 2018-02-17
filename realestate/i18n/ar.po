@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-14 09:42+0000\n"
-"PO-Revision-Date: 2018-02-14 15:32+0200\n"
+"PO-Revision-Date: 2018-02-17 21:07+0200\n"
 "Last-Translator: eman <emeytahaz@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -54,30 +54,30 @@ msgstr "تاريخ الاستحقاق"
 #: code:addons/account_reports/models/account_followup_report.py:298
 #, python-format
 msgid " Excluded "
-msgstr ""
+msgstr "مستبعد"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:298
 #, python-format
 msgid " Expected Date "
-msgstr ""
+msgstr "التاريخ المتوقع"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_followup_report.py:297
 #: code:addons/account_reports/models/account_followup_report.py:298
 #, python-format
 msgid " Total Due "
-msgstr ""
+msgstr "الاجمالي المستحق"
 
 #. module: realestate
 #: model:ir.model.fields,field_description:realestate.field_tenant_partner_meeting_count
 msgid "# Meetings"
-msgstr ""
+msgstr "مقابلات"
 
 #. module: realestate
 #: model:ir.model.fields,field_description:realestate.field_tenant_partner_sale_order_count
 msgid "# of Sales Order"
-msgstr ""
+msgstr "# من طلبات المبيعات"
 
 #. module: account_reports
 #: code:addons/account_reports/models/account_report_context_common.py:390
@@ -120,7 +120,7 @@ msgstr ""
 #. module: mass_payment
 #: model:ir.ui.view,arch_db:mass_payment.report_transfer_document
 msgid ") equivalent to"
-msgstr ""
+msgstr "مكافئ ل"
 
 #. module: realestate
 #: model:ir.model.fields,help:realestate.field_account_asset_asset_video_url
@@ -143,17 +143,17 @@ msgstr ""
 #: code:addons/account_reports/models/account_followup_report.py:156
 #, python-format
 msgid "10% remaining!"
-msgstr ""
+msgstr "باقي 10 % !!"
 
 #. module: realestate
 #: model:ir.model.fields,field_description:realestate.field_account_asset_asset_ten_year_roi
 msgid "10year ROI"
-msgstr ""
+msgstr "10 سنوات عائد الاستثمار"
 
 #. module: realestate
 #: model:ir.model.fields,help:realestate.field_account_asset_asset_ten_year_roi
 msgid "10year Return of Investment."
-msgstr ""
+msgstr "10 سنوات عائد الاستثمار"
 
 #. module: realestate
 #: selection:rent.type,name:0
@@ -189,17 +189,17 @@ msgstr ""
 #. module: realestate
 #: model:ir.ui.view,arch_db:realestate.property_asset_kanban_view
 msgid "<b>Address : </b>"
-msgstr ""
+msgstr "العنوان"
 
 #. module: realestate
 #: model:ir.ui.view,arch_db:realestate.property_asset_kanban_view
 msgid "<b>Furnishing : </b>"
-msgstr ""
+msgstr "تأثيث"
 
 #. module: realestate
 #: model:ir.ui.view,arch_db:realestate.property_asset_kanban_view
 msgid "<b>Type : </b>"
-msgstr ""
+msgstr "نوع"
 
 #. module: account_reports
 #: model:ir.ui.view,arch_db:account_reports.report_followup_letter_body
@@ -836,33 +836,33 @@ msgstr ""
 #. module: mass_payment
 #: model:ir.ui.view,arch_db:mass_payment.report_transfer_document
 msgid "A Beneficiary Name :"
-msgstr ""
+msgstr "اسم المستفيد"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_financial_html_report_context
 #: model:ir.model,name:account_reports.model_account_report_context_common
 msgid "A particular context for a financial report"
-msgstr ""
+msgstr "سياق خاص للتقرير المالي"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_partner_ledger_context
 msgid "A particular context for the Partner Ledger report"
-msgstr ""
+msgstr "سياق خاص لتقرير دفتر الأستاذ للشركاء"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_context_aged_payable
 msgid "A particular context for the aged payable"
-msgstr ""
+msgstr "سياق خاص للمدفوعات القديمة"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_context_aged_receivable
 msgid "A particular context for the aged receivable"
-msgstr ""
+msgstr "سياق خاص للمستحقات القديمة"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_report_context_bank_rec
 msgid "A particular context for the bank reconciliation report"
-msgstr ""
+msgstr "سياق خاص لتقرير التسوية المصرفية"
 
 #. module: account_reports
 #: model:ir.model,name:account_reports.model_account_context_coa
@@ -6181,19 +6181,19 @@ msgstr ""
 #. module: realestate
 #: model:ir.ui.menu,name:realestate.menu_property_main
 msgid "Property Management"
-msgstr ""
+msgstr "ادراة العقارات"
 
 #. module: realestate
 #: model:ir.ui.view,arch_db:realestate.wizard_book_available_form_view
 msgid "Property Management System"
-msgstr ""
+msgstr "نظام ادراة العقارات"
 
 #. module: realestate
 #: model:ir.model.fields,field_description:realestate.field_account_asset_asset_property_manager
 #: model:res.groups,comment:realestate.group_property_manager
 #: model:res.groups,name:realestate.group_property_manager
 msgid "Property Manager"
-msgstr ""
+msgstr "مدير العقار"
 
 #. module: realestate
 #: model:ir.model.fields,field_description:realestate.field_gfa_analysis_report_name

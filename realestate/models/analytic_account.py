@@ -115,6 +115,8 @@ class account_analytic_account(models.Model):
 	state =  fields.Selection([('template', 'Template'),('draft','New'),('open','In Progress'),
 								('pending','To Renew'),('close','Closed'),('cancelled', 'Cancelled')],
 								'Status', required=True,copy=False, default='draft')
+	sched = fields.Selection([('start_date', 'Start Date'), ('chosen_date', 'Chosen Date')], string='Schedule Start From', default='start_date')
+	sched_date = fields.Date('Date')
 
 	@api.model
 	def create(self, vals):
@@ -386,7 +388,10 @@ class account_analytic_account(models.Model):
 				interval = int(tenancy_rec.rent_type_id.name)
 			if tenancy_rec.rent_type_id.renttype == 'Year':
 				interval = int(tenancy_rec.rent_type_id.name) * 12
-			d1 = datetime.strptime(tenancy_rec.date_start, DEFAULT_SERVER_DATE_FORMAT)
+			if tenancy_rec.sched == 'start_date':
+				d1 = datetime.strptime(tenancy_rec.date_start, DEFAULT_SERVER_DATE_FORMAT)
+			elif tenancy_rec.sched == 'chosen_date':
+				d1 = datetime.strptime(tenancy_rec.sched_date, DEFAULT_SERVER_DATE_FORMAT)
 			d2 = datetime.strptime(tenancy_rec.date, DEFAULT_SERVER_DATE_FORMAT)
 			diff = abs((d1.year - d2.year)*12 + (d1.month - d2.month))
 			tot_rec = diff / interval
