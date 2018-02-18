@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+	<t t-name="SearchView.FavoriteMenu" t-extend="SearchView.FavoriteMenu">
+        <t t-jquery='.o_favorites_menu' t-operation='replace'>
+        	<ul class="dropdown-menu o_favorites_menu" role="menu">
+		        <li class="divider"/>
+		        <li class="o_save_search o_closed_menu">
+		            <a href="#">Save current search</a>
+		        </li>
+		        <li class="o_save_name">
+		            <input type="text"></input>
+		        </li>
+		        <li class="o_save_name">
+		            <span><div class="o_checkbox"><input type="checkbox"/><span/></div> Use by default</span>
+		        </li>
+		        <li class="o_save_name">
+		            <span><div class="o_checkbox"><input type="checkbox"/><span/></div> Share with all users </span><span class="fa fa-users"/>
+		        </li>
+		        <li class="o_save_name">
+		            <button type="button" class="btn btn-primary btn-sm">Save</button>
+		        </li>
+		        <li class="divider"/>
+		        <li class="o_save_view o_closed_menu">
+		            <a href="#">Save current Tree view</a>
+		        </li>
+		        <li class="os_save_name">
+		            <input type="text"></input>
+		        </li>
+		        <li class="os_save_name">
+		            <span><div class="o_checkbox"><input type="checkbox"/><span/></div> Use by default</span>
+		        </li>
+		        <li class="os_save_name">
+		            <span><div class="o_checkbox"><input type="checkbox"/><span/></div> Share with all users </span><span class="fa fa-users"/>
+		        </li>
+		        <li class="os_save_name">
+		            <button type="button" class="btn btn-primary btn-sm">Save</button>
+		        </li>
+		    </ul>
+        </t>
+    </t>
+</templates>

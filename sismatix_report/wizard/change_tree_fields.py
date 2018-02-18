@@ -1,6 +1,7 @@
 from odoo import api, fields, models, _, exceptions
 from odoo import http
 from urlparse import urlparse, parse_qs
+import ast
 
 
 
@@ -13,14 +14,21 @@ class ChangeTreeFields(models.Model):
 		current_model = self.env['ir.model'].search([('model', '=', model)])
 		return [('model_id', '=', current_model.id)]
 
+	
 	model = fields.Char('Model', default="none")
+	def_fields = fields.Char('Default Fields')
 	fields = fields.Many2many('ir.model.fields', string="Fields", domain=_get_fields_domain)
 
-	@api.onchange('fields')
+
+	@api.onchange('fields', 'def_fields')
 	def change_view(self):
 		if self.env.user.has_group('sismatix_report.group_can_change'):
 			fields = ""
 			
+			for key in ast.literal_eval(self.def_fields):
+				field_str = "<field name='"+key+"'/>"
+				fields += field_str
+
 			for field in self.fields:
 				field_str = "<field name='"+field.name+"'/>"
 				fields += field_str

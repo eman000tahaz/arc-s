@@ -526,6 +526,7 @@ var ListView = View.extend({
             context: {
                 'default_model': self.model,
                 'default_view_id': self.fields_view.view_id,
+                'default_def_fields': self.fields_view.fields,
             },
         };
         self.do_action(action);

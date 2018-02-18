@@ -2,7 +2,8 @@
 {
     'name': 'Sismatix Report',
     'version': '1.0.1',
-    'Author': "Eman Taha",
+    'Author': "Sismatix Co.",
+    'website': 'http://sismatix.com/',
     'category': 'Other',
     'sequence': 20,
     'summary': 'Sismatix Report',
@@ -18,8 +19,9 @@
     'demo': [
     ],
     'qweb': [
-        "static/src/xml/web_print_view_template.xml",
-        "static/src/xml/web_export_view_template.xml",
+        "static/src/xml/*.xml",
+        # "static/src/xml/web_print_view_template.xml",
+        # "static/src/xml/web_export_view_template.xml",
     ],
     'installable': True,
     'application': True,
