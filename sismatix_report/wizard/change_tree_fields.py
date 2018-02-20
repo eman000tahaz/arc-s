@@ -14,24 +14,27 @@ class ChangeTreeFields(models.Model):
 		current_model = self.env['ir.model'].search([('model', '=', model)])
 		return [('model_id', '=', current_model.id)]
 
+	def _get_fav_view_domain(self):
+		view_id = self.env.context.get('default_view_id')
+		return [('view_id', '=', view_id), ('user_id', '=', self.env.user.id)]
+
 	
 	model = fields.Char('Model', default="none")
 	def_fields = fields.Char('Default Fields')
+	change_by = fields.Selection([('add', 'Add Fields To Current View'), ('choose', 'Choose From Favorite Views')],
+								string="Change View By", default='add')
+	fav_view = fields.Many2one('favorite.view', string="Favorite View", domain=_get_fav_view_domain)
+	save_view = fields.Boolean('Save View ?')
+	view_name = fields.Char('View Name')
 	fields = fields.Many2many('ir.model.fields', string="Fields", domain=_get_fields_domain)
+
+
+
 
 
 	@api.onchange('fields')
 	def change_view(self):
 		if self.env.user.has_group('sismatix_report.group_can_change'):
-			fields = ""
-			
-			for key in self.env.context.get('default_def_fields'):
-				field_str = "<field name='"+key+"'/>"
-				fields += field_str
-
-			for field in self.fields:
-				field_str = "<field name='"+field.name+"'/>"
-				fields += field_str
 			
 			view_id = self.env.context.get('default_view_id')
 
@@ -57,9 +60,39 @@ class ChangeTreeFields(models.Model):
 				copy_view['m_state'] = current_view.m_state
 				self.env['copy.view'].create(copy_view)
 
-			arch_db = "<?xml version='1.0'?><tree>"+fields+"</tree>"
-			
-			current_view.write({'arch_db': arch_db, 'm_state': 'modified'})
+			if self.change_by == 'add':
+
+				fields = ""
+				
+				for key in self.env.context.get('default_def_fields'):
+					field_str = "<field name='"+key+"'/>"
+					fields += field_str
+
+				for field in self.fields:
+					field_str = "<field name='"+field.name+"'/>"
+					fields += field_str
+				
+				arch_db = "<?xml version='1.0'?><tree>"+fields+"</tree>"
+				
+				current_view.write({'arch_db': arch_db, 'm_state': 'modified'})
+
+				if self.save_view == True:
+					view_exists = self.env['favorite.view'].search([('name', '=', self.view_name)])
+					if view_exists:
+						raise exceptions.ValidationError("This View Name already Exists !!")
+					else:
+						self.env['favorite.view'].create({
+							'name': self.view_name,
+							'user_id': self.env.user.id,
+							'view_id': view_id,
+							'arch_db': arch_db,
+							})
+
+			elif self.change_by == 'choose':
+				if self.fav_view:
+					current_view.write({'arch_db': self.fav_view.arch_db, 'm_state': 'modified'})
+				else:
+					raise exceptions.ValidationError("Please Choose View From Favorite Views OR Add Fields To Current View ....")					
 		else:
 			raise exceptions.ValidationError("Sorry \n You didn't Have permission to Change this view ...")
 

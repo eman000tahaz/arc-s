@@ -8,17 +8,24 @@
                 <group>
                     <field name="model" invisible="1"/>
                     <field name="def_fields" invisible="1"/>
+                    <field name="change_by"  widget="radio"/>
+                </group>
+                <group string="ADD Fields To Current View" attrs="{'invisible': [('change_by', '=', 'choose')]}">
                     <field name="fields">
                         <tree>
-<!--                             <field name="sequance" readonly="1" widget="handle"/>
- -->                            <field name="name"/>
+                            <field name="name"/>
                             <field name="field_description"/>
                             <field name="ttype"/>
                         </tree>
                     </field>
+                    <field name="save_view"/>
+                    <field name="view_name" attrs="{'invisible': [('save_view', '=', False)], 'required': [('save_view', '=', True)]}"/>
+                </group>
+                <group string="Choose From Your Favorite Views" attrs="{'invisible': [('change_by', '=', 'add')]}">
+                    <field name="fav_view" widget="selection"/>
                 </group>
                 <footer>
-                    <button name="change_view" string="Add Fields" type="object" default_focus="1" class="oe_highlight"/>
+                    <button name="change_view" string="Change View" type="object" default_focus="1" class="oe_highlight"/>
                     or
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
