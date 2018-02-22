@@ -8,11 +8,13 @@ import json
 class ChangeTreeFields(models.Model):
 	_name = "change.tree.fields"
 
+	
 	@api.depends('model')
 	def _get_fields_domain(self):
 		model = self.env.context.get('default_model')
 		current_model = self.env['ir.model'].search([('model', '=', model)])
-		return [('model_id', '=', current_model.id)]
+		current_fields = self.env.context.get('default_current_fields')
+		return [('model_id', '=', current_model.id), ('name', 'not in', current_fields)]
 
 	def _get_fav_view_domain(self):
 		view_id = self.env.context.get('default_view_id')
@@ -26,6 +28,7 @@ class ChangeTreeFields(models.Model):
 	fav_view = fields.Many2one('favorite.view', string="Favorite View", domain=_get_fav_view_domain)
 	save_view = fields.Boolean('Save View ?')
 	view_name = fields.Char('View Name')
+	current_fields = fields.Char('Current Fields')
 	fields = fields.Many2many('ir.model.fields', string="Fields", domain=_get_fields_domain)
 
 
@@ -96,6 +99,12 @@ class ChangeTreeFields(models.Model):
 		else:
 			raise exceptions.ValidationError("Sorry \n You didn't Have permission to Change this view ...")
 
+		return {
+			'type': 'ir.actions.client',
+			'tag': 'reload',
+		}
+
+
 	@api.model
 	def return_view(self):
 		views_modified = self.env['ir.ui.view'].search([('m_state', '=', 'modified')])
@@ -107,3 +116,22 @@ class ChangeTreeFields(models.Model):
 					'arch_db': copy_view.arch_db,
 					'm_state': copy_view.m_state
 					})
+
+	
+	def return_default(self):
+		view_id = self.env.context.get('default_view_id')
+		current_view_modified = self.env['ir.ui.view'].search([('id', '=', view_id), ('m_state', '=', 'modified')])
+
+		if current_view_modified:
+			copy_view = self.env['copy.view'].search([('view_id', '=', current_view_modified.id)])
+			current_view_modified.write({
+				'arch_db': copy_view.arch_db,
+				'm_state': copy_view.m_state,
+				})
+		else:
+			raise exceptions.ValidationError("Current View is The Default View !!! ")
+
+		return {
+			'type': 'ir.actions.client',
+			'tag': 'reload',
+		}

@@ -516,6 +516,11 @@ var ListView = View.extend({
         var change_tree_view = new Model('change.tree.fields');
         change_tree_view.call('open_view');*/
         var self = this;
+        var current_fields = [];
+        for (var key in self.fields_view.fields) {
+            current_fields.push(key);    
+        };
+        console.log(current_fields);
         var action = {
             type: 'ir.actions.act_window',
             res_model: 'change.tree.fields',
@@ -527,11 +532,11 @@ var ListView = View.extend({
                 'default_model': self.model,
                 'default_view_id': self.fields_view.view_id,
                 'default_def_fields': self.fields_view.fields,
+                'default_current_fields': current_fields,
             },
         };
         self.do_action(action);
-        console.log(self);
-        console.log(self.fields_view.view_id);
+        
     },
     /**
      * Handler for the result of eval_domain_and_context, actually perform the
