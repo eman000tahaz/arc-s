@@ -7,7 +7,7 @@
 		<template id="report_property_per_location1">
 			<t t-call="report.html_container">
 				<t t-foreach="docs" t-as="o">
-					<t t-call="realestate.property_internal_layout"/>
+			        <t t-call="report.internal_layout">
 						<div class="page">
 							<div class="oe_structure" />
 							<div class="row">
@@ -22,7 +22,7 @@
 									<th>City</th>
 									<th>Township</th>
 								</tr>
-								<tr t-foreach="property_location(data)" t-as="move_line">
+								<tr t-foreach="records" t-as="move_line">
 									<td><t t-esc="move_line['name']"/></td>
 									<td><t t-esc="move_line['child_ids']"/></td>
 									<td><t t-esc="move_line['state_id']"/></td>
@@ -31,7 +31,7 @@
 								</tr>
 							</table>
 						</div>
-					<t t-call="report.external_layout_footer"/>
+					</t>
 				</t>
 			</t>
 		</template>

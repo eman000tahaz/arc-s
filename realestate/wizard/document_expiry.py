@@ -30,14 +30,9 @@ class document_expiry_report(models.TransientModel):
 
 	@api.multi
 	def print_report(self):
-		if self._context is None:
-			self._context = {}
-		datas = {
-			'ids': self.ids,
-			'model': 'account.asset.asset',
-			'form': self.read(['start_date', 'end_date'])[0]
-			}
-		return self.env['report'].get_action(self, 'realestate.report_document_expiry',
-											 data=datas)
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+		data = {}
+		data['ids'] = self.env.context.get('active_ids', [])
+		data['model'] = self.env.context.get('active_model', 'ir.ui.menu')
+		data['form'] = self.read(['start_date', 'end_date'])[0]
+		records = self.env[data['model']].browse(data.get('ids', []))
+		return self.env['report'].get_action(records, 'realestate.report_document_expiry', data=data)

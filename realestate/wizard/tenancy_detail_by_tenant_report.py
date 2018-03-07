@@ -53,19 +53,11 @@ class tenancy_tenant_report(models.TransientModel):
 
 	@api.multi
 	def print_report(self):
-		if self._context is None:
-			self._context = {}
-		partner_obj = self.env['tenant.partner']
-		for data_rec in self:
-			data = data_rec.read([])[0]
-			partner_rec = partner_obj.browse(data['tenant_id'][0])
-			data.update({'tenant_name' : partner_rec.name})
-		data = {
-			'ids': self.ids,
-			'model': 'tenant.partner',
-			'form': data
-			}
-		return self.env['report'].get_action(self, 'realestate.report_tenancy_by_tenant',
-											 data=data)
+		data = {}
+		data['ids'] = self.env.context.get('active_ids', [])
+		data['model'] = self.env.context.get('active_model', 'ir.ui.menu')
+		data['form'] = self.read(['start_date', 'end_date', 'tenant_id'])[0]
+		records = self.env[data['model']].browse(data.get('ids', []))
+		return self.env['report'].get_action(records, 'realestate.report_tenancy_by_tenant', data=data)
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

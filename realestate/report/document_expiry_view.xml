@@ -5,7 +5,7 @@
 	<template id="report_document_expiry">
 		<t t-call="report.html_container">
 			<t t-foreach="docs" t-as="o">
-				<t t-call="realestate.property_internal_layout"/>
+			        <t t-call="report.internal_layout">
 					<div class="page">
 						<div class="row">
 							<h2>
@@ -16,9 +16,9 @@
 						<div class="row mt32 mb32">
 							<div class="text-center">
 								<strong>From:</strong>
-								<span t-esc="formatLang(data['form']['start_date'], date=True)"/>&#160;&#160;&#160;
+								<span t-esc="start_date"/>&#160;&#160;&#160;
 								<strong>To:</strong>
-								<span t-esc="formatLang(data['form']['end_date'], date=True)"/>
+								<span t-esc="end_date"/>
 							</div>
 						</div>
 						<br />
@@ -28,14 +28,14 @@
 								<td class="text-center"><strong>Property</strong></td>
 								<td class="text-center"><strong>Expiry Date</strong></td>
 							</tr>
-							<tr t-foreach="get_details(data['form']['start_date'],data['form']['end_date'])" t-as="t1">
+							<tr t-foreach="records" t-as="t1">
 								<td class="text-center"><span t-field="t1.name"/></td>
 								<td class="text-center"><span t-field="t1.property_id.name"/></td>
 								<td class="text-center"><span t-field="t1.expiry_date"/></td>
 							</tr>
 						</table>
 					</div>
-				<t t-call="report.external_layout_footer"/>
+				</t>
 			</t>
 		</t>
 	</template>

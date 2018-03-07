@@ -4,8 +4,7 @@
 	<!--Template For Tenancy Contract Expiry Report -->
 	<template id="report_contract_expiry">
 		<t t-call="report.html_container">
-			<t t-foreach="docs" t-as="o">
-				<t t-call="realestate.property_internal_layout"/>
+	        <t t-call="report.internal_layout">
 					<div class="page">
 						<div class="row">
 							<h2>
@@ -16,9 +15,9 @@
 						<div class="row mt32 mb32">
 							<div class="text-center">
 								<strong>From:</strong>
-								<span t-esc="formatLang(data['form']['start_date'], date=True)"/>&#160;&#160;&#160;
+								<span t-esc="start_date"/>&#160;&#160;&#160;
 								<strong>To:</strong>
-								<span t-esc="formatLang(data['form']['end_date'], date=True)"/>
+								<span t-esc="end_date"/>
 							</div>
 						</div>
 						<br />
@@ -33,7 +32,7 @@
 								<td class="text-left"><strong>Rent Type</strong></td>
 								<td class="text-left"><strong>State</strong></td>
 							</tr>
-							<tr t-foreach="get_details(data['form']['start_date'],data['form']['end_date'])" t-as="t">
+							<tr t-foreach="records" t-as="t">
 								<td class="text-left"><span t-field="t.name"/></td>
 								<td class="text-left"><span t-field="t.property_id.name"/></td>
 								<td class="text-left"><span t-field="t.tenant_id.name"/></td> 
@@ -45,7 +44,6 @@
 							</tr>
 						 </table>
 					</div>
-				<t t-call="report.external_layout_footer"/>
 			</t>
 		</t>
 	</template>

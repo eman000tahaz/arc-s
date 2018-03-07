@@ -5,7 +5,7 @@
         <template id="report_tenancy_final_by_property_ar">
             <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <t t-call="realestate.property_internal_layout"/>
+                    <t t-call="report.internal_layout">
                     <div class="page">
                         <div class="row">
                             <h2>
@@ -20,14 +20,14 @@
                             <tr>
                                 <td width="33%" style="text-align:left">
                                     <strong>اسم العقار :</strong>
-                                    <span t-esc="data['form']['property_name']"/>
+                                    <span t-esc="property_name"/>
                                 </td>
                                 <td width="33%" style="text-align:left">&#160;</td>
                                 <td width="34%" style="text-align:left">
                                     <strong>من :</strong>
-                                    <span t-esc="formatLang(data['form']['start_date'], date=True)"/>&#160;&#160;&#160;
+                                    <span t-esc="start_date"/>&#160;&#160;&#160;
                                     <strong>الي :</strong>
-                                    <span t-esc="formatLang(data['form']['end_date'], date=True)"/>
+                                    <span t-esc="end_date"/>
                                 </td>
                             </tr>
                         </table>
@@ -86,7 +86,7 @@
                                     <strong>المجموع</strong>
                                 </td>
                             </tr>
-                            <tr t-foreach="get_current_month_deserved(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                            <tr t-foreach="current_month_deserved"
                                 t-as="t">
                                 <td>
                                     <span t-esc="t['property_name']"/>
@@ -148,77 +148,77 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['basic_rent']"/>
+                                        <span t-esc="total['basic_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['current_reserve_rent']"/>
+                                        <span t-esc="total['current_reserve_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['months_before_reserve_rent']"/>
+                                        <span t-esc="total['months_before_reserve_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['years_before_reserve_rent']"/>
+                                        <span t-esc="total['years_before_reserve_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['Advance_Balance']"/>
+                                        <span t-esc="total['Advance_Balance']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['current_paid_rent']"/>
+                                        <span t-esc="total['current_paid_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['months_before_paid_rent']"/>
+                                        <span t-esc="total['months_before_paid_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['advance_paid_rent']"/>
+                                        <span t-esc="total['advance_paid_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['from_advance_paid_rent']"/>
+                                        <span t-esc="total['from_advance_paid_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['other_income']"/>
+                                        <span t-esc="total['other_income']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['delay_on_pay']"/>
+                                        <span t-esc="total['delay_on_pay']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['delay_on_current_pay']"/>
+                                        <span t-esc="total['delay_on_current_pay']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['unoccupied']"/>
+                                        <span t-esc="total['unoccupied']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['insurance']"/>
+                                        <span t-esc="total['insurance']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['Total']"/>
+                                        <span t-esc="total['Total']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -248,7 +248,7 @@
                                     <strong>ملاحظات</strong>
                                 </td>
                             </tr>
-                            <tr t-foreach="get_maintenance_details(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                            <tr t-foreach="maintenance_details"
                                 t-as="t">
                                 <td>
                                     <span t-esc="t['property_name']"/>
@@ -272,7 +272,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total()['total_maintenance']"/>
+                                        <span t-esc="total['total_maintenance']"/>
                                     </strong>
                                 </td>
                                 <td>
@@ -323,7 +323,7 @@
                                     <strong>رصيد التامين</strong>
                                 </td>
                             </tr>
-                            <tr t-foreach="get_insurance_details(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                            <tr t-foreach="insurance_details"
                                 t-as="t">
                                 <td>
                                     <span t-esc="t['property_name']"/>
@@ -371,32 +371,32 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_insurance_total()['total_insurnace']"/>
+                                        <span t-esc="insurance_total['total_insurnace']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_insurance_total()['total_convert_to_rent']"/>
+                                        <span t-esc="insurance_total['total_convert_to_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_insurance_total()['total_insurance_returned']"/>
+                                        <span t-esc="insurance_total['total_insurance_returned']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_insurance_total()['total_other_income']"/>
+                                        <span t-esc="insurance_total['total_other_income']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_insurance_total()['total_new_insurance']"/>
+                                        <span t-esc="insurance_total['total_new_insurance']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_insurance_total()['total_insurance_balance']"/>
+                                        <span t-esc="insurance_total['total_insurance_balance']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -428,7 +428,7 @@
                                 </td>
 
                             </tr>
-                            <tr t-foreach="get_new_contract_details(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                            <tr t-foreach="new_contract_details"
                                 t-as="t">
                                 <td>
                                     <span t-esc="t['property_name']"/>
@@ -453,12 +453,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_new_contract()['total_rent']"/>
+                                        <span t-esc="total_new_contract['total_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_new_contract()['total_comession']"/>
+                                        <span t-esc="total_new_contract['total_comession']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -490,7 +490,7 @@
                                 </td>
 
                             </tr>
-                            <tr t-foreach="get_new_contract_next_months(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                            <tr t-foreach="new_contract_next_months"
                                 t-as="t">
                                 <td>
                                     <span t-esc="t['property_name']"/>
@@ -515,12 +515,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_new_contract_next_months()['total_rent']"/>
+                                        <span t-esc="total_new_contract_next_months['total_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_new_contract_next_months()['total_comession']"/>
+                                        <span t-esc="total_new_contract_next_months['total_comession']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -552,7 +552,7 @@
                                 </td>
 
                             </tr>
-                            <tr t-foreach="get_new_contract_deserved(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                            <tr t-foreach="new_contract_deserved"
                                 t-as="t">
                                 <td>
                                     <span t-esc="t['property_name']"/>
@@ -577,12 +577,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_new_contract_deserved()['total_rent']"/>
+                                        <span t-esc="total_new_contract_deserved['total_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_new_contract_deserved()['total_comession']"/>
+                                        <span t-esc="total_new_contract_deserved['total_comession']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -616,7 +616,7 @@
                                 </td>
 
                             </tr>
-                            <tr t-foreach="get_current_delay(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                            <tr t-foreach="current_delay"
                                 t-as="t">
                                 <td>
                                     <span t-esc="t['property_name']"/>
@@ -647,12 +647,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_current_delay()['total_rent']"/>
+                                        <span t-esc="total_current_delay['total_rent']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_current_delay()['total_comession']"/>
+                                        <span t-esc="total_current_delay['total_comession']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -693,7 +693,7 @@
                                 </td>
 
                             </tr>
-                            <tr t-foreach="get_legal_cases(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])"
+                            <tr t-foreach="legal_cases"
                                 t-as="t">
                                 <td>
                                     <span t-esc="t['property_name']"/>
@@ -733,17 +733,17 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_legal_cases()['total_rec_current_month']"/>
+                                        <span t-esc="total_legal_cases['total_rec_current_month']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_legal_cases()['total_rec_to_this_month']"/>
+                                        <span t-esc="total_legal_cases['total_rec_to_this_month']"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_total_legal_cases()['total_deserved_amount']"/>
+                                        <span t-esc="total_legal_cases['total_deserved_amount']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -776,12 +776,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_profit_loss_account()['rental_income_current']"/>
+                                        <span t-esc="profit_loss_account['rental_income_current']"/>
                                     </strong>
                                 </td>
                                 <!--<td>-->
                                     <!--<strong>-->
-                                        <!--<span t-esc="get_profit_loss_account()['rental_income_year']"/>-->
+                                        <!--<span t-esc="profit_loss_account['rental_income_year']"/>-->
                                     <!--</strong>-->
                                 <!--</td>-->
                             </tr>
@@ -791,12 +791,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_profit_loss_account()['realestate_fees_current']"/>
+                                        <span t-esc="profit_loss_account['realestate_fees_current']"/>
                                     </strong>
                                 </td>
                                 <!--<td>-->
                                     <!--<strong>-->
-                                        <!--<span t-esc="get_profit_loss_account()['realestate_fees_year']"/>-->
+                                        <!--<span t-esc="profit_loss_account['realestate_fees_year']"/>-->
                                     <!--</strong>-->
                                 <!--</td>-->
                             </tr>
@@ -806,12 +806,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_profit_loss_account()['expenses_current']"/>
+                                        <span t-esc="profit_loss_account['expenses_current']"/>
                                     </strong>
                                 </td>
                                 <!--<td>-->
                                     <!--<strong>-->
-                                        <!--<span t-esc="get_profit_loss_account()['expenses_year']"/>-->
+                                        <!--<span t-esc="profit_loss_account['expenses_year']"/>-->
                                     <!--</strong>-->
                                 <!--</td>-->
                             </tr>
@@ -822,12 +822,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_profit_loss_account()['other_revenue_current']"/>
+                                        <span t-esc="profit_loss_account['other_revenue_current']"/>
                                     </strong>
                                 </td>
                                 <!--<td>-->
                                     <!--<strong>-->
-                                        <!--<span t-esc="get_profit_loss_account()['other_revenue_year']"/>-->
+                                        <!--<span t-esc="profit_loss_account['other_revenue_year']"/>-->
                                     <!--</strong>-->
                                 <!--</td>-->
                             </tr>
@@ -838,12 +838,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_profit_loss_account()['rental_brokerage_fees_current']"/>
+                                        <span t-esc="profit_loss_account['rental_brokerage_fees_current']"/>
                                     </strong>
                                 </td>
                                 <!--<td>-->
                                     <!--<strong>-->
-                                        <!--<span t-esc="get_profit_loss_account()['rental_brokerage_fees_year']"/>-->
+                                        <!--<span t-esc="profit_loss_account['rental_brokerage_fees_year']"/>-->
                                     <!--</strong>-->
                                 <!--</td>-->
                             </tr>
@@ -854,12 +854,12 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_profit_loss_account()['net_income_current']"/>
+                                        <span t-esc="profit_loss_account['net_income_current']"/>
                                     </strong>
                                 </td>
                                 <!--<td>-->
                                     <!--<strong>-->
-                                        <!--<span t-esc="get_profit_loss_account()['net_income_year']"/>-->
+                                        <!--<span t-esc="profit_loss_account['net_income_year']"/>-->
                                     <!--</strong>-->
                                 <!--</td>-->
                             </tr>
@@ -890,7 +890,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_profit_loss_account()['net_income_current']"/>
+                                        <span t-esc="profit_loss_account['net_income_current']"/>
                                     </strong>
                                 </td>
 
@@ -901,7 +901,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['uncollected_income']"/>
+                                        <span t-esc="cash_flow_statement['uncollected_income']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -911,7 +911,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['unpaid_realestate_fees']"/>
+                                        <span t-esc="cash_flow_statement['unpaid_realestate_fees']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -922,7 +922,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['collected_income']"/>
+                                        <span t-esc="cash_flow_statement['collected_income']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -932,7 +932,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['paid_realestate_fees']"/>
+                                        <span t-esc="cash_flow_statement['paid_realestate_fees']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -942,7 +942,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['unaccrued_income']"/>
+                                        <span t-esc="cash_flow_statement['unaccrued_income']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -952,7 +952,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['advance_payment_realestate_fees']"/>
+                                        <span t-esc="cash_flow_statement['advance_payment_realestate_fees']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -962,7 +962,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['accrued_income']"/>
+                                        <span t-esc="cash_flow_statement['accrued_income']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -973,7 +973,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['accrued_rental_brokerage_fees']"/>
+                                        <span t-esc="cash_flow_statement['accrued_rental_brokerage_fees']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -983,7 +983,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['accrued_rental_brokerage_fees2']"/>
+                                        <span t-esc="cash_flow_statement['accrued_rental_brokerage_fees2']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -993,7 +993,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['advance_payment_rental_brokerage_fees']"/>
+                                        <span t-esc="cash_flow_statement['advance_payment_rental_brokerage_fees']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -1003,7 +1003,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['paid_insurance_tenants']"/>
+                                        <span t-esc="cash_flow_statement['paid_insurance_tenants']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -1013,7 +1013,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['insurance_tenants']"/>
+                                        <span t-esc="cash_flow_statement['insurance_tenants']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -1024,7 +1024,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_cash_flow_statement()['net_cash_flow_statement']"/>
+                                        <span t-esc="cash_flow_statement['net_cash_flow_statement']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -1063,7 +1063,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_balance_sheet()['cash']"/>
+                                        <span t-esc="balance_sheet['cash']"/>
                                     </strong>
                                 </td>
 
@@ -1074,7 +1074,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_balance_sheet()['advance_payment_for_property_manager']"/>
+                                        <span t-esc="balance_sheet['advance_payment_for_property_manager']"/>
                                     </strong>
                                 </td>
 
@@ -1085,7 +1085,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_balance_sheet()['new_contract_advance_payment_management_fees']"/>
+                                        <span t-esc="balance_sheet['new_contract_advance_payment_management_fees']"/>
                                     </strong>
                                 </td>
 
@@ -1098,7 +1098,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_balance_sheet()['uncollected_income']"/>
+                                        <span t-esc="balance_sheet['uncollected_income']"/>
                                     </strong>
                                 </td>
 
@@ -1110,7 +1110,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_balance_sheet()['total_asset']"/>
+                                        <span t-esc="balance_sheet['total_asset']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -1129,7 +1129,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_balance_sheet()['realestate_fees_for_uncollected_income']"/>
+                                        <span t-esc="balance_sheet['realestate_fees_for_uncollected_income']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -1140,7 +1140,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_balance_sheet()['unaccrued_income']"/>
+                                        <span t-esc="balance_sheet['unaccrued_income']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -1151,7 +1151,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_balance_sheet()['insurance_tenants']"/>
+                                        <span t-esc="balance_sheet['insurance_tenants']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -1162,7 +1162,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_balance_sheet()['total_liabilities']"/>
+                                        <span t-esc="balance_sheet['total_liabilities']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -1173,7 +1173,7 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="get_balance_sheet()['accumlative_net_income']"/>
+                                        <span t-esc="balance_sheet['accumlative_net_income']"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -1181,7 +1181,7 @@
                         </table>
 
                     </div>
-                    <t t-call="report.external_layout_footer"/>
+                    </t>
                 </t>
             </t>
         </template>

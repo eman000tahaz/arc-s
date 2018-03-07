@@ -5,7 +5,7 @@
 		<template id="report_tenancy_by_property">
 			<t t-call="report.html_container">
 				<t t-foreach="docs" t-as="o">
-					<t t-call="realestate.property_internal_layout"/>
+					<t t-call="report.internal_layout">
 						<div class="page">
 							<div class="row">
 								<h2>
@@ -17,14 +17,14 @@
 								<tr> 
 									<td width="33%" style="text-align:left">
 										<strong>Property name :</strong>
-										<span t-esc="data['form']['property_name']"/>
+										<span t-esc="property_name"/>
 									</td>
 									<td width="33%" style="text-align:left">&#160;</td>
 									<td width="34%" style="text-align:left">
 										<strong>From:</strong>
-										<span t-esc="formatLang(data['form']['start_date'], date=True)"/>&#160;&#160;&#160;
+										<span t-esc="start_date"/>&#160;&#160;&#160;
 										<strong>To:</strong>
-										<span t-esc="formatLang(data['form']['end_date'], date=True)"/>
+										<span t-esc="end_date"/>
 									</td>
 								</tr>
 							</table>
@@ -39,7 +39,7 @@
 									<td><strong>Rent Type</strong></td>
 									<td><strong>State</strong></td>
 								</tr>
-								<tr t-foreach="get_details(data['form']['start_date'],data['form']['end_date'],data['form']['property_id'])" t-as="t">
+								<tr t-foreach="records" t-as="t">
 									<td><span t-field="t.name"/></td>
 									<td><span t-field="t.tenant_id.name"/></td>
 									<td><span t-esc="formatLang(t.date_start,date=True)"/></td> 
@@ -50,7 +50,7 @@
 								</tr>
 							</table>
 						</div>
-					<t t-call="report.external_layout_footer"/>
+					</t>
 				</t>
 			</t>
 		</template>

@@ -1,24 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from odoo.report import report_sxw
-from odoo import models
+from odoo import models, api
 
+class report_property_per_location(models.AbstractModel):
 
-class property_per_location_report(report_sxw.rml_parse):
-
-	def __init__(self, cr, uid, name, context=None):
-		super(property_per_location_report, self).__init__(cr, uid, name, context=context)
-		self.localcontext.update({
-			'property_location' : self.property_location,
-		})
-
-	def property_location(self,data):
-		property_obj = self.pool.get('account.asset.asset')
-		domain = [('state_id', '=', data['state_id'][0])]
-		property_ids = property_obj.search(self.cr, self.uid, domain)
+	_name = "report.realestate.report_property_per_location1"
+	
+	def property_location(self,state_id):
+		property_obj = self.env['account.asset.asset']
+		domain = [('state_id', '=', state_id[0])]
+		property_ids = property_obj.search(domain)
 		property_list = []
 		sub_property_list = [] 
-		for property_data in property_obj.browse(self.cr, self.uid, property_ids):
+		for property_data in property_ids:
 			if property_data.child_ids:
 				for sub in property_data.child_ids:
 					sub_property_list.append(sub.id)
@@ -42,9 +37,20 @@ class property_per_location_report(report_sxw.rml_parse):
 					property_list.append(property_dict)
 		return property_list
 
-class report_property_per_location(models.AbstractModel):
+	@api.model
+	def render_html(self, docids, data=None):
+		self.model = self.env.context.get('active_model')
+		docs = self.env[self.model].browse(self.env.context.get('active_ids', []))
+		state_id = data['form'].get('state_id')
+		records = self.property_location(state_id)
 
-	_name = "report.realestate.report_property_per_location1"
-	_inherit = "report.abstract_report"
-	_template = "realestate.report_property_per_location1"
-	_wrapped_report_class = property_per_location_report
+		docargs = {
+			'doc_ids': self.ids,
+			'doc_model': self.model,
+			'data': data['form'],
+			'docs': docs,
+			'records': records,
+		}
+		return self.env['report'].render('realestate.report_property_per_location1', docargs)
+
+

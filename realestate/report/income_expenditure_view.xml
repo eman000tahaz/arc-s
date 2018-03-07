@@ -5,7 +5,7 @@
 		<template id="report_income_expenditure">
 			<t t-call="report.html_container">
 				<t t-foreach="docs" t-as="o">
-					<t t-call="realestate.property_internal_layout"/>
+			        <t t-call="report.internal_layout">
 						<div class="page">
 							<div class="row">
 								<h2>
@@ -16,9 +16,9 @@
 							<div class="row mt32 mb32">
 								<div class="text-center">
 									<strong>From:</strong>
-									<span t-esc="formatLang(data['form']['start_date'], date=True)"/>
+									<span t-esc="start_date"/>
 									<strong>To:</strong>
-									<span t-esc="formatLang(data['form']['end_date'], date=True)"/>
+									<span t-esc="end_date"/>
 								</div>
 							</div>
 							<br />
@@ -28,29 +28,29 @@
 									<td width="33%" style="text-align:right;"><strong>Income</strong></td>
 									<td width="33%" style="text-align:right;"><strong>Expenditure</strong></td>
 								</tr>
-								<tr t-foreach="(get_details(data['form']['start_date'],data['form']['end_date']))" t-as="t">
+								<tr t-foreach="records" t-as="t">
 									<td width="33%"><span t-esc="t['property']"/></td>
-									<td width="33%" style="text-align:right;"><span t-esc="formatLang(t['total_income'])"/></td>
-									<td width="33%" style="text-align:right;"><span t-esc="formatLang(t['total_expence'])"/></td>
+									<td width="33%" style="text-align:right;"><span t-esc="t['total_income']"/></td>
+									<td width="33%" style="text-align:right;"><span t-esc="t['total_expence']"/></td>
 								</tr>
 							</table>
 							<br/>
 							<table width="100%" class="table table-condensed table-striped">
 								<tr >
 									<td width="33%">&#160;</td>
-									<td width="33%" style="text-align:right;">Income : &#160;<span t-esc="get_income_total()"/></td>
-									<td width="33%" style="text-align:right;">Expenditure  : &#160;<span t-esc="get_expence_total()"/></td> 
+									<td width="33%" style="text-align:right;">Income : &#160;<span t-esc="income_total"/></td>
+									<td width="33%" style="text-align:right;">Expenditure  : &#160;<span t-esc="expence_total"/></td> 
 								</tr>
 							</table>
 							<table width="100%" class="table table-condensed table-striped">
 								<tr >
 									<td width="33%">&#160;</td>
 									<td width="33%">&#160;</td>
-									<td width="33%" style="text-align:right;">Total Income :&#160;<span t-esc="get_grand_total()"/></td> 
+									<td width="33%" style="text-align:right;">Total Income :&#160;<span t-esc="grand_total"/></td> 
 								</tr>
 							</table>
 						</div>
-					<t t-call="report.external_layout_footer"/>
+					</t>
 				</t>
 			</t>
 		</template>

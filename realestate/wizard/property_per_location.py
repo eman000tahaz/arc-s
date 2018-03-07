@@ -12,9 +12,9 @@ class property_per_location(models.TransientModel):
 
 	@api.multi
 	def print_report(self):
-		for data1 in self:
-			data = data1.read([])[0]
-		return self.env['report'].get_action(self,'realestate.report_property_per_location1', data)
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+		data = {}
+		data['ids'] = self.env.context.get('active_ids', [])
+		data['model'] = self.env.context.get('active_model', 'ir.ui.menu')
+		data['form'] = self.read(['state_id'])[0]
+		records = self.env[data['model']].browse(data.get('ids', []))
+		return self.env['report'].get_action(records, 'realestate.report_property_per_location1', data=data)
