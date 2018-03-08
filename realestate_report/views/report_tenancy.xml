@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<template id="report_tenancy" name="report_tenancy">
+		<t t-call="report.html_container">
+	        <t t-call="report.internal_layout">
+	            <div class="page">
+	            	<h2><span/>Hii Amy </h2>
+	            </div>
+	        </t>
+	    </t>
+	</template>
+</odoo>
