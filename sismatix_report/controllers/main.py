@@ -4,6 +4,7 @@ import json
 import odoo.http as http
 from odoo.http import request
 from odoo.addons.web.controllers.main import ExcelExport
+from odoo.modules.registry import Registry
 
 
 class ReportView(Controller):
@@ -42,6 +43,20 @@ class ExcelExportView(ExcelExport):
         model = data.get('model', [])
         columns_headers = data.get('headers', [])
         rows = data.get('rows', [])
+        total_row = []
+        for header in columns_headers:
+            field_id = request.env['ir.model.fields'].search([('model', '=', model),
+                                                            ('field_description', '=', header)])
+            field_sum = 0
+            if field_id.ttype in ['integer', 'float', 'monetary']:
+                field_indx = columns_headers.index(header)
+                for row in rows:
+                    field_sum += row[field_indx]
+                field_sum = 'total = ' + str(field_sum)
+            else:
+                field_sum = ""
+            total_row.append(field_sum)
+        rows.append(total_row)
 
         return request.make_response(
             self.from_data(columns_headers, rows),

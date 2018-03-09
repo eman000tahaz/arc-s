@@ -9,22 +9,42 @@
 	            	<br></br>
 	            	
 	            	<table class="table table-condensed" style="table-layout: fixed;">
-		                    <thead>
-		                        <tr>
-		                        	<t t-foreach="fields" t-as="field">
-		                        		<th><span t-esc="field"/></th>
-		                        	</t>
-		                        </tr>
-		                    </thead>
-		                    <tbody>
-		                    	<tr t-foreach="rows" t-as="row">
-		                    		<td t-foreach="range(no)" t-as="i">
-		                    			<span t-esc="row[i]"/>
-		                    		</td>
-		                    	</tr>
-		                    </tbody>
-		                </table>
-	            </div>
+	                    <thead>
+	                        <tr>
+	                        	<t t-foreach="fields" t-as="field">
+	                        		<th><span t-esc="field"/></th>
+	                        	</t>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                    	<tr t-foreach="rows" t-as="row">
+	                    		<td t-foreach="range(no)" t-as="i">
+	                    			<span t-esc="row[i]"/>
+	                    		</td>
+	                    	</tr>
+	                    </tbody>
+	                </table>
+		          	
+		          	<br></br>
+	            	<br></br>
+		            <div class='col-sm-5'>
+		            	<h2 class="text-center">Numeric Totals</h2>
+		            	<br></br>
+		            	<table class='table borderless'>
+		            		<tr t-foreach='fields_total' t-as='total'>
+	                    		<td>
+	                    			<strong>
+	                    				<span t-esc="total[0]"/> : 
+	                    			</strong>
+	                    		</td>
+	                    		<td>
+	                    			<span t-esc="total[1]"/>
+	                    		</td>
+		            		</tr>
+		            	</table>
+		            </div>
+		        </div>
+		            
 	        </t>
 		</t>
 	</template>
