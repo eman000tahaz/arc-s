@@ -14,9 +14,11 @@ class ReportView(Controller):
         model = data.get('model', [])
         columns_headers = data.get('headers', [])
         rows = data.get('rows', [])
+        headers_names = data.get('headers_names', [])
+
 
         s_data = {}
-        s_data['form'] = {'model': model, 'rows': rows, 'fields': columns_headers}
+        s_data['form'] = {'model': model, 'rows': rows, 'fields': columns_headers, 'headers_names': headers_names}
 
 
         pdf = request.env['report'].get_pdf([1, 2], 'sismatix_report.report_sismatix', data=s_data)
@@ -42,14 +44,15 @@ class ExcelExportView(ExcelExport):
         data = json.loads(data)
         model = data.get('model', [])
         columns_headers = data.get('headers', [])
+        headers_names = data.get('headers_names', [])
         rows = data.get('rows', [])
         total_row = []
-        for header in columns_headers:
+        for header in headers_names:
             field_id = request.env['ir.model.fields'].search([('model', '=', model),
-                                                            ('field_description', '=', header)])
+                                                            ('name', '=', header)])
             field_sum = 0
             if field_id.ttype in ['integer', 'float', 'monetary']:
-                field_indx = columns_headers.index(header)
+                field_indx = headers_names.index(header)
                 for row in rows:
                     field_sum += row[field_indx]
                 field_sum = 'total = ' + str(field_sum)

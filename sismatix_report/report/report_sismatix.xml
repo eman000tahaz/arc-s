@@ -25,7 +25,7 @@
 	                    </tbody>
 	                </table>
 		          	
-		          	<br></br>
+		          	<!-- <br></br>
 	            	<br></br>
 		            <div class='col-sm-5'>
 		            	<h2 class="text-center">Numeric Totals</h2>
@@ -42,7 +42,7 @@
 	                    		</td>
 		            		</tr>
 		            	</table>
-		            </div>
+		            </div> -->
 		        </div>
 		            
 	        </t>

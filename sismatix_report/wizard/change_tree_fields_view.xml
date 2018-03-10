@@ -11,7 +11,7 @@
                     <field name="current_fields" invisible="1"/>
                     <field name="change_by"  widget="radio"/>
                 </group>
-                <group string="ADD Fields To Current View" attrs="{'invisible': [('change_by', '=', 'choose')]}">
+                <group string="ADD Fields To Current View" attrs="{'invisible': [('change_by', '!=', 'add')]}">
                     <field name="fields">
                         <tree>
                             <field name="name"/>
@@ -22,7 +22,7 @@
                     <field name="save_view"/>
                     <field name="view_name" attrs="{'invisible': [('save_view', '=', False)], 'required': [('save_view', '=', True)]}"/>
                 </group>
-                <group string="Choose From Your Favorite Views" attrs="{'invisible': [('change_by', '=', 'add')]}">
+                <group string="Choose From Your Favorite Views" attrs="{'invisible': [('change_by', '!=', 'choose')]}">
                     <field name="fav_view" widget="selection"/>
                 </group>
                 <footer>

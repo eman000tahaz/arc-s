@@ -38,12 +38,17 @@ odoo.define('sismatix_report.export', function (require) {
                 });
             }
             var export_columns_keys = [];
+            /* fields string*/
             var export_columns_names = [];
+            /*fields real names */
+            var export_fields_names = [];
             $.each(view.visible_columns, function () {
                 if (this.tag == 'field' && (this.widget === undefined || this.widget != 'handle')) {
                     // non-fields like `_group` or buttons
                     export_columns_keys.push(this.id);
                     export_columns_names.push(this.string);
+                    export_fields_names.push(this.name);
+
                 }
             });
             var export_rows = [];
@@ -90,7 +95,8 @@ odoo.define('sismatix_report.export', function (require) {
                 data: {data: JSON.stringify({
                     model: view.model,
                     headers: export_columns_names,
-                    rows: export_rows
+                    rows: export_rows,
+                    headers_names: export_fields_names,
                 })},
                 complete: $.unblockUI
             });

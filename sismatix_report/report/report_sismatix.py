@@ -12,21 +12,24 @@ class ReportSismatix(models.AbstractModel):
 		model = data['form'].get('model')
 		rows = data['form'].get('rows')
 		fields = data['form'].get('fields')
+		headers_names = data['form'].get('headers_names')
 		docs = self.env[model].browse(self.env.context.get('active_ids', []))
 		report_name = model.replace(".", " ")
 		no = len(fields)
 		fields_total = []
-		for field in fields:
+
+		for field in headers_names:
 			field_id = self.env['ir.model.fields'].search([('model', '=', model),
-															('field_description', '=', field)])
+															('name', '=', field)])
 			if field_id.ttype in ['integer', 'float', 'monetary']:
 				field_sum = 0
-				field_indx = fields.index(field)
+				field_indx = headers_names.index(field)
 				for row in rows:
 					field_sum += row[field_indx]
-				lis = [field, field_sum]
-				
-				fields_total.append(lis)
+			else:
+				field_sum = " "
+			fields_total.append(field_sum)
+		rows.append(fields_total)
 
 		docargs = {
 			'doc_ids': self.ids,
@@ -37,6 +40,5 @@ class ReportSismatix(models.AbstractModel):
 			'rows':rows,
 			'report_name': report_name,
 			'no': no,
-			'fields_total': fields_total,
 		}
 		return self.env['report'].render('sismatix_report.report_sismatix', docargs)
