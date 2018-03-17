@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="tenancy_contract_form_view" model="ir.ui.view">
+            <field name="name">tenancy.contract.form.view</field>
+            <field name="model">property.contract.template</field>
+            <field name="arch" type="xml">
+                <form string="Custom Report">
+                	<sheet>
+                		<group>
+                			<field name="tenancy_id" required="1"/>
+                		</group>
+                		<group>
+                			<field name="temp"/>
+                		</group>
+<!--                 		<button type="object" name="do_print" string="print"/>
+ -->                    </sheet>
+         		</form>
+         	</field>
+         </record>
+
+
+         <record id="tenancy_contract_action" model="ir.actions.act_window">
+            <field name="name">Tenancy Contract Template</field>
+            <field name="res_model">property.contract.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <menuitem name="Contract" id="contract_menu"/>
+        <menuitem name="Tenancy Contract" id="contract_sub_menu" parent="contract_menu"/>
+        <menuitem name="Tenancy Contract Template" id="ten_contract_menu" parent="contract_sub_menu" action="tenancy_contract_action"/>
+
+	</data>
+</odoo>

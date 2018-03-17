@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+        <report 
+            id="contract_report_action"
+            model="property.contract.template"
+            string="Contract Report"
+            report_type="qweb-pdf"
+            name="realestate_contract.report_contract_template"
+            file="realestate_contract.report_contract_template"
+            />
+
+    </data>
+</odoo>
