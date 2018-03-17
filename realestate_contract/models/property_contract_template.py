@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
-from tkFileDialog import asksaveasfilename
-import os.path
-from docx import Document
+# from tkFileDialog import asksaveasfilename
+# import os.path
+# from docx import Document
 
 class PropertyContractTemlate(models.Model):
 	_name = "property.contract.template"
@@ -23,31 +23,31 @@ class PropertyContractTemlate(models.Model):
 		text += '<p align="left" style="font-size: 12px;">(طرف ثان / مستأجر)</p>'
 		self.temp = text
 
-	def do_print(self):
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print self.temp
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		print "                        "
-		# document = Document()
-		# document.add_paragraph(self.temp)
-		name = self.tenancy_id.name 
-		# document.save(name+'.html')
+	# def do_print(self):
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print self.temp
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	print "                        "
+	# 	# document = Document()
+	# 	# document.add_paragraph(self.temp)
+	# 	name = self.tenancy_id.name 
+	# 	# document.save(name+'.html')
 		# name = asksaveasfilename(defaultextension=".doc",
   #                        filetypes=[("Text files",".txt"),
   #                                   ("Word files",".doc")],
