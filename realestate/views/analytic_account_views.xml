@@ -54,6 +54,7 @@
                             <button name="button_return" string="Deposit Return" type="object" icon="fa-undo" attrs="{'invisible':['|',('deposit_return','=',True),('deposit_received','=',False)]}" class="oe_inline oe_stat_button"/>
                             <button name="button_set_to_draft" string="Draft" type="object" states='close' icon="fa-undo" colspan="2" class="oe_inline oe_stat_button"/>
                             <button name="button_close" string="Close" type="object" states='open' icon="fa-times" colspan="2" class="oe_inline oe_stat_button"/>
+                            <button class="oe_stat_button" type="object" name="action_get_template" icon="fa-calendar" string="Contract"/>
                             <field name="rent_entry_chck" invisible="1"/>
                         </div>
                         <group colspan="2" attrs="{'readonly':[('state','=','close')]}">
