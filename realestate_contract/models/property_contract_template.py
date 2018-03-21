@@ -62,11 +62,11 @@ class PropertyContractTemlate(models.Model):
 		if "$_tenancy_id" in text:
 			text = text.replace("$_tenancy_id", unicode(self.tenancy_id.id or ""))
 		if "$_property" in text:
-			text = text.replace("$_property", unicode(self.property_id.name or ""))
+			text = text.replace("$_property", unicode(self.tenancy_id.property_id.name or ""))
 		if "$_street" in text:
-			text = text.replace("$_street", unicode(self.property_id.street or ""))
+			text = text.replace("$_street", unicode(self.tenancy_id.property_id.street or ""))
 		if "$_city" in text:
-			text = text.replace("$_city", unicode(self.property_id.city or ""))
+			text = text.replace("$_city", unicode(self.tenancy_id.property_id.city or ""))
 		self.temp = text
 
 
@@ -77,43 +77,43 @@ class ContractTemplate(models.Model):
 	tenancy_id = fields.Many2one('account.analytic.account', string='Tenancy', domain=[('is_property','=','True')])
 	temp = fields.Html('Template')
 
-	@api.onchange('tenancy_id')
-	def _get_template_text(self):
-		text = '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="right"><br /><br /></p>'
-		text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="right"><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;"><strong>الكويت في </strong></span></span></span><span style="font-size: large;"><strong>: / / 2018 </strong></span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;"><strong>م </strong></span></span></span></p>'
-		text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="right"><br /><br /></p>'
-		text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="center"><span style="font-family: Calibri;"><span lang="ar-SA"><u><span style="font-size: large;"><strong>مخالصه وبراءة ذمه</strong></span></u></span></span></p>'
-		text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="right"><br /><br /></p>'
-		text += '<p dir="rtl" style="margin-bottom: 0in; line-height: 115%;" align="right"><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">نقر نحن </span></span></span><span style="font-size: large;">: </span> <span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">بأنه قد تم التخالص فيما بيننا وبين السيد </span></span></span><span style="font-size: large;">/ </span> <span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">عن الفترة السابقه التي قام فيها بإستئجار الشقه </span></span></span><span style="font-size: large;">( $_property ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">رقم </span></span></span><span style="font-size: large;">( </span><span style="font-size: large;"> ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">عقار</span></span></span><span style="font-size: large;">( ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">قطعة </span></span></span><span style="font-size: large;">( ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">شارع </span></span></span><span style="font-size: large;">( $_street ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">بمنطقة </span></span></span><span style="font-size: large;">( $_city ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">وذلك لرغبته بإنهاء العلاقه الإيجاريه والتنازل عن العقد في </span></span></span><span style="font-size: large;">/ / 2018 </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">م </span></span></span><span style="font-size: large;">.</span></p>'
-		text += '<p dir="rtl" style="margin-bottom: 0in; line-height: 100%;" align="justify"><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">ومن ثم نبرئ ذمته من كافة الحقوق الماليه أو أي إلتزامات أخرى من أي نوع تجاهنا ، وانه لا يحق لنا الرجوع عليه بأي حال من الأحوال قضائياً بأي مطالبه تخص هذا الموضوع </span></span></span><span style="font-size: large;">.</span></p>'
-		text += '<p dir="rtl" style="margin-bottom: 0in; line-height: 100%;" align="right">&nbsp;</p>'
-		text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="justify"><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">وهذه براءة ذمة منا بذلك ،،،،</span></span></span></p>'
-		text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="right"><br /><br /></p>'
-		text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="center"><a name="_GoBack"></a> <span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;"><strong>المقر بما فيه </strong></span></span></span></p>'
-		text += '<p style="margin-bottom: 0.14in; line-height: 115%;"><br /><br /></p>'
-		text += ''
-		text += ''
-		text += ''
+	# @api.onchange('tenancy_id')
+	# def _get_template_text(self):
+	# 	text = '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="right"><br /><br /></p>'
+	# 	text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="right"><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;"><strong>الكويت في </strong></span></span></span><span style="font-size: large;"><strong>: / / 2018 </strong></span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;"><strong>م </strong></span></span></span></p>'
+	# 	text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="right"><br /><br /></p>'
+	# 	text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="center"><span style="font-family: Calibri;"><span lang="ar-SA"><u><span style="font-size: large;"><strong>مخالصه وبراءة ذمه</strong></span></u></span></span></p>'
+	# 	text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="right"><br /><br /></p>'
+	# 	text += '<p dir="rtl" style="margin-bottom: 0in; line-height: 115%;" align="right"><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">نقر نحن </span></span></span><span style="font-size: large;">: </span> <span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">بأنه قد تم التخالص فيما بيننا وبين السيد </span></span></span><span style="font-size: large;">/ </span> <span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">عن الفترة السابقه التي قام فيها بإستئجار الشقه </span></span></span><span style="font-size: large;">( $_property ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">رقم </span></span></span><span style="font-size: large;">( </span><span style="font-size: large;"> ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">عقار</span></span></span><span style="font-size: large;">( ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">قطعة </span></span></span><span style="font-size: large;">( ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">شارع </span></span></span><span style="font-size: large;">( $_street ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">بمنطقة </span></span></span><span style="font-size: large;">( $_city ) </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">وذلك لرغبته بإنهاء العلاقه الإيجاريه والتنازل عن العقد في </span></span></span><span style="font-size: large;">/ / 2018 </span><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">م </span></span></span><span style="font-size: large;">.</span></p>'
+	# 	text += '<p dir="rtl" style="margin-bottom: 0in; line-height: 100%;" align="justify"><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">ومن ثم نبرئ ذمته من كافة الحقوق الماليه أو أي إلتزامات أخرى من أي نوع تجاهنا ، وانه لا يحق لنا الرجوع عليه بأي حال من الأحوال قضائياً بأي مطالبه تخص هذا الموضوع </span></span></span><span style="font-size: large;">.</span></p>'
+	# 	text += '<p dir="rtl" style="margin-bottom: 0in; line-height: 100%;" align="right">&nbsp;</p>'
+	# 	text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="justify"><span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;">وهذه براءة ذمة منا بذلك ،،،،</span></span></span></p>'
+	# 	text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="right"><br /><br /></p>'
+	# 	text += '<p dir="rtl" style="margin-bottom: 0.14in; line-height: 115%;" align="center"><a name="_GoBack"></a> <span style="font-family: Calibri;"><span lang="ar-SA"><span style="font-size: large;"><strong>المقر بما فيه </strong></span></span></span></p>'
+	# 	text += '<p style="margin-bottom: 0.14in; line-height: 115%;"><br /><br /></p>'
+	# 	text += ''
+	# 	text += ''
+	# 	text += ''
 
-		text += ''
-		self.temp = text
+	# 	text += ''
+	# 	self.temp = text
 
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print self.temp
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
-		print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print self.temp
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
+	# 	print "                                         "
