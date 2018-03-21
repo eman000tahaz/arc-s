@@ -423,3 +423,10 @@ class account_analytic_account(models.Model):
 							'rel_tenant_id':tenancy_rec.tenant_id.id
 							})
 		return self.write({'rent_entry_chck':True})
+
+	@api.multi
+	def action_get_template(self):
+		action = self.env.ref('realestate_contract.tenancy_contract_action').read()[0]
+		tenancy_id = self.id
+		action['domain'] = [('tenancy_id.id', '=', tenancy_id)]
+		return action
