@@ -8,3 +8,4 @@ import analytic_account
 import asset
 import account_category
 import commesion
+import wallet

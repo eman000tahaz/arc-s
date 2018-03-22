@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!--###########################################################
+			###						 Views   						###
+			###########################################################-->
+		<record id="wallet_form_view" model="ir.ui.view">
+			<field name="name">wallet.form.view</field>
+			<field name="model">realestate.wallet</field>
+			<field name="arch" type="xml">
+				<form string="Wallet View">
+					<sheet>
+						<label for="name" string="Name"/>
+						<field name='name' required="1"/>
+						<notebook>
+							<page string="Properties">
+								<field name="property_ids" widget="many2many"/>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="wallet_tree_view" model="ir.ui.view">
+			<field name="name">wallet.tree.view</field>
+			<field name="model">realestate.wallet</field>
+			<field name="arch" type="xml">
+				<tree string="Wallet View">
+					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+
+		<!--###########################################################
+			###						Actions 						###
+			###########################################################-->
+
+		<record id="wallet_action" model="ir.actions.act_window">
+			<field name="name">Wallet</field>
+			<field name="res_model">realestate.wallet</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{}</field>
+			<field name="domain">[]</field>
+		</record>
+
+		<!--###########################################################
+			###						MenuItems						###
+			###########################################################-->
+
+		<menuitem name="Wallet" id="wallet_menu" parent="menu_property_sub" action="wallet_action"/>
+
+
+	</data>
+</odoo>

@@ -13,3 +13,4 @@ import tenancy_detail
 import tenancy_final_detail
 import tenancy_detail_by_tenant
 import tenancy_final_detail_ar
+import realestate_wallet

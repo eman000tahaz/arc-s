@@ -289,6 +289,7 @@ class account_asset_asset(models.Model):
 	rent_type_id = fields.Many2one('rent.type', 'Rent Type')
 	lat = fields.Float('Latitude')
 	lon = fields.Float('Longitude')
+	wallet_id = fields.Many2one('realestate.wallet', 'Wallet')
 
 	@api.model
 	def create(self, vals):

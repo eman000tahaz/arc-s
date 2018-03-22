@@ -49,6 +49,9 @@
         'report/occupancy_performance_report_view.xml',
         'views/crm_lead_views.xml',
         'views/sale_views.xml',
+        'views/wallet_views.xml',
+        'report/report_realestate_wallet.xml',
+        'wizard/realestate_wallet.xml',
     ],
     'demo': [
         'data/account_asset_demo.xml',

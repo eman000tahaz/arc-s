@@ -23,6 +23,7 @@
 									<field name="name" default_focus="1" placeholder="Name"/>
 								</h1>
 								<b><field name="code" readonly="1" string="Code" placeholder="Code"/></b>
+								<field name="wallet_id"/>
 							</div>
 						</div>
 						<div  class="oe_right oe_button_box">

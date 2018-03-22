@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<template id="report_realestate_wallet">
+		<t t-call="report.html_container">
+	        <t t-call="report.internal_layout">
+	            <div class="page">
+	            	<h2 class="text-center">Wallet : <span t-esc="wallet['name']"/></h2>
+	            	<br></br>
+	            	<br></br>
+	            	<table class="table table-condensed" style="table-layout: fixed;">
+	                    <thead>
+	                        <tr>
+	                            <th>Name</th>
+	                            <th>Category</th>
+	                            <th>Furnishing</th>
+	                            <th>Gross Value</th>
+	                            <th>State</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                    	<tr t-foreach="records" t-as="record">
+	                    		<td> <span t-esc="record['name']"/></td>
+	                    		<td> <span t-esc="record['category_id'].name"/></td>
+	                    		<td> <span t-esc="record['furnished']"/></td>
+	                    		<td> <span t-esc="record['value']"/></td>
+	                    		<td> <span t-esc="record['state']"/></td>
+	                    	</tr>
+	                    </tbody>
+	                </table>
+	            	
+
+	            </div>
+	        </t>
+	    </t>
+	</template>
+</odoo>

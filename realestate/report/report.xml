@@ -83,5 +83,12 @@
 	            name="realestate.report_tenancy_final_by_property_ar"
 	            menu="False" />
 
+	    <!--Report for Property By Wallet -->
+	    <report id="report_realestate_wallet_action"
+	            string="Property By Wallet"
+	            model="realestate.wallet.report"
+	            report_type="qweb-pdf"
+	            file="realestate.report_realestate_wallet"
+	            name="realestate.report_realestate_wallet"/>
     </data>
 </odoo>
