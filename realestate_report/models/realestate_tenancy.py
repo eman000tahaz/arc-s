@@ -27,6 +27,11 @@ class tenancy_report(models.AbstractModel):
             else:
                 st_date = account.date_start
 
+            val_1 = unicode(account.name)
+            val_2 = unicode(account.property_id.name)
+            val_3 = unicode(account.tenant_id.name)
+
+
             dic = {
                 'unfoldable': False,
                 'unfolded': None,
@@ -36,7 +41,7 @@ class tenancy_report(models.AbstractModel):
                 #'colspan': 4,
                 'type': 'line',  
                 'id': account.id, 
-                'columns': [str(account.ten_date), str(account.name), str(account.property_id.name), str(account.tenant_id.name), st_date, str(account.date), str(account.rent)] 
+                'columns': [account.ten_date, val_1, val_2, val_3, st_date, account.date, str(account.rent)] 
             }
 
             lines.append(dic)    
