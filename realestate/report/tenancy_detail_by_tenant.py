@@ -8,7 +8,7 @@ class report_tenbytenant(models.AbstractModel):
 
 	def get_details(self, start_date, end_date, tenant_id):
 		tenancy_obj = self.env['account.analytic.account']
-		tenancy_ids = tenancy_obj.search([('tenant_id','=',tenant_id[0]),('date_start','>=',start_date),('date_start','<=',end_date),('is_property','=',True)])
+		tenancy_ids = tenancy_obj.search([('tenant_id','=',tenant_id[0]),('date_start','>=',start_date),('date','<=',end_date),('is_property','=',True)])
 		return tenancy_ids
 
 	@api.model

@@ -41,8 +41,8 @@
 								</tr>
 								<tr t-foreach="records" t-as="t">
 									<td><span t-field="t.property_id.name"/></td>
-									<td><span t-esc="formatLang(t.date_start,date=True)"/></td> 
-									<td><span t-esc="formatLang(t.date,date=True)"/></td>
+									<td><span t-esc="t.date_start"/></td> 
+									<td><span t-esc="t.date"/></td>
 									<td class="text-left"><span t-field="t.rent"/></td>
 									<td class="text-left"><span t-field="t.deposit"/></td>
 									<td><span t-field="t.rent_type_id.name"/>&#160;<span t-field="t.rent_type_id.renttype"/></td>

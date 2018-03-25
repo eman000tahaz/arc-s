@@ -40,13 +40,13 @@
 									<td><strong>State</strong></td>
 								</tr>
 								<tr t-foreach="records" t-as="t">
-									<td><span t-field="t.name"/></td>
-									<td><span t-field="t.tenant_id.name"/></td>
-									<td><span t-esc="formatLang(t.date_start,date=True)"/></td> 
-									<td><span t-esc="formatLang(t.date,date=True)"/></td>
-									<td><span t-field="t.rent"/></td>
-									<td><span t-field="t.rent_type_id.name"/>&#160;<span t-field="t.rent_type_id.renttype"/></td>
-									<td><span t-field="t.state"/></td>
+									<td><span t-esc="t['name']"/></td>
+									<td><span t-esc="t['tenant_id'].name"/></td>
+									<td><span t-esc="t['date_start']"/></td> 
+									<td><span t-esc="t['date']"/></td>
+									<td><span t-esc="t['rent']"/></td>
+									<td><span t-esc="t['rent_type_id'].name"/>&#160;<span t-esc="t['rent_type_id'].renttype"/></td>
+									<td><span t-esc="t['state']"/></td>
 								</tr>
 							</table>
 						</div>
