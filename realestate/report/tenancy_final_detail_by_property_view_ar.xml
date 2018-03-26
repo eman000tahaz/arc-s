@@ -87,6 +87,19 @@
                                 </td>
                             </tr>
                             <t t-set="basic_rent" t-value="0"/>
+                            <t t-set="current_reserve_rent" t-value="0"/>
+                            <t t-set="months_before_reserve_rent" t-value="0"/>
+                            <t t-set="years_before_reserve_rent" t-value="0"/>
+                            <t t-set="Advance_Balance" t-value="0"/>
+                            <t t-set="current_paid_rent" t-value="0"/>
+                            <t t-set="months_before_paid_rent" t-value="0"/>
+                            <t t-set="advance_paid_rent" t-value="0"/>
+                            <t t-set="from_advance_paid_rent" t-value="0"/>
+                            <t t-set="other_income" t-value="0"/>
+                            <t t-set="delay_on_pay" t-value="0"/>
+                            <t t-set="delay_on_current_pay" t-value="0"/>
+                            <t t-set="unoccupied" t-value="0"/>
+                            <t t-set="insurance" t-value="0"/>
                             <tr t-foreach="current_month_deserved"
                                 t-as="t">
                                 <td>
@@ -101,42 +114,55 @@
                                 </td>
                                 <td>
                                     <span t-esc="t['current_reserve_rent']"/>
+                                    <t t-set="current_reserve_rent" t-value="current_reserve_rent + t['current_reserve_rent']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['months_before_reserve_rent']"/>
+                                    <t t-set="months_before_reserve_rent" t-value="months_before_reserve_rent + t['months_before_reserve_rent']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['years_before_reserve_rent']"/>
+                                    <t t-set="years_before_reserve_rent" t-value="years_before_reserve_rent + t['years_before_reserve_rent']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['Advance_Balance']"/>
+                                    <t t-set="Advance_Balance" t-value="Advance_Balance + t['Advance_Balance']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['current_paid_rent']"/>
+                                    <t t-set="current_paid_rent" t-value="current_paid_rent + t['current_paid_rent']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['months_before_paid_rent']"/>
+                                    <t t-set="months_before_paid_rent" t-value="months_before_paid_rent + t['months_before_paid_rent']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['advance_paid_rent']"/>
+                                    <t t-set="advance_paid_rent" t-value="advance_paid_rent + t['advance_paid_rent']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['from_advance_paid_rent']"/>
+                                    <t t-set="from_advance_paid_rent" t-value="from_advance_paid_rent + t['from_advance_paid_rent']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['other_income']"/>
+                                    <t t-set="other_income" t-value="other_income + t['other_income']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['delay_on_pay']"/>
+                                    <t t-set="delay_on_pay" t-value="delay_on_pay + t['delay_on_pay']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['delay_on_current_pay']"/>
+                                    <t t-set="delay_on_current_pay" t-value="delay_on_current_pay + t['delay_on_current_pay']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['unoccupied']"/>
+                                    <t t-set="unoccupied" t-value="unoccupied + t['unoccupied']"/>
                                 </td>
                                 <td>
                                     <span t-esc="t['insurance']"/>
+                                    <t t-set="insurance" t-value="insurance + t['insurance']"/>
                                 </td>
                                 <td></td>
                             </tr>
@@ -155,67 +181,67 @@
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['current_reserve_rent']"/>
+                                        <span t-esc="current_reserve_rent"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['months_before_reserve_rent']"/>
+                                        <span t-esc="months_before_reserve_rent"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['years_before_reserve_rent']"/>
+                                        <span t-esc="years_before_reserve_rent"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['Advance_Balance']"/>
+                                        <span t-esc="Advance_Balance"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['current_paid_rent']"/>
+                                        <span t-esc="current_paid_rent"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['months_before_paid_rent']"/>
+                                        <span t-esc="months_before_paid_rent"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['advance_paid_rent']"/>
+                                        <span t-esc="advance_paid_rent"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['from_advance_paid_rent']"/>
+                                        <span t-esc="from_advance_paid_rent"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['other_income']"/>
+                                        <span t-esc="other_income"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['delay_on_pay']"/>
+                                        <span t-esc="delay_on_pay"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['delay_on_current_pay']"/>
+                                        <span t-esc="delay_on_current_pay"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['unoccupied']"/>
+                                        <span t-esc="unoccupied"/>
                                     </strong>
                                 </td>
                                 <td>
                                     <strong>
-                                        <span t-esc="total['insurance']"/>
+                                        <span t-esc="insurance"/>
                                     </strong>
                                 </td>
                                 <td>
