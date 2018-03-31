@@ -117,6 +117,8 @@ class account_analytic_account(models.Model):
 								'Status', required=True,copy=False, default='draft')
 	sched = fields.Selection([('start_date', 'Start Date'), ('chosen_date', 'Chosen Date')], string='Schedule Start From', default='start_date')
 	sched_date = fields.Date('Date')
+	renter = fields.Many2one('res.partner', 'Renter')
+	renter_company = fields.Many2one('res.partner', 'Renter Company', domain=[('is_company', '=', True)])
 
 	@api.model
 	def create(self, vals):

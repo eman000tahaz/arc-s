@@ -22,6 +22,8 @@ class tenant_partner(models.Model):
 	tenancy_ids =fields.One2many('account.analytic.account', 'tenant_id', 'Tenancy Details', help='Tenancy Details')
 	parent_id = fields.Many2one('res.partner', 'Partner', required=True, select=True, ondelete='cascade')
 	tenant_ids =fields.Many2many('tenant.partner', 'agent_tenant_rel', 'agent_id', 'tenant_id', string='Tenant Details',domain=[('customer', '=',True),('agent','=',False)])
+	work_address = fields.Char('Work Address')
+	civil_no = fields.Char('Civil Number')
 
 	@api.model
 	def create(self, vals):
@@ -175,6 +177,18 @@ class property_maintenace(models.Model):
 	_name = "property.maintenance"
 	_inherit = ['mail.thread']
 
+	@api.onchange('item_ids')
+	def _get_items_cost(self):
+		cost = 0.0
+		if self.item_ids:
+			for item in self.item_ids:
+				cost += (item.cost * item.quantity)
+		self.items_cost = cost
+
+	@api.onchange('items_cost', 'cost')
+	def _get_total_cost(self):
+		self.total_cost = self.cost + self.items_cost 
+	
 	date = fields.Date('Date', default=fields.Date.context_today)
 	cost = fields.Float('Cost')
 	type = fields.Many2one('maintenance.type', 'Type')
@@ -193,7 +207,9 @@ class property_maintenace(models.Model):
 	name = fields.Selection([('Renew','Renew'),('Repair','Repair')],string="Action",default='Repair')
 	state = fields.Selection([('draft', 'Draft'), ('progress', 'In Progress'), ('incomplete', 'Incomplete'), ('done', 'Done')],
 							'State',default='draft')
-
+	item_ids = fields.One2many('maintenance.item', 'maintenance_id', string='Items')
+	items_cost = fields.Float('Items Cost')
+	total_cost = fields.Float('Total Cost')
 	@api.multi
 	def start_maint(self):
 		"""
@@ -245,13 +261,30 @@ class property_maintenace(models.Model):
 				raise Warning(_("No current tenancy for this property"))
 			else:
 				for tenancy_data in tncy_ids:
-					inv_line_values = {
+					inv_line_values = []
+					maintenance_value = {
 							'name': 'Maintenance For ' + data.type.name or "",
 							'origin': 'property.maintenance',
 							'quantity': 1,
 							'account_id' : data.property_id.income_acc_id.id or False,
 							'price_unit': data.cost or 0.00,
 							}
+					inv_line_values.append(maintenance_value)
+					
+					for item in data.item_ids:
+						item_value = {
+							'name': item.name or "",
+							'origin': 'property.maintenance',
+							'quantity': item.quantity,
+							'account_id' : data.property_id.income_acc_id.id or False,
+							'price_unit': item.cost or 0.00,
+						}
+						inv_line_values.append(item_value)
+
+					invoice_line_ids = []
+					for value in inv_line_values:
+						line_id = (0, 0, value)
+						invoice_line_ids.append(line_id)
 
 					inv_type = self._context.get('type', 'out_invoice')
 					inv_types = inv_type if isinstance(inv_type, list) else [inv_type]
@@ -267,7 +300,7 @@ class property_maintenace(models.Model):
 							'property_id':data.property_id.id,
 							'partner_id' : tenancy_data.tenant_id.parent_id.id or False,
 							'account_id' : tenancy_data.tenant_id.parent_id.property_account_receivable_id.id or False,
-							'invoice_line_ids': [(0, 0, inv_line_values)],
+							'invoice_line_ids': invoice_line_ids,
 							'amount_total' : data.cost or 0.0,
 							'date_invoice' : datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT) or False,
 							'number': tenancy_data.name or '',
@@ -848,13 +881,14 @@ class tenancy_rent_schedule(models.Model):
 				current_currency = line.tenancy_id.currency_id.id
 				sign = -1
 				move_vals = {
-						'name':line.tenancy_id.ref or False,
+						'name':line.tenancy_id.ref or line.tenancy_id.name or " ",
 						'date': depreciation_date,
 						'schedule_date':line.start_date,
 						'journal_id': line.tenancy_id.property_id.property_commession.journal_id.id,
 						'asset_id': line.tenancy_id.property_id.id or False,
 						'source':line.tenancy_id.name or False,
 						}
+						
 				commession_move_id = self.env['account.move'].create(move_vals)
 				if not line.tenancy_id.property_id.property_commession.journal_id.id:
 					raise Warning(_('Please Configure Commession Account from Property'))

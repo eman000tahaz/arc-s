@@ -253,7 +253,8 @@ class account_asset_asset(models.Model):
 	current_tenant_id = fields.Many2one('tenant.partner','Current Tenant')
 	country_id = fields.Many2one('res.country', 'Country', ondelete='restrict')
 	state_id = fields.Many2one("res.country.state", 'State', ondelete='restrict')
-	type_id = fields.Many2one('property.type', 'Property Type',help='Property Type.')
+	#type_id = fields.Many2one('property.type', 'Property Type',help='Property Type.')
+	type_id = fields.Selection([('building', 'Building'), ('floor', 'Floor'), ('flat', 'Flat')], string='Property Type')
 	analytic_acc_id = fields.Many2one('account.analytic.account', 'Analytic Account')
 	rent_type_id = fields.Many2one('rent.type', 'Rent Type', help='Type of Rent.')
 	contact_id = fields.Many2one('tenant.partner', 'Contact Name', domain="[('tenant', '=', True)]")
@@ -290,6 +291,7 @@ class account_asset_asset(models.Model):
 	lat = fields.Float('Latitude')
 	lon = fields.Float('Longitude')
 	wallet_id = fields.Many2one('realestate.wallet', 'Wallet')
+	is_prop = fields.Boolean('Is Property')
 
 	@api.model
 	def create(self, vals):
@@ -308,7 +310,7 @@ class account_asset_asset(models.Model):
 			if parent_periods.rent_type_id and parent_periods.rent_type_id.id:
 				vals.update({'rent_type_id':parent_periods.rent_type_id.id})
 		asset_id = super(account_asset_asset, self).create(vals)
-		acc_analytic_id = self.env['account.analytic.account'].create({'name':vals['name']})
+		#acc_analytic_id = self.env['account.analytic.account'].create({'name':vals['name']})
 		return asset_id
 
 	@api.multi

@@ -33,7 +33,7 @@
 									<td><span t-field="t.name"/></td>
 									<td><span t-field="t.property_id.name"/></td> 
 									<td><span t-field="t.contact_id.name"/></td>
-									<td><span t-esc="formatLang(t.expiry_date,date=True)"/></td>
+									<td><span t-esc="t.expiry_date"/></td>
 								</tr>
 							</table>
 						</div>

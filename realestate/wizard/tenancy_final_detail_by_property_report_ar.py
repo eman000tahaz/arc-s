@@ -9,7 +9,7 @@ class tenancy_final_property_report(models.TransientModel):
 
 	start_date = fields.Date('Start date', required=True)
 	end_date = fields.Date('End date', required=True)
-	property_id = fields.Many2one('account.asset.asset','Property', required=True)
+	property_id = fields.Many2one('account.asset.asset','Property', required=True, domain=[('type_id', '=', 'building')])
 
 	@api.multi
 	def open_tenancy_by_property_gantt(self):

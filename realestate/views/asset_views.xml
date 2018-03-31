@@ -7,7 +7,7 @@
 
 <!--########################### PROPERTY ###################################-->
 		<!-- Property Form View  -->
-		<record model="ir.ui.view" id="account_asset.view_account_asset_asset_form">
+		<record id="view_account_asset_asset_form_final" model="ir.ui.view" >
 			<field name="name">account.asset.asset.form</field>
 			<field name="model">account.asset.asset</field>
 			<field name="arch" type="xml">
@@ -59,8 +59,8 @@
 								<field name="age_of_property"/>
 								<field name="no_of_towers" attrs="{'invisible':[('parent_id','!=',False)]}"/>
 								<field name="floor" attrs="{'invisible':[('parent_id','=',False)]}"/>
-								<field name="gfa_feet"/>
-								<field name="gfa_meter"/>
+								<field name="gfa_feet" attrs="{'invisible': [('type_id', '!=', 'flat')]}"/>
+								<field name="gfa_meter" attrs="{'invisible': [('type_id', '!=', 'flat')]}"/>
 								<field name="video_url" placeholder="//www.youtube.com/embed/mwuPTI8AT7M?rel=0"/>
 								<field name="currency_id"/>
 								<field name="active"/>
@@ -68,19 +68,20 @@
 							</group>
 							<group>
 								<field name="parent_id" placeholder="Parent Property"/>
-								<field name="type_id" required="1" placeholder="Property Type"/>
+								<field name="type_id" required="1"/>
 								<field name="property_manager" required="1" placeholder="Property Manager"/>
-								<field name="furnished"/>
-								<field name = "bedroom"/>
-								<field name = "bathroom"/>
-								<field name="facing"/>
-								<field name = "income_acc_id" required='1'/>
-								<field name = "expense_acc_id" required='1'/>
+								<field name="furnished" attrs="{'invisible': [('type_id', '!=', 'flat')]}"/>
+								<field name="bedroom" attrs="{'invisible': [('type_id', '!=', 'flat')]}"/>
+								<field name="bathroom" attrs="{'invisible': [('type_id', '!=', 'flat')]}"/>
+								<field name="facing" attrs="{'invisible': [('type_id', '!=', 'flat')]}"/>
+								<field name="income_acc_id" required='1'/>
+								<field name="expense_acc_id" required='1'/>
 								<field name="category_id" required='1' string="Property Category"/>
 								<field name="company_id" string="Property Management Company"/>
 								<field name="no_of_property" attrs="{'invisible':[('parent_id','=',False)]}"/>
 								<field name="simulation" invisible="1"/>
 								<field name="revenue" invisible="1"/>
+								<field name="analytic_acc_id"/>
 							</group>
 						</group>
 						
@@ -159,7 +160,7 @@
 								</field>
 							</page>
 
-							<page string="Sub Properties">
+							<page string="Sub Properties" attrs="{'invisible': [('type_id', '=', 'flat')]}">
 								<separator string="Sub Properties" colspan="4"/>
 								<field name="child_ids" attrs="{'readonly':[('state','!=','draft')]}">
 									<tree string="Properties">
@@ -742,10 +743,27 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">kanban,tree,form,graph</field>
 			<field name="search_view_id" ref="realestate.view_account_asset_search"/>
-			<field name="context">{}</field>
-			<field name="domain">[]</field>
+			<field name="context">{'default_is_prop': '1'}</field>
+			<field name="domain"></field>
+		</record>
+		
+		<!-- Update the domain to remove properties from asset view -->
+		<record id="account_asset.action_account_asset_asset_form" model="ir.actions.act_window">
+			<field name="domain">[('category_id.type', '=', 'purchase'), ('is_prop', '!=', True)]</field>
 		</record>
 
+		<record id="origin_action_property_asset_form_view" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="account_asset.view_account_asset_asset_form"/>
+			<field name="act_window_id" ref="account_asset.action_account_asset_asset_form"/>
+		</record>
+
+		<!--Action for Property Form-->
+		<record id="action_property_asset_form_view" model="ir.actions.act_window.view">
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_account_asset_asset_form_final"/>
+			<field name="act_window_id" ref="action_property_assets_view"/>
+		</record>
 
 		<!--Action for Property Tree-->
 		<record id="action_property_asset_tree_view" model="ir.actions.act_window.view">
@@ -755,7 +773,7 @@
 			<field name="act_window_id" ref="action_property_assets_view"/>
 		</record>
 
-		<!-- action for property Form-->
+		<!-- action for property kanban-->
 		<record id="action_property_asset_kanban_view" model="ir.actions.act_window.view">
 			<field eval="1" name="sequence"/>
 			<field name="view_mode">kanban</field>

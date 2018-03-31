@@ -696,17 +696,132 @@ class report_tenancy_final_byprop(models.AbstractModel):
         property_ids = property_obj.search([('parent_id', '=', property_id[0])])
         selectedyear = datetime.datetime.strptime(start_date, "%Y-%m-%d").strftime("%Y")
         for property_id_new in property_ids:
-            res = {}
-            res['property_name'] = property_id_new.name
-            res['tenant'] = 'NONE'
-            res['basic_rent'] = property_id_new.ground_rent
-            self.total_res['basic_rent'] += property_id_new.ground_rent
-            tenancy_obj = self.env['account.analytic.account']
-            tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id)])
-            if tenancy_ids:
-                for tenancy_id in tenancy_ids:
-                    res['tenant'] = tenancy_id.tenant_id.name
-                    res['basic_rent'] = tenancy_id.rent
+            if property_id_new.type_id == 'floor':
+                flats = property_obj.search([('parent_id', '=', property_id_new.id)])
+                for flat in flats:
+                    res = {}
+                    res['property_name'] = flat.name
+                    res['tenant'] = 'NONE'
+                    res['basic_rent'] = flat.ground_rent
+                    self.total_res['basic_rent'] += flat.ground_rent
+                    tenancy_obj = self.env['account.analytic.account']
+                    tenancy_ids = tenancy_obj.search([('property_id', '=', flat.id)])
+                    if tenancy_ids:
+                        for tenancy_id in tenancy_ids:
+                            res['tenant'] = tenancy_id.tenant_id.name
+                            res['basic_rent'] = tenancy_id.rent
+                            res['current_reserve_rent'] = 0
+                            res['months_before_reserve_rent'] = 0
+                            res['years_before_reserve_rent'] = 0
+                            res['Advance_Balance'] = 0
+                            res['current_paid_rent'] = 0
+                            res['months_before_paid_rent'] = 0
+                            res['advance_paid_rent'] = 0
+                            res['from_advance_paid_rent'] = 0
+                            res['other_income'] = 0
+                            res['delay_on_pay'] = 0
+                            res['delay_on_current_pay'] = 0
+                            res['unoccupied'] = 0
+                            res['insurance'] = tenancy_id.deposit
+                            res['Total'] = 0
+                            tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                            tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                            if tenancy_rent_schedule_ids:
+                                for rent in tenancy_rent_schedule_ids:
+                                    if rent.move_check and rent.start_date >= start_date and rent.end_date <= end_date:
+                                        res['current_reserve_rent'] = rent.amount
+                                    rentyear = datetime.datetime.strptime(rent.start_date, "%Y-%m-%d").strftime("%Y")
+                                    if not rent.paid_check and rent.move_check and rentyear < selectedyear:
+                                        res['years_before_reserve_rent'] += rent.amount
+                                    if not rent.paid_check and rent.move_check and rent.start_date <= start_date and rentyear == selectedyear:
+                                        res['months_before_reserve_rent'] += rent.amount
+                                    if rent.paid_check and rent.start_date >= start_date and rent.paid_id.payment_date < start_date:
+                                        res['Advance_Balance'] += rent.amount
+                                    if rent.paid_check and rent.move_check and rent.start_date >= start_date and rent.end_date <= end_date and rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
+                                        res['current_paid_rent'] += rent.amount
+                                    if rent.paid_check and rent.move_check and rent.start_date < start_date and rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
+                                        res['months_before_paid_rent'] += rent.amount
+                                    if rent.paid_check and not rent.move_check and rent.start_date > start_date and rent.paid_id.payment_date > start_date and rent.paid_id.payment_date < end_date:
+                                        res['advance_paid_rent'] += rent.amount
+                                    if rent.paid_check and rent.move_check and rent.start_date >= start_date and rent.end_date <= end_date and rent.paid_id.payment_date < start_date:
+                                        res['from_advance_paid_rent'] += rent.amount
+                                    if not rent.paid_check and rent.move_check and rent.start_date >= start_date and rent.start_date <= end_date:
+                                        res['delay_on_current_pay'] = rent.amount
+                                        res['delay_on_pay'] += rent.amount
+                                    if not rent.paid_check and rent.move_check and rent.start_date < start_date:
+                                        res['delay_on_pay'] += rent.amount
+                                res['Total'] = res['current_paid_rent'] + res['months_before_paid_rent'] + res['advance_paid_rent'] + res['insurance']
+                    else:
+                        res['current_reserve_rent'] = 0
+                        res['months_before_reserve_rent'] = 0
+                        res['years_before_reserve_rent'] = 0
+                        res['Advance_Balance'] = 0
+                        res['current_paid_rent'] = 0
+                        res['months_before_paid_rent'] = 0
+                        res['advance_paid_rent'] = 0
+                        res['from_advance_paid_rent'] = 0
+                        res['other_income'] = 0
+                        res['delay_on_pay'] = 0
+                        res['delay_on_current_pay'] = 0
+                        res['unoccupied'] = flat.ground_rent
+                        res['insurance'] = 0
+                        res['Total'] = 0
+
+
+            else:
+                res = {}
+                res['property_name'] = property_id_new.name
+                res['tenant'] = 'NONE'
+                res['basic_rent'] = property_id_new.ground_rent
+                self.total_res['basic_rent'] += property_id_new.ground_rent
+                tenancy_obj = self.env['account.analytic.account']
+                tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id)])
+                if tenancy_ids:
+                    for tenancy_id in tenancy_ids:
+                        res['tenant'] = tenancy_id.tenant_id.name
+                        res['basic_rent'] = tenancy_id.rent
+                        res['current_reserve_rent'] = 0
+                        res['months_before_reserve_rent'] = 0
+                        res['years_before_reserve_rent'] = 0
+                        res['Advance_Balance'] = 0
+                        res['current_paid_rent'] = 0
+                        res['months_before_paid_rent'] = 0
+                        res['advance_paid_rent'] = 0
+                        res['from_advance_paid_rent'] = 0
+                        res['other_income'] = 0
+                        res['delay_on_pay'] = 0
+                        res['delay_on_current_pay'] = 0
+                        res['unoccupied'] = 0
+                        res['insurance'] = tenancy_id.deposit
+                        res['Total'] = 0
+                        tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                        tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                        if tenancy_rent_schedule_ids:
+                            for rent in tenancy_rent_schedule_ids:
+                                if rent.move_check and rent.start_date >= start_date and rent.end_date <= end_date:
+                                    res['current_reserve_rent'] = rent.amount
+                                rentyear = datetime.datetime.strptime(rent.start_date, "%Y-%m-%d").strftime("%Y")
+                                if not rent.paid_check and rent.move_check and rentyear < selectedyear:
+                                    res['years_before_reserve_rent'] += rent.amount
+                                if not rent.paid_check and rent.move_check and rent.start_date <= start_date and rentyear == selectedyear:
+                                    res['months_before_reserve_rent'] += rent.amount
+                                if rent.paid_check and rent.start_date >= start_date and rent.paid_id.payment_date < start_date:
+                                    res['Advance_Balance'] += rent.amount
+                                if rent.paid_check and rent.move_check and rent.start_date >= start_date and rent.end_date <= end_date and rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
+                                    res['current_paid_rent'] += rent.amount
+                                if rent.paid_check and rent.move_check and rent.start_date < start_date and rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
+                                    res['months_before_paid_rent'] += rent.amount
+                                if rent.paid_check and not rent.move_check and rent.start_date > start_date and rent.paid_id.payment_date > start_date and rent.paid_id.payment_date < end_date:
+                                    res['advance_paid_rent'] += rent.amount
+                                if rent.paid_check and rent.move_check and rent.start_date >= start_date and rent.end_date <= end_date and rent.paid_id.payment_date < start_date:
+                                    res['from_advance_paid_rent'] += rent.amount
+                                if not rent.paid_check and rent.move_check and rent.start_date >= start_date and rent.start_date <= end_date:
+                                    res['delay_on_current_pay'] = rent.amount
+                                    res['delay_on_pay'] += rent.amount
+                                if not rent.paid_check and rent.move_check and rent.start_date < start_date:
+                                    res['delay_on_pay'] += rent.amount
+                            res['Total'] = res['current_paid_rent'] + res['months_before_paid_rent'] + res['advance_paid_rent'] + res['insurance']
+                else:
                     res['current_reserve_rent'] = 0
                     res['months_before_reserve_rent'] = 0
                     res['years_before_reserve_rent'] = 0
@@ -718,52 +833,9 @@ class report_tenancy_final_byprop(models.AbstractModel):
                     res['other_income'] = 0
                     res['delay_on_pay'] = 0
                     res['delay_on_current_pay'] = 0
-                    res['unoccupied'] = 0
-                    res['insurance'] = tenancy_id.deposit
+                    res['unoccupied'] = property_id_new.ground_rent
+                    res['insurance'] = 0
                     res['Total'] = 0
-                    tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
-                    tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
-                    if tenancy_rent_schedule_ids:
-                        for rent in tenancy_rent_schedule_ids:
-                            if rent.move_check and rent.start_date >= start_date and rent.end_date <= end_date:
-                                res['current_reserve_rent'] = rent.amount
-                            rentyear = datetime.datetime.strptime(rent.start_date, "%Y-%m-%d").strftime("%Y")
-                            if not rent.paid_check and rent.move_check and rentyear < selectedyear:
-                                res['years_before_reserve_rent'] += rent.amount
-                            if not rent.paid_check and rent.move_check and rent.start_date <= start_date and rentyear == selectedyear:
-                                res['months_before_reserve_rent'] += rent.amount
-                            if rent.paid_check and rent.start_date >= start_date and rent.paid_id.payment_date < start_date:
-                                res['Advance_Balance'] += rent.amount
-                            if rent.paid_check and rent.move_check and rent.start_date >= start_date and rent.end_date <= end_date and rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
-                                res['current_paid_rent'] += rent.amount
-                            if rent.paid_check and rent.move_check and rent.start_date < start_date and rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
-                                res['months_before_paid_rent'] += rent.amount
-                            if rent.paid_check and not rent.move_check and rent.start_date > start_date and rent.paid_id.payment_date > start_date and rent.paid_id.payment_date < end_date:
-                                res['advance_paid_rent'] += rent.amount
-                            if rent.paid_check and rent.move_check and rent.start_date >= start_date and rent.end_date <= end_date and rent.paid_id.payment_date < start_date:
-                                res['from_advance_paid_rent'] += rent.amount
-                            if not rent.paid_check and rent.move_check and rent.start_date >= start_date and rent.start_date <= end_date:
-                                res['delay_on_current_pay'] = rent.amount
-                                res['delay_on_pay'] += rent.amount
-                            if not rent.paid_check and rent.move_check and rent.start_date < start_date:
-                                res['delay_on_pay'] += rent.amount
-                        res['Total'] = res['current_paid_rent'] + res['months_before_paid_rent'] + res[
-                            'advance_paid_rent'] + res['insurance']
-            else:
-                res['current_reserve_rent'] = 0
-                res['months_before_reserve_rent'] = 0
-                res['years_before_reserve_rent'] = 0
-                res['Advance_Balance'] = 0
-                res['current_paid_rent'] = 0
-                res['months_before_paid_rent'] = 0
-                res['advance_paid_rent'] = 0
-                res['from_advance_paid_rent'] = 0
-                res['other_income'] = 0
-                res['delay_on_pay'] = 0
-                res['delay_on_current_pay'] = 0
-                res['unoccupied'] = property_id_new.ground_rent
-                res['insurance'] = 0
-                res['Total'] = 0
             self.total_res['current_reserve_rent'] += res['current_reserve_rent']
             self.profit_loss_account['rental_income_current'] += res['current_reserve_rent']
             self.profit_loss_account['realestate_fees_current'] -= res['current_reserve_rent'] * 0.03
@@ -781,6 +853,8 @@ class report_tenancy_final_byprop(models.AbstractModel):
             self.total_res['insurance'] += res['insurance']
             self.total_res['Total'] += res['Total']
             result.append(res)
+
+        result = {v['property_name'] and v['tenant']:v for v in result}.values()
         return result
 
     def get_maintenance_details(self, start_date, end_date, property_id):
@@ -789,21 +863,37 @@ class report_tenancy_final_byprop(models.AbstractModel):
         property_ids = property_obj.search([('parent_id', '=', property_id[0])])
         # selectedyear =  datetime.datetime.strptime(start_date, "%Y-%m-%d").strftime("%Y")
         for property_id_new in property_ids:
-            self.total_res['basic_rent'] += property_id_new.ground_rent
-            property_maintenance_obj = self.env['property.maintenance']
-            property_maintenance_ids = property_maintenance_obj.search([('property_id', '=', property_id_new.id),
-                                                                        ('date', '>=', start_date),
-                                                                        ('date', '<=', end_date)])
-            if property_maintenance_ids:
-                for property_maintenance_id in property_maintenance_ids:
-                    res = {}
-                    res['property_name'] = property_id_new.name
-                    res['type'] = property_maintenance_id.type.name
-                    res['cost'] = property_maintenance_id.cost
-                    res['notes'] = property_maintenance_id.notes
-                    self.total_res['total_maintenance'] += res['cost']
-                    self.profit_loss_account['expenses_current'] += res['cost']
-                    result.append(res)
+            if property_id_new.type_id == 'floor':
+                flats = property_obj.search([('parent_id', '=', property_id_new.id)])
+                for flat in flats:
+                    self.total_res['basic_rent'] += flat.ground_rent
+                    property_maintenance_obj = self.env['property.maintenance']
+                    property_maintenance_ids = property_maintenance_obj.search([('property_id', '=', flat.id), ('date', '>=', start_date), ('date', '<=', end_date)])
+                    
+                    if property_maintenance_ids:
+                        for property_maintenance_id in property_maintenance_ids:
+                            res = {}
+                            res['property_name'] = flat.name
+                            res['type'] = property_maintenance_id.type.name
+                            res['cost'] = property_maintenance_id.cost
+                            res['notes'] = property_maintenance_id.notes
+                            self.total_res['total_maintenance'] += res['cost']
+                            self.profit_loss_account['expenses_current'] += res['cost']
+                            result.append(res)
+            else:
+                self.total_res['basic_rent'] += property_id_new.ground_rent
+                property_maintenance_obj = self.env['property.maintenance']
+                property_maintenance_ids = property_maintenance_obj.search([('property_id', '=', property_id_new.id), ('date', '>=', start_date), ('date', '<=', end_date)])
+                if property_maintenance_ids:
+                    for property_maintenance_id in property_maintenance_ids:
+                        res = {}
+                        res['property_name'] = property_id_new.name
+                        res['type'] = property_maintenance_id.type.name
+                        res['cost'] = property_maintenance_id.cost
+                        res['notes'] = property_maintenance_id.notes
+                        self.total_res['total_maintenance'] += res['cost']
+                        self.profit_loss_account['expenses_current'] += res['cost']
+                        result.append(res)
         return result
 
     def get_insurance_details(self, start_date, end_date, property_id):
@@ -812,37 +902,73 @@ class report_tenancy_final_byprop(models.AbstractModel):
         property_ids = property_obj.search([('parent_id', '=', property_id[0])])
         selectedyear = datetime.datetime.strptime(start_date, "%Y-%m-%d").strftime("%Y")
         for property_id_new in property_ids:
-            self.total_res['basic_rent'] += property_id_new.ground_rent
-            tenancy_obj = self.env['account.analytic.account']
-            tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id)])
-            if tenancy_ids:
-                for tenancy_id in tenancy_ids:
-                    res = {}
-                    res['property_name'] = property_id_new.name
-                    res['tenant'] = tenancy_id.tenant_id.name
-                    res['nationality'] = tenancy_id.tenant_id.country_id.name
-                    res['start_date'] = tenancy_id.date_start
-                    res['insurance'] = tenancy_id.deposit
-                    res['convert_to_rent'] = 0
-                    res['insurance_returned'] = 0
-                    res['other_income'] = 0
-                    res['new_insurance'] = 0
-                    res['insurance_balance'] = 0
-                    if tenancy_id.deposit_return and tenancy_id.acc_pay_dep_ret_id.payment_date >= start_date and tenancy_id.acc_pay_dep_ret_id.payment_date <= end_date:
-                        res['insurance_returned'] = -1 * tenancy_id.acc_pay_dep_ret_id.amount
-                    if tenancy_id.deposit_received and tenancy_id.acc_pay_dep_rec_id.payment_date >= start_date and tenancy_id.acc_pay_dep_rec_id.payment_date <= end_date:
-                        res['new_insurance'] = tenancy_id.acc_pay_dep_rec_id.amount
-                        res['insurance'] = 0
-                    res['insurance_balance'] = res['new_insurance'] + res['insurance'] + res['insurance_returned']
+            if property_id_new.type_id == 'floor':
+                flats = property_obj.search([('parent_id', '=', property_id_new.id)])
+                for flat in flats:
+                    self.total_res['basic_rent'] += flat.ground_rent
+                    tenancy_obj = self.env['account.analytic.account']
+                    tenancy_ids = tenancy_obj.search([('property_id', '=', flat.id)])
+                    if tenancy_ids:
+                        for tenancy_id in tenancy_ids:
+                            res = {}
+                            res['property_name'] = flat.name
+                            res['tenant'] = tenancy_id.tenant_id.name
+                            res['nationality'] = tenancy_id.tenant_id.country_id.name
+                            res['start_date'] = tenancy_id.date_start
+                            res['insurance'] = tenancy_id.deposit
+                            res['convert_to_rent'] = 0
+                            res['insurance_returned'] = 0
+                            res['other_income'] = 0
+                            res['new_insurance'] = 0
+                            res['insurance_balance'] = 0
+                            if tenancy_id.deposit_return and tenancy_id.acc_pay_dep_ret_id.payment_date >= start_date and tenancy_id.acc_pay_dep_ret_id.payment_date <= end_date:
+                                res['insurance_returned'] = -1 * tenancy_id.acc_pay_dep_ret_id.amount
+                            if tenancy_id.deposit_received and tenancy_id.acc_pay_dep_rec_id.payment_date >= start_date and tenancy_id.acc_pay_dep_rec_id.payment_date <= end_date:
+                                res['new_insurance'] = tenancy_id.acc_pay_dep_rec_id.amount
+                                res['insurance'] = 0
+                            res['insurance_balance'] = res['new_insurance'] + res['insurance'] + res['insurance_returned']
 
-                    self.total_insurance['total_insurnace'] += res['new_insurance']
-                    self.total_insurance['total_convert_to_rent'] += res['convert_to_rent']
-                    self.total_insurance['total_insurance_returned'] += res['insurance_returned']
-                    self.total_insurance['total_other_income'] += res['other_income']
-                    self.profit_loss_account['other_revenue_current'] += res['other_income']
-                    self.total_insurance['total_new_insurance'] += res['new_insurance']
-                    self.total_insurance['total_insurance_balance'] += res['insurance_balance']
-                    result.append(res)
+                            self.total_insurance['total_insurnace'] += res['new_insurance']
+                            self.total_insurance['total_convert_to_rent'] += res['convert_to_rent']
+                            self.total_insurance['total_insurance_returned'] += res['insurance_returned']
+                            self.total_insurance['total_other_income'] += res['other_income']
+                            self.profit_loss_account['other_revenue_current'] += res['other_income']
+                            self.total_insurance['total_new_insurance'] += res['new_insurance']
+                            self.total_insurance['total_insurance_balance'] += res['insurance_balance']
+                            result.append(res)
+
+            else:
+                self.total_res['basic_rent'] += property_id_new.ground_rent
+                tenancy_obj = self.env['account.analytic.account']
+                tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id)])
+                if tenancy_ids:
+                    for tenancy_id in tenancy_ids:
+                        res = {}
+                        res['property_name'] = property_id_new.name
+                        res['tenant'] = tenancy_id.tenant_id.name
+                        res['nationality'] = tenancy_id.tenant_id.country_id.name
+                        res['start_date'] = tenancy_id.date_start
+                        res['insurance'] = tenancy_id.deposit
+                        res['convert_to_rent'] = 0
+                        res['insurance_returned'] = 0
+                        res['other_income'] = 0
+                        res['new_insurance'] = 0
+                        res['insurance_balance'] = 0
+                        if tenancy_id.deposit_return and tenancy_id.acc_pay_dep_ret_id.payment_date >= start_date and tenancy_id.acc_pay_dep_ret_id.payment_date <= end_date:
+                            res['insurance_returned'] = -1 * tenancy_id.acc_pay_dep_ret_id.amount
+                        if tenancy_id.deposit_received and tenancy_id.acc_pay_dep_rec_id.payment_date >= start_date and tenancy_id.acc_pay_dep_rec_id.payment_date <= end_date:
+                            res['new_insurance'] = tenancy_id.acc_pay_dep_rec_id.amount
+                            res['insurance'] = 0
+                        res['insurance_balance'] = res['new_insurance'] + res['insurance'] + res['insurance_returned']
+
+                        self.total_insurance['total_insurnace'] += res['new_insurance']
+                        self.total_insurance['total_convert_to_rent'] += res['convert_to_rent']
+                        self.total_insurance['total_insurance_returned'] += res['insurance_returned']
+                        self.total_insurance['total_other_income'] += res['other_income']
+                        self.profit_loss_account['other_revenue_current'] += res['other_income']
+                        self.total_insurance['total_new_insurance'] += res['new_insurance']
+                        self.total_insurance['total_insurance_balance'] += res['insurance_balance']
+                        result.append(res)
         return result
 
     def get_new_contract_details(self, start_date, end_date, property_id):
@@ -851,28 +977,50 @@ class report_tenancy_final_byprop(models.AbstractModel):
         property_ids = property_obj.search([('parent_id', '=', property_id[0])])
         selectedyear = datetime.datetime.strptime(start_date, "%Y-%m-%d").strftime("%Y")
         for property_id_new in property_ids:
-            self.total_res['basic_rent'] += property_id_new.ground_rent
-            tenancy_obj = self.env['account.analytic.account']
-            tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id),
-                                                                 ('date_start', '>=', start_date),
-                                                                 ('date_start', '<=', end_date)])
+            if property_id_new.type_id == 'floor':
+                flats = property_obj.search([('parent_id', '=', property_id_new.id)])
+                for flat in flats:
+                    self.total_res['basic_rent'] += flat.ground_rent
+                    tenancy_obj = self.env['account.analytic.account']
+                    tenancy_ids = tenancy_obj.search([('property_id', '=', flat.id), ('date_start', '>=', start_date), ('date_start', '<=', end_date)])
 
-            if tenancy_ids:
-                for tenancy_id in tenancy_ids:
-                    tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
-                    tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
-                    if tenancy_rent_schedule_ids:
-                        for rent in tenancy_rent_schedule_ids:
-                            res = {}
-                            if rent.paid_check and rent.start_date >= start_date and rent.end_date <= end_date and \
+                    if tenancy_ids:
+                        for tenancy_id in tenancy_ids:
+                            tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                            tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                            if tenancy_rent_schedule_ids:
+                                for rent in tenancy_rent_schedule_ids:
+                                    res = {}
+                                    if rent.paid_check and rent.start_date >= start_date and rent.end_date <= end_date and \
                                             rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
-                                res['property_name'] = property_id_new.name
-                                res['tenant'] = tenancy_id.tenant_id.name
-                                res['rent'] = rent.amount
-                                res['comession'] = 0.5 * rent.amount
-                                self.total_new_contract['total_rent'] += rent.amount
-                                self.total_new_contract['total_comession'] += rent.amount * 0.5
-                                result.append(res)
+                                        res['property_name'] = flat.name
+                                        res['tenant'] = tenancy_id.tenant_id.name
+                                        res['rent'] = rent.amount
+                                        res['comession'] = 0.5 * rent.amount
+                                        self.total_new_contract['total_rent'] += rent.amount
+                                        self.total_new_contract['total_comession'] += rent.amount * 0.5
+                                        result.append(res)
+            else:
+                self.total_res['basic_rent'] += property_id_new.ground_rent
+                tenancy_obj = self.env['account.analytic.account']
+                tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id), ('date_start', '>=', start_date), ('date_start', '<=', end_date)])
+
+                if tenancy_ids:
+                    for tenancy_id in tenancy_ids:
+                        tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                        tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                        if tenancy_rent_schedule_ids:
+                            for rent in tenancy_rent_schedule_ids:
+                                res = {}
+                                if rent.paid_check and rent.start_date >= start_date and rent.end_date <= end_date and \
+                                            rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
+                                    res['property_name'] = property_id_new.name
+                                    res['tenant'] = tenancy_id.tenant_id.name
+                                    res['rent'] = rent.amount
+                                    res['comession'] = 0.5 * rent.amount
+                                    self.total_new_contract['total_rent'] += rent.amount
+                                    self.total_new_contract['total_comession'] += rent.amount * 0.5
+                                    result.append(res)
         return result
 
     def get_new_contract_next_months(self, start_date, end_date, property_id):
@@ -881,29 +1029,52 @@ class report_tenancy_final_byprop(models.AbstractModel):
         property_ids = property_obj.search([('parent_id', '=', property_id[0])])
         selectedyear = datetime.datetime.strptime(start_date, "%Y-%m-%d").strftime("%Y")
         for property_id_new in property_ids:
-            self.total_res['basic_rent'] += property_id_new.ground_rent
-            tenancy_obj = self.env['account.analytic.account']
-            tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id),
-                                                                 ('date_start', '>=', start_date),
-                                                                 ('date_start', '<=', end_date)])
+            if property_id_new.type_id == 'floor':
+                flats = property_obj.search([('parent_id', '=', property_id_new.id)])
+                for flat in flats:
+                    self.total_res['basic_rent'] += property_id_new.ground_rent
+                    tenancy_obj = self.env['account.analytic.account']
+                    tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id), ('date_start', '>=', start_date), ('date_start', '<=', end_date)])
 
-            if tenancy_ids:
-                for tenancy_id in tenancy_ids:
-                    tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
-                    tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
-                    if tenancy_rent_schedule_ids:
-                        for rent in tenancy_rent_schedule_ids:
-                            res = {}
-                            if rent.paid_check and rent.start_date >= start_date and rent.end_date <= end_date and \
+                    if tenancy_ids:
+                        for tenancy_id in tenancy_ids:
+                            tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                            tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                            if tenancy_rent_schedule_ids:
+                                for rent in tenancy_rent_schedule_ids:
+                                    res = {}
+                                    if rent.paid_check and rent.start_date >= start_date and rent.end_date <= end_date and \
                                             rent.paid_id.payment_date < start_date:
-                                res['property_name'] = property_id_new.name
-                                res['tenant'] = tenancy_id.tenant_id.name
-                                res['rent'] = rent.amount
-                                res['comession'] = 0.5 * rent.amount
-                                self.total_new_contract_next_months['total_rent'] += rent.amount
-                                self.profit_loss_account['rental_brokerage_fees_current'] += rent.amount * 0.5
-                                self.total_new_contract_next_months['total_comession'] += rent.amount * 0.5
-                                result.append(res)
+                                        res['property_name'] = property_id_new.name
+                                        res['tenant'] = tenancy_id.tenant_id.name
+                                        res['rent'] = rent.amount
+                                        res['comession'] = 0.5 * rent.amount
+                                        self.total_new_contract_next_months['total_rent'] += rent.amount
+                                        self.profit_loss_account['rental_brokerage_fees_current'] += rent.amount * 0.5
+                                        self.total_new_contract_next_months['total_comession'] += rent.amount * 0.5
+                                        result.append(res)	
+            else:
+                self.total_res['basic_rent'] += property_id_new.ground_rent
+                tenancy_obj = self.env['account.analytic.account']
+                tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id), ('date_start', '>=', start_date), ('date_start', '<=', end_date)])
+
+                if tenancy_ids:
+                    for tenancy_id in tenancy_ids:
+                        tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                        tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                        if tenancy_rent_schedule_ids:
+                            for rent in tenancy_rent_schedule_ids:
+                                res = {}
+                                if rent.paid_check and rent.start_date >= start_date and rent.end_date <= end_date and \
+                                            rent.paid_id.payment_date < start_date:
+                                    res['property_name'] = property_id_new.name
+                                    res['tenant'] = tenancy_id.tenant_id.name
+                                    res['rent'] = rent.amount
+                                    res['comession'] = 0.5 * rent.amount
+                                    self.total_new_contract_next_months['total_rent'] += rent.amount
+                                    self.profit_loss_account['rental_brokerage_fees_current'] += rent.amount * 0.5
+                                    self.total_new_contract_next_months['total_comession'] += rent.amount * 0.5
+                                    result.append(res)
         return result
 
     def get_new_contract_deserved(self, start_date, end_date, property_id):
@@ -911,27 +1082,48 @@ class report_tenancy_final_byprop(models.AbstractModel):
         property_obj = self.env['account.asset.asset']
         property_ids = property_obj.search([('parent_id', '=', property_id[0])])
         for property_id_new in property_ids:
-            self.total_res['basic_rent'] += property_id_new.ground_rent
-            tenancy_obj = self.env['account.analytic.account']
-            tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id),
-                                                                 ('date_start', '>=', start_date),
-                                                                 ('date_start', '<=', end_date)])
+            if property_id_new.type_id == 'floor':
+                flats = property_obj.search([('parent_id', '=', property_id_new.id)])
+                for flat in flats:
+                    self.total_res['basic_rent'] += flat.ground_rent
+                    tenancy_obj = self.env['account.analytic.account']
+                    tenancy_ids = tenancy_obj.search([('property_id', '=', flat.id), ('date_start', '>=', start_date), ('date_start', '<=', end_date)])
 
-            if tenancy_ids:
-                for tenancy_id in tenancy_ids:
-                    tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
-                    tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
-                    if tenancy_rent_schedule_ids:
-                        for rent in tenancy_rent_schedule_ids:
-                            res = {}
-                            if rent.move_check and not rent.paid_check and rent.start_date >= start_date and rent.end_date <= end_date:
-                                res['property_name'] = property_id_new.name
-                                res['tenant'] = tenancy_id.tenant_id.name
-                                res['rent'] = rent.amount
-                                res['comession'] = 0.5 * rent.amount
-                                self.total_new_contract_deserved['total_rent'] += rent.amount
-                                self.total_new_contract_deserved['total_comession'] += rent.amount * 0.5
-                                result.append(res)
+                    if tenancy_ids:
+                        for tenancy_id in tenancy_ids:
+                            tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                            tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                            if tenancy_rent_schedule_ids:
+                                for rent in tenancy_rent_schedule_ids:
+                                    res = {}
+                                    if rent.move_check and not rent.paid_check and rent.start_date >= start_date and rent.end_date <= end_date:
+                                        res['property_name'] = flat.name
+                                        res['tenant'] = tenancy_id.tenant_id.name
+                                        res['rent'] = rent.amount
+                                        res['comession'] = 0.5 * rent.amount
+                                        self.total_new_contract_deserved['total_rent'] += rent.amount
+                                        self.total_new_contract_deserved['total_comession'] += rent.amount * 0.5
+                                        result.append(res)	
+            else:
+                self.total_res['basic_rent'] += property_id_new.ground_rent
+                tenancy_obj = self.env['account.analytic.account']
+                tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id), ('date_start', '>=', start_date), ('date_start', '<=', end_date)])
+
+                if tenancy_ids:
+                    for tenancy_id in tenancy_ids:
+                        tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                        tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                        if tenancy_rent_schedule_ids:
+                            for rent in tenancy_rent_schedule_ids:
+                                res = {}
+                                if rent.move_check and not rent.paid_check and rent.start_date >= start_date and rent.end_date <= end_date:
+                                    res['property_name'] = property_id_new.name
+                                    res['tenant'] = tenancy_id.tenant_id.name
+                                    res['rent'] = rent.amount
+                                    res['comession'] = 0.5 * rent.amount
+                                    self.total_new_contract_deserved['total_rent'] += rent.amount
+                                    self.total_new_contract_deserved['total_comession'] += rent.amount * 0.5
+                                    result.append(res)
         return result
 
     def get_current_delay(self, start_date, end_date, property_id):
@@ -939,35 +1131,65 @@ class report_tenancy_final_byprop(models.AbstractModel):
         property_obj = self.env['account.asset.asset']
         property_ids = property_obj.search([('parent_id', '=', property_id[0])])
         for property_id_new in property_ids:
-            self.total_res['basic_rent'] += property_id_new.ground_rent
-            tenancy_obj = self.env['account.analytic.account']
-            tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id),
-                                                                 ('date_start', '<=', start_date)])
+            if property_id_new.type_id == 'floor':
+                flats = property_obj.search([('parent_id', '=', property_id_new.id)])
+                for flat in flats:
+                    self.total_res['basic_rent'] += flat.ground_rent
+                    tenancy_obj = self.env['account.analytic.account']
+                    tenancy_ids = tenancy_obj.search([('property_id', '=', flat.id), ('date_start', '<=', start_date)])
 
-            if tenancy_ids:
+                    if tenancy_ids:
+                        for tenancy_id in tenancy_ids:
+                            res = {}
+                            rent_count = 0
+                            rent_amount = 0
+                            commision = 0
+                            tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                            tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                            if tenancy_rent_schedule_ids:
+                                for rent in tenancy_rent_schedule_ids:
+                                    if rent.move_check and not rent.paid_check and rent.start_date <= start_date and rent.start_date <= end_date:
+                                        res['property_name'] = flat.name
+                                        res['tenant'] = tenancy_id.tenant_id.name
+                                        rent_count += 1
+                                        rent_amount += rent.amount
+                                        commision += rent.amount * 0.03
+                                        res['no_months'] = rent_count
+                                        res['rent'] = rent_amount
+                                        res['comession'] = commision
+                                        result.append(res)
 
-                for tenancy_id in tenancy_ids:
-                    res = {}
-                    rent_count = 0
-                    rent_amount = 0
-                    commision = 0
-                    tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
-                    tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
-                    if tenancy_rent_schedule_ids:
-                        for rent in tenancy_rent_schedule_ids:
-                            if rent.move_check and not rent.paid_check and rent.start_date <= start_date and rent.start_date <= end_date:
-                                res['property_name'] = property_id_new.name
-                                res['tenant'] = tenancy_id.tenant_id.name
-                                rent_count += 1
-                                rent_amount += rent.amount
-                                commision += rent.amount * 0.03
-                                res['no_months'] = rent_count
-                                res['rent'] = rent_amount
-                                res['comession'] = commision
-                                result.append(res)
+                            self.total_current_delay['total_rent'] += rent_amount
+                            self.total_current_delay['total_comession'] += commision
 
-                    self.total_current_delay['total_rent'] += rent_amount
-                    self.total_current_delay['total_comession'] += commision
+            else:
+                self.total_res['basic_rent'] += property_id_new.ground_rent
+                tenancy_obj = self.env['account.analytic.account']
+                tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id), ('date_start', '<=', start_date)])
+
+                if tenancy_ids:
+                    for tenancy_id in tenancy_ids:
+                        res = {}
+                        rent_count = 0
+                        rent_amount = 0
+                        commision = 0
+                        tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                        tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                        if tenancy_rent_schedule_ids:
+                            for rent in tenancy_rent_schedule_ids:
+                                if rent.move_check and not rent.paid_check and rent.start_date <= start_date and rent.start_date <= end_date:
+                                    res['property_name'] = property_id_new.name
+                                    res['tenant'] = tenancy_id.tenant_id.name
+                                    rent_count += 1
+                                    rent_amount += rent.amount
+                                    commision += rent.amount * 0.03
+                                    res['no_months'] = rent_count
+                                    res['rent'] = rent_amount
+                                    res['comession'] = commision
+                                    result.append(res)
+
+                        self.total_current_delay['total_rent'] += rent_amount
+                        self.total_current_delay['total_comession'] += commision
 
         return result
 
@@ -976,42 +1198,81 @@ class report_tenancy_final_byprop(models.AbstractModel):
         property_obj = self.env['account.asset.asset']
         property_ids = property_obj.search([('parent_id', '=', property_id[0])])
         for property_id_new in property_ids:
-            self.total_res['basic_rent'] += property_id_new.ground_rent
-            tenancy_obj = self.env['account.analytic.account']
-            tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id),
-                                                                 ('date_start', '<=', start_date)])
+            if property_id_new.type_id == 'floor':
+                flats = property_obj.search([('parent_id', '=', property_id_new.id)])
+                for flat in flats:
+                    self.total_res['basic_rent'] += flat.ground_rent
+                    tenancy_obj = self.env['account.analytic.account']
+                    tenancy_ids = tenancy_obj.search([('property_id', '=', flat.id), ('date_start', '<=', start_date)])
 
-            if tenancy_ids:
+                    if tenancy_ids:
 
-                for tenancy_id in tenancy_ids:
-                    res = {}
-                    rent_count = 0
-                    rent_amount = 0
-                    commision = 0
-                    tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
-                    tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
-                    res['rec_current_month'] = 0
-                    res['rec_to_this_month'] = 0
-                    res['deserved_amount'] = 0
-                    if tenancy_rent_schedule_ids:
-                        for rent in tenancy_rent_schedule_ids:
-                            if rent.case_id:
-                                res['property_name'] = property_id_new.name
-                                res['tenant'] = tenancy_id.tenant_id.name
-                                rent_amount += rent.amount
-                                if rent.paid_check and rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
-                                    res['rec_current_month'] += rent.paid_id.amount
-                                if rent.paid_check and rent.paid_id.payment_date <= end_date:
-                                    res['rec_to_this_month'] += rent.paid_id.amount
-                                if rent.move_check and not rent.paid_check and rent.start_date <= end_date and rent.start_date >= start_date:
-                                    res['deserved_amount'] += rent.amount
-                                    rent_count += 1
-                                res['no_months'] = rent_count
-                                res['case_type'] = rent.case_id.type_id.name
-                                result.append(res)
-                    self.total_legal_cases['total_rec_current_month'] += res['rec_current_month']
-                    self.total_legal_cases['total_rec_to_this_month'] += res['rec_to_this_month']
-                    self.total_legal_cases['total_deserved_amount'] += res['deserved_amount']
+                        for tenancy_id in tenancy_ids:
+                            res = {}
+                            rent_count = 0
+                            rent_amount = 0
+                            commision = 0
+                            tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                            tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                            res['rec_current_month'] = 0
+                            res['rec_to_this_month'] = 0
+                            res['deserved_amount'] = 0
+                            if tenancy_rent_schedule_ids:
+                                for rent in tenancy_rent_schedule_ids:
+                                    if rent.case_id:
+                                        res['property_name'] = flat.name
+                                        res['tenant'] = tenancy_id.tenant_id.name
+                                        rent_amount += rent.amount
+                                        if rent.paid_check and rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
+                                            res['rec_current_month'] += rent.paid_id.amount
+                                        if rent.paid_check and rent.paid_id.payment_date <= end_date:
+                                            res['rec_to_this_month'] += rent.paid_id.amount
+                                        if rent.move_check and not rent.paid_check and rent.start_date <= end_date and rent.start_date >= start_date:
+                                            res['deserved_amount'] += rent.amount
+                                            rent_count += 1
+                                        res['no_months'] = rent_count
+                                        res['case_type'] = rent.case_id.type_id.name
+                                        result.append(res)
+                            self.total_legal_cases['total_rec_current_month'] += res['rec_current_month']
+                            self.total_legal_cases['total_rec_to_this_month'] += res['rec_to_this_month']
+                            self.total_legal_cases['total_deserved_amount'] += res['deserved_amount']
+        
+            else:
+                self.total_res['basic_rent'] += property_id_new.ground_rent
+                tenancy_obj = self.env['account.analytic.account']
+                tenancy_ids = tenancy_obj.search([('property_id', '=', property_id_new.id), ('date_start', '<=', start_date)])
+
+                if tenancy_ids:
+
+                    for tenancy_id in tenancy_ids:
+                        res = {}
+                        rent_count = 0
+                        rent_amount = 0
+                        commision = 0
+                        tenancy_rent_schedule_obj = self.env['tenancy.rent.schedule']
+                        tenancy_rent_schedule_ids = tenancy_rent_schedule_obj.search([('tenancy_id', '=', tenancy_id.id)])
+                        res['rec_current_month'] = 0
+                        res['rec_to_this_month'] = 0
+                        res['deserved_amount'] = 0
+                        if tenancy_rent_schedule_ids:
+                            for rent in tenancy_rent_schedule_ids:
+                                if rent.case_id:
+                                    res['property_name'] = property_id_new.name
+                                    res['tenant'] = tenancy_id.tenant_id.name
+                                    rent_amount += rent.amount
+                                    if rent.paid_check and rent.paid_id.payment_date >= start_date and rent.paid_id.payment_date <= end_date:
+                                        res['rec_current_month'] += rent.paid_id.amount
+                                    if rent.paid_check and rent.paid_id.payment_date <= end_date:
+                                        res['rec_to_this_month'] += rent.paid_id.amount
+                                    if rent.move_check and not rent.paid_check and rent.start_date <= end_date and rent.start_date >= start_date:
+                                        res['deserved_amount'] += rent.amount
+                                        rent_count += 1
+                                    res['no_months'] = rent_count
+                                    res['case_type'] = rent.case_id.type_id.name
+                                    result.append(res)
+                        self.total_legal_cases['total_rec_current_month'] += res['rec_current_month']
+                        self.total_legal_cases['total_rec_to_this_month'] += res['rec_to_this_month']
+                        self.total_legal_cases['total_deserved_amount'] += res['deserved_amount']
         return result
 
     def get_total(self):

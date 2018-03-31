@@ -40,6 +40,8 @@
 								<field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}'/>
 							</div>
 							<field name="occupation"/>
+							<field name="work_address"/>
+							<field name="civil_no"/>
 						</group>
 						<group>
 							<field name="phone" placeholder="e.g. +32.81.81.37.00"/>
@@ -598,16 +600,29 @@
 								<field name="date"/>
 								<field name="name"/>
 								<field name="cost" string="Cost"/>
+								<field name="items_cost"/>
+								<field name="total_cost"/>
 								<field name="invc_id" invisible="1"/>
 								<field name="invc_check" invisible = "1"/>
 								<field name="vendor_invc_check" invisible = "1"/>
 								<field name="mail_check" invisible = "1"/>
 							</group>
 						</group>
-						<separator string="Notes"/><newline/>
-						<group colspan="4" col='4'>
-							<field name="notes" placeholder="Additional Notes..." nolabel="1"/>
-						</group>
+						<notebook>
+							<page string="Items">
+								<field name="item_ids">
+									<tree editable="bottom">
+										<field name="name" required="1"/>
+										<field name="desc"/>
+										<field name="quantity" required="1"/>
+										<field name="cost" required="1"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Notes">
+								<field name="notes" placeholder="Additional Notes..." nolabel="1"/>
+							</page>
+						</notebook>
 					</sheet>
 				</form>
 			</field>
