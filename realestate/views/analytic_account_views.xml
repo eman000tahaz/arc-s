@@ -51,6 +51,9 @@
                             <button name="create_rent_schedule" string=" Schedule Rent" type="object" icon="fa-plus" colspan="2" 
                                     class="oe_inline oe_stat_button" attrs="{'invisible': ['|', ('state','!=','open'),('rent_entry_chck','!=',False)]}"/>
                             <button name="button_receive" string="Deposit Receive" type="object" icon="fa-money" attrs="{'invisible':[('deposit_received','=',True)]}" class="oe_inline oe_stat_button"/>
+
+                            <button name="set_draft" string="Set to Draft" type="object" attrs="{'invisible':[('state','=','draft')]}" icon="fa-undo" class="oe_inline"/>
+
                             <button name="button_return" string="Deposit Return" type="object" icon="fa-undo" attrs="{'invisible':['|',('deposit_return','=',True),('deposit_received','=',False)]}" class="oe_inline oe_stat_button"/>
                             <button name="button_set_to_draft" string="Draft" type="object" states='close' icon="fa-undo" colspan="2" class="oe_inline oe_stat_button"/>
                             <button name="button_close" string="Close" type="object" states='open' icon="fa-times" colspan="2" class="oe_inline oe_stat_button"/>
@@ -107,8 +110,9 @@
                         <page string="Tenancy Details">
                             <group colspan="1">
                                 <separator string="Tenancy Details" colspan="4"/>
+                        
                                 <field name="tenancy_ids" readonly="1" nolabel="1" context="{'form_view_ref': 'realestate.property_analytic_view_form'}">
-                                    <tree string="Tenancy Details">
+                                    <tree string="Tenancy Details" delete="false">
                                         <field name="ten_date"/>
                                         <field name="name" string="Tenancy Name "/>
                                         <field name="ref" string="Code"/>

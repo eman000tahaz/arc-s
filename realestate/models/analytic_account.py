@@ -316,6 +316,27 @@ class account_analytic_account(models.Model):
 		return self.write({'state':'close'})
 
 	@api.multi
+	def set_draft(self):
+		if self.rent_schedule_ids:
+			for rent in self.rent_schedule_ids:
+				if rent.move_check or rent.paid_check or rent.commession_check or rent.commession_check2 or rent.discount_check:
+					raise Warning(_('There is at least one generated move, payment, commisiion or discount remove it first !!'))
+				else:
+					rent.unlink()
+				# if rent.paid_check:
+				# 	raise Warning(_('There is at least one generated payment, remove it first !!'))
+				# if rent.commession_check:
+				# 	raise Warning(_('There is at least one generated commission, remove it first !!'))
+				# if rent.commession_check2:
+				# 	raise Warning(_('There is at least one generated commission, remove it first !!'))
+				# if rent.discount_check:
+				# 	raise Warning(_('There is at least one generated discount, remove it first !!'))
+				
+		return self.write({
+			'state': 'draft',
+			})
+
+	@api.multi
 	def button_set_to_draft(self):
 		"""
 		This Method is used to open Tenancy renew wizard.
