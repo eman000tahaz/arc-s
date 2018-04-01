@@ -328,13 +328,31 @@ class property_maintenace(models.Model):
 				raise Warning(_("Please Select Vendor"))
 			else:
 				# for tenancy_data in tncy_ids:
-				inv_line_values = {
+				inv_line_values = []
+				maintenance_value = {
 						'name': 'Maintenance For ' + data.type.name or "",
 						'origin': 'property.maintenance',
 						'quantity': 1,
 						'account_id' : data.property_id.expense_acc_id.id or False,
 						'price_unit': data.cost or 0.00,
 						}
+				inv_line_values.append(maintenance_value)
+				
+				for item in data.item_ids:
+					item_value = {
+						'name': item.name or "",
+						'origin': 'property.maintenance',
+						'quantity': item.quantity,
+						'account_id' : data.property_id.expense_acc_id.id or False,
+						'price_unit': item.cost or 0.00,
+					}
+					inv_line_values.append(item_value)
+
+				invoice_line_ids = []
+				for value in inv_line_values:
+					line_id = (0, 0, value)
+					invoice_line_ids.append(line_id)
+
 				inv_type = self._context.get('type', 'in_invoice')
 				inv_types = inv_type if isinstance(inv_type, list) else [inv_type]
 				company_id = self._context.get('company_id', self.env.user.company_id.id)
@@ -349,7 +367,7 @@ class property_maintenace(models.Model):
 						'property_id':data.property_id.id,
 						'partner_id' : data.vendor_id.id or False,
 						'account_id' : data.vendor_id.property_account_payable_id.id or False,
-						'invoice_line_ids': [(0, 0, inv_line_values)],
+						'invoice_line_ids': invoice_line_ids,
 						'amount_total' : data.cost or 0.0,
 						'date_invoice' : datetime.now().strftime(DEFAULT_SERVER_DATE_FORMAT) or False,
 						'number': data.property_id.name or '',

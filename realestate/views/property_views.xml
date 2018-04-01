@@ -572,10 +572,8 @@
 				<form string="Maintenance &amp; Repairs">
 					<header>
 						<button name="start_maint" class="btn-primary" states="draft" string="Start Process" type="object"/>
-						<button name="create_vendor_invoice" string="Create Vendor Invoice" type="object"
-							class="btn-primary" attrs="{'invisible': [('state','!=','progress')]}"/>
-						<button name="create_invoice" string="Create Invoice" type="object" 
-							class="btn-primary" attrs="{'invisible': ['|',('renters_fault','!=',True),('state','!=','incomplete')]}"/>
+						<button name="create_vendor_invoice" string="Create Vendor Invoice" type="object" class="btn-primary" attrs="{'invisible': [('state','!=','progress')]}"/>
+						<button name="create_invoice" string="Create Invoice" type="object" class="btn-primary" attrs="{'invisible': ['|',('renters_fault','!=',True),('state','!=','incomplete')]}"/>
 						<button name="cancel_maint" class="btn-primary" states="progress" string="Cancel" type="object"/>
 						<button name="open_invoice" class="btn-primary" string="Open Invoice" type="object" attrs="{'invisible': ['|',('invc_check','!=',True),('state','!=','done')]}"/>
 						<button name="open_vendor_invoice" class="btn-primary" string="Open Vendor Invoice" type="object" attrs="{'invisible': [('vendor_invc_check','!=',True)]}"/>
@@ -603,9 +601,9 @@
 								<field name="items_cost"/>
 								<field name="total_cost"/>
 								<field name="invc_id" invisible="1"/>
-								<field name="invc_check" invisible = "1"/>
-								<field name="vendor_invc_check" invisible = "1"/>
-								<field name="mail_check" invisible = "1"/>
+								<field name="invc_check" invisible="1"/>
+								<field name="vendor_invc_check" invisible="1"/>
+								<field name="mail_check" invisible="1"/>
 							</group>
 						</group>
 						<notebook>
