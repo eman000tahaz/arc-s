@@ -32,7 +32,7 @@
 			<field name="target">new</field>
 		</record>
 
-		<menuitem name="Tenancy Final By Property Arabic" id="menu_tenancy_final_property_ar" parent="menu_report_sub" action="action_property_final_report_tenancy_ar"/>
+		<menuitem name="Property Final Report In Arabic" id="menu_tenancy_final_property_ar" parent="menu_report_sub" action="action_property_final_report_tenancy_ar"/>
 
 	</data>
 </odoo>

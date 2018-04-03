@@ -32,7 +32,7 @@
 			<field name="target">new</field>
 		</record>
 
-		<menuitem name="Tenancy Contract Expiry" id="menu_contract_expiry" parent="menu_report_sub" action="action_contract_expiry" />
+		<menuitem name="Contract Validity Report" id="menu_contract_expiry" parent="menu_report_sub" action="action_contract_expiry" />
 
 	</data>
 </odoo>

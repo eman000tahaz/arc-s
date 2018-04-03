@@ -28,5 +28,5 @@
         <field name="target">new</field>
     </record>
 
-    <menuitem name="Property By Wallet" id="menu_property_wallet" parent="menu_report_sub" action="realestate_wallet_report_action"/>
+    <menuitem name="Portfolio Report" id="menu_property_wallet" parent="menu_report_sub" action="realestate_wallet_report_action"/>
 </odoo>

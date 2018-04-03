@@ -31,7 +31,7 @@
 			<field name="target">new</field>
 		</record>
 
-		<menuitem name="Income Expenditure" id="menu_income_expenditure" parent="menu_report_sub" action="action_income_expenditure"/>
+		<menuitem name="Income And Expenditure" id="menu_income_expenditure" parent="menu_report_sub" action="action_income_expenditure"/>
 
 	</data>
 </odoo>

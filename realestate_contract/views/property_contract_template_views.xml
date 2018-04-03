@@ -59,7 +59,7 @@
 
         <menuitem name="Contract" id="contract_menu"/>
         <menuitem name="Contract" id="contract_sub_menu" parent="realestate.menu_property_main"/>
-        <menuitem name="Tenancy Contract Template" id="ten_contract_menu" parent="contract_sub_menu" action="tenancy_contract_action"/>
+        <menuitem name="Contracts" id="ten_contract_menu" parent="contract_sub_menu" action="tenancy_contract_action"/>
 
 	</data>
 </odoo>

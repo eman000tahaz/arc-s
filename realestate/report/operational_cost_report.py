@@ -10,7 +10,8 @@ class operational_costs_report(models.Model):
 
 	active = fields.Boolean('Active')
 	parent_id = fields.Many2one('account.asset.asset', 'Parent Property')
-	type_id = fields.Many2one('property.type', 'Property Type')
+	#type_id = fields.Many2one('property.type', 'Property Type')
+	type_id = fields.Selection([('building', 'Building'), ('floor', 'Floor'), ('flat', 'Flat'), ('shop', 'Shop'), ('office', 'Office'), ('basement', 'Basement')], string='Property Type')
 	date = fields.Date('Purchase Date')
 	operational_costs = fields.Float("Operational costs(%)")
 	name = fields.Char('Asset Name')

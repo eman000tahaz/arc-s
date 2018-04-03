@@ -32,7 +32,7 @@
 			<field name="target">new</field>
 		</record>
 
-		<menuitem name="Tenancy By Tenant" id="menu_tenancy_tenant" parent="menu_report_sub" action="action_tenant_report_tenancy"/>
+		<menuitem name="Tenant Report" id="menu_tenancy_tenant" parent="menu_report_sub" action="action_tenant_report_tenancy"/>
 
 	</data>
 </odoo>
