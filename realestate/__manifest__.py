@@ -52,6 +52,7 @@
         'views/wallet_views.xml',
         'report/report_realestate_wallet.xml',
         'wizard/realestate_wallet.xml',
+        'wizard/multi_moves.xml',
     ],
     'demo': [
         'data/account_asset_demo.xml',

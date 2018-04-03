@@ -22,6 +22,30 @@
          	</field>
          </record>
 
+         <record id="tenancy_contract_view_tree" model="ir.ui.view">
+            <field name="name">property.contract.template.tree</field>
+            <field name="model">property.contract.template</field>
+            <field name="arch" type="xml">
+                <tree string="Contracts">
+                    <field name="tenancy_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="tenancy_contract_view_search" model="ir.ui.view">
+            <field name="name">property.contract.template.search</field>
+            <field name="model">property.contract.template</field>
+            <field name="arch" type="xml">
+                <search string="Search Contract">
+                    <field name="tenancy_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Tenancy" domain="[]" context="{'group_by':'tenancy_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
 
          <record id="tenancy_contract_action" model="ir.actions.act_window">
             <field name="name">Tenancy Contract Template</field>
@@ -29,6 +53,8 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[]</field>
+            <field name="context">{'search_default_current':1}</field>
+            <field name="search_view_id" ref="tenancy_contract_view_search"/>
         </record>
 
         <menuitem name="Contract" id="contract_menu"/>

@@ -57,13 +57,14 @@
                             <button name="button_return" string="Deposit Return" type="object" icon="fa-undo" attrs="{'invisible':['|',('deposit_return','=',True),('deposit_received','=',False)]}" class="oe_inline oe_stat_button"/>
                             <button name="button_set_to_draft" string="Draft" type="object" states='close' icon="fa-undo" colspan="2" class="oe_inline oe_stat_button"/>
                             <button name="button_close" string="Close" type="object" states='open' icon="fa-times" colspan="2" class="oe_inline oe_stat_button"/>
-                            <button class="oe_stat_button" type="object" name="action_get_template" icon="fa-calendar" string="Contract"/>
                             <field name="rent_entry_chck" invisible="1"/>
                         </div>
                         <group colspan="2" attrs="{'readonly':[('state','=','close')]}">
                             <separator string="Property Information" colspan="4"/>
                             <group colspan='4' col='4'>
-                                <field name="property_id" placeholder="Property Name" domain="[('state','=','draft')]" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="building_id" placeholder="Building" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="floor_id" placeholder="Floor" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="property_id" placeholder="Flat Name" domain="[('state','=','draft')]" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
 								<field name="ten_date" required="1"/>
                                 <field name="tenant_id" placeholder="Tenant Name" required="1" attrs="{'readonly':[('state','!=','draft')]}">
                                     <form string="Tenant Details" >
@@ -305,7 +306,6 @@
                                         <field name="move_check"/>
                                         <field name="paid_check"/>
                                         <field name="commession_check"/>
-                                        <field name="commession_check2"/>
                                         <field name="discount_check"/>
                                         <field name="note"/>
 										<field name="currency_id" invisible="1"/>
@@ -317,9 +317,7 @@
                                         <button name="open_account_paid_move" attrs="{'invisible':[('paid_check','=',False)]}" icon="fa-arrow-right" string="Open Payment" type="object"/>
                                         <button name="create_commession_move" attrs="{'invisible':['|',('paid_check','=',False),('commession_check','!=',False)]}" icon="fa-cogs" string="Generate Comession Move" type="object"/>
                                         <button name="open_commession_move" attrs="{'invisible':[('commession_check','=',False)]}" icon="fa-arrow-right" string="open commession move" type="object"/>
-                                        <button name="open_commession_move2" attrs="{'invisible':[('commession_check2','=',False)]}" icon="fa-arrow-right" string="open commession move2" type="object"/>
-
-                                        <button name="create_disount_move" attrs="{'invisible':['|','&amp;',('move_check','=',False),('discount_check','=',False),('paid_check','!=',False)]}" icon="fa-cogs" string="Generate Discount Move" type="object"/>
+                                        <button name="create_disount_move" attrs="{'invisible':['|', '|', ('move_check','=',False), ('discount_check','!=',False), ('paid_check','!=',False)]}" icon="fa-cogs" string="Generate Discount Move" type="object"/>
                                         <button name="open_disount_move" attrs="{'invisible':[('discount_check','=',False)]}" icon="fa-arrow-right" string="Open Discount Move" type="object"/>
 
                                     </tree>

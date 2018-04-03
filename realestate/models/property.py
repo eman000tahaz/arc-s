@@ -187,7 +187,23 @@ class property_maintenace(models.Model):
 
 	@api.onchange('items_cost', 'cost')
 	def _get_total_cost(self):
-		self.total_cost = self.cost + self.items_cost 
+		self.total_cost = self.cost + self.items_cost
+
+	@api.onchange('property_id')
+	def _get_analytic_account(self):
+		if self.property_id.analytic_acc_id:
+			print "               "
+			print "               "
+			print "               "
+			print "               "
+			print "               "
+			print self.property_id.analytic_acc_id
+			print "               "
+			print "               "
+			print "               "
+			print "               "
+			print "               "
+			self.analytic_account_id = self.property_id.analytic_acc_id.id
 	
 	date = fields.Date('Date', default=fields.Date.context_today)
 	cost = fields.Float('Cost')
@@ -210,6 +226,9 @@ class property_maintenace(models.Model):
 	item_ids = fields.One2many('maintenance.item', 'maintenance_id', string='Items')
 	items_cost = fields.Float('Items Cost')
 	total_cost = fields.Float('Total Cost')
+	analytic_account_id = fields.Many2one('account.analytic.account', string="Analytic Account", domain=[('is_property', '=', '')])
+	
+
 	@api.multi
 	def start_maint(self):
 		"""
@@ -268,6 +287,7 @@ class property_maintenace(models.Model):
 							'quantity': 1,
 							'account_id' : data.property_id.income_acc_id.id or False,
 							'price_unit': data.cost or 0.00,
+							'account_analytic_id': data.analytic_account_id.id or False,
 							}
 					inv_line_values.append(maintenance_value)
 					
@@ -278,6 +298,7 @@ class property_maintenace(models.Model):
 							'quantity': item.quantity,
 							'account_id' : data.property_id.income_acc_id.id or False,
 							'price_unit': item.cost or 0.00,
+							'account_analytic_id': data.analytic_account_id.id or False,
 						}
 						inv_line_values.append(item_value)
 
@@ -335,6 +356,7 @@ class property_maintenace(models.Model):
 						'quantity': 1,
 						'account_id' : data.property_id.expense_acc_id.id or False,
 						'price_unit': data.cost or 0.00,
+						'account_analytic_id': data.analytic_account_id.id or False,
 						}
 				inv_line_values.append(maintenance_value)
 				
@@ -345,6 +367,7 @@ class property_maintenace(models.Model):
 						'quantity': item.quantity,
 						'account_id' : data.property_id.expense_acc_id.id or False,
 						'price_unit': item.cost or 0.00,
+						'account_analytic_id': data.analytic_account_id.id or False,
 					}
 					inv_line_values.append(item_value)
 
@@ -543,11 +566,6 @@ class tenancy_rent_schedule(models.Model):
 	def _get_commession_check(self):
 		self.commession_check = bool(self.commession_move_id)
 
-	@api.one
-	@api.depends('commession_move_id2')
-	def _get_commession_check2(self):
-		self.commession_check2 = bool(self.commession_move_id2)
-
 
 
 	note = fields.Text('Notes', help='Additional Notes.')
@@ -559,12 +577,10 @@ class tenancy_rent_schedule(models.Model):
 	move_check = fields.Boolean(compute='_get_move_check', method=True, string='Posted', store=True)
 	paid_check = fields.Boolean(compute='_get_paid_check', method=True, string='Paid', store=True)
 	commession_check = fields.Boolean(compute='_get_commession_check', method=True, string='Commession', store=True)
-	commession_check2 = fields.Boolean(compute='_get_commession_check2', method=True, string='Commession2', store=True)
 	rel_tenant_id = fields.Many2one('tenant.partner', string="Tenant")
 ###	rel_tenant_id = fields.Many2one('tenant.partner', string="Tenant", ondelete='restrict',related='tenancy_id.tenant_id', store=True)
 	move_id = fields.Many2one('account.move', 'Depreciation Entry')
 	commession_move_id = fields.Many2one('account.move', 'Commession Entry')
-	commession_move_id2 = fields.Many2one('account.move', 'Commession Entry2')
 	paid_id = fields.Many2one('account.payment', 'Payment Record')
 	property_id = fields.Many2one('account.asset.asset', 'Property', help='Property Name.')
 	tenancy_id = fields.Many2one('account.analytic.account', 'Tenancy', help='Tenancy Name.')
@@ -667,7 +683,7 @@ class tenancy_rent_schedule(models.Model):
 			current_currency = line.tenancy_id.currency_id.id
 			sign = -1
 			move_vals = {
-					'name':line.tenancy_id.ref or False,
+					'name':line.tenancy_id.name or False,
 					'date': depreciation_date,
 					'schedule_date':line.start_date,
 					'journal_id': journal_ids and journal_ids.ids[0],
@@ -679,7 +695,7 @@ class tenancy_rent_schedule(models.Model):
 				raise Warning(_('Please Configure Income Account from Property'))
 			move_line_obj.create({
 						    'name': line.tenancy_id.name + "Before Discount",
-						    'ref': line.tenancy_id.ref + "Before Discount",
+						    'ref': line.tenancy_id.ref or "" + "Before Discount",
 						    'move_id': move_id.id,
 						    'account_id': line.tenancy_id.property_id.income_acc_id.id or False,
 						    'credit': 0.0,
@@ -706,8 +722,8 @@ class tenancy_rent_schedule(models.Model):
 						    'asset_id': line.tenancy_id.property_id.id or False,
 						    })
 			move_line_obj.create({
-						    'name': line.tenancy_id.name+"After Discount",
-						    'ref': line.tenancy_id.ref+"After Discount",
+						    'name': line.tenancy_id.name + "After Discount",
+						    'ref': line.tenancy_id.ref or "" +"After Discount",
 						    'move_id': move_id.id,
 						    'account_id': line.tenancy_id.property_id.income_acc_id.id or False,
 						    'debit': 0.0,
@@ -943,56 +959,6 @@ class tenancy_rent_schedule(models.Model):
 				line.write({'commession_move_id': commession_move_id.id})
 				created_move_ids.append(commession_move_id.id)
 				commession_move_id.write({'ref': 'Tenancy Rent Commession','state':'posted'})
-			if not line.commession_move_id2:
-				depreciation_date = datetime.now()
-				company_currency = line.tenancy_id.company_id.currency_id.id
-				current_currency = line.tenancy_id.currency_id.id
-				sign = -1
-				move_vals = {
-						'name':line.tenancy_id.ref or False,
-						'date': depreciation_date,
-						'schedule_date':line.start_date,
-						'journal_id': line.tenancy_id.property_id.property_commession.management_journal_id.id,
-						'asset_id': line.tenancy_id.property_id.id or False,
-						'source':line.tenancy_id.name or False,
-						}
-				commession_move_id2 = self.env['account.move'].create(move_vals)
-				if not line.tenancy_id.property_id.property_commession.journal_id.id:
-					raise Warning(_('Please Configure Commession Account from Property'))
-				if not line.tenancy_id.property_id.property_commession.management_journal_id.id:
-					raise Warning(_('Please Configure Management Commession Account from Property'))
-
-				move_line_obj.create({
-								'name': line.tenancy_id.name,
-								'ref': line.tenancy_id.ref,
-								'move_id': commession_move_id2.id,
-								'account_id': line.tenancy_id.property_id.property_commession.management_journal_id.default_credit_account_id.id or False,
-								'debit': 0.0,
-								'credit': amount * line.commession_value/100,
-								'journal_id': line.tenancy_id.property_id.property_commession.management_journal_id.id,
-								'partner_id': line.tenancy_id.tenant_id.parent_id.id or False,
-								'currency_id': company_currency != current_currency and  current_currency or False,
-								'amount_currency': company_currency != current_currency and - sign * line.tenancy_id.rent or 0.0,
-								'date': depreciation_date,
-								})
-				move_line_obj.create({
-								'name': line.tenancy_id.name,
-								'ref': 'Tenancy Rent',
-								'move_id': commession_move_id2.id,
-								'account_id': line.tenancy_id.property_id.property_commession.management_journal_id.default_debit_account_id.id,
-								'credit': 0.0,
-								'debit': amount * line.commession_value/100,
-								'journal_id': line.tenancy_id.property_id.property_commession.management_journal_id.id,
-								'partner_id': line.tenancy_id.tenant_id.parent_id.id or False,
-								'currency_id': company_currency != current_currency and  current_currency,
-								'amount_currency': company_currency != current_currency and sign * line.tenancy_id.rent or 0.0,
-								'analytic_account_id': line.tenancy_id.id,
-								'date': depreciation_date,
-								'asset_id': line.tenancy_id.property_id.id or False,
-								})
-				line.write({'commession_move_id2': commession_move_id2.id})
-				created_move_ids.append(commession_move_id2.id)
-				commession_move_id2.write({'ref': 'Tenancy Rent Commession','state':'posted'})
 		return created_move_ids
 
 	@api.multi
@@ -1014,24 +980,6 @@ class tenancy_rent_schedule(models.Model):
 			'context': context,
 			}
 
-	@api.multi
-	def open_commession_move2(self):
-		"""
-		This button Method is used to open related account move.
-		@param self: The object pointer
-		"""
-		context = dict(self._context or {})
-		open_move_id = self.env['ir.model.data'].get_object_reference('account', 'view_move_form')[1]
-		return {
-			'view_type': 'form',
-			'view_id': open_move_id,
-			'view_mode': 'form',
-			'res_model': 'account.move',
-			'res_id':self.commession_move_id2.id,
-			'type': 'ir.actions.act_window',
-			'target': 'current',
-			'context': context,
-			}
 
 class property_utility(models.Model):
 	_name = "property.utility"

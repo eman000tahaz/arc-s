@@ -585,13 +585,14 @@
 						<separator string="Maintenance Details"/><newline/>
 						<group>
 							<group>
-								<field name ="property_id" required="1"/>
+								<field name="property_id" required="1"/>
 								<field name="type" widget="selection" required="1"/>
 								<field name="assign_to" required="1"/>
 								<field name="vendor_id" required="1"/>
 								<!--<field name="account_code" domain="[('user_type_id.type','=','payable')]" required="1"/>-->
 								<!--<field name="account_code"  required="1"/>-->
 								<!--<field name="pay_account_code" required="1"/>-->
+								<field name="analytic_account_id"/>
 								<field name="renters_fault" attrs="{'invisible': [('invc_check','!=',False)]}"/>
 							</group>
 							<group>
@@ -697,8 +698,7 @@
 						<button name="open_account_paid_move" attrs="{'invisible':[('paid_check','=',False)]}" icon="fa-arrow-right" string="Open Payment" type="object"/>
 						<button name="create_commession_move" attrs="{'invisible':['|',('paid_check','=',False),('commession_check','!=',False)]}" icon="fa-cogs" string="Generate Comession Move" type="object"/>
 						<button name="open_commession_move" attrs="{'invisible':[('commession_check','=',False)]}" icon="fa-arrow-right" string="open commession move" type="object"/>
-						<button name="open_commession_move2" attrs="{'invisible':[('commession_check2','=',False)]}" icon="fa-arrow-right" string="open commession move2" type="object"/>
-						<button name="create_disount_move" attrs="{'invisible':['|','&amp;',('move_check','=',False),('discount_check','=',False),('paid_check','!=',False)]}" icon="fa-cogs" string="Generate Discount Move" type="object"/>
+						<button name="create_disount_move" attrs="{'invisible':['|', '|', ('move_check','=',False), ('discount_check','!=',False), ('paid_check','!=',False)]}" icon="fa-cogs" string="Generate Discount Move" type="object"/>
 						<button name="open_disount_move" attrs="{'invisible':[('discount_check','=',False)]}" icon="fa-arrow-right" string="Open Discount Move" type="object"/>
 					</header>
 					<sheet>
@@ -714,7 +714,6 @@
 							<field name="move_check"/>
 							<field name="paid_check"/>
 							<field name="commession_check"/>
-							<field name="commession_check2"/>
 							<field name="discount_check"/>
 						</group>
 						<newline/>
@@ -742,7 +741,6 @@
 					<field name="move_check"/>
 					<field name="paid_check"/>
 					<field name="commession_check"/>
-					<field name="commession_check2"/>
 					<field name="discount_check"/>
 					<button name="create_move" attrs="{'invisible':[('move_check','!=',False)]}" icon="fa-cogs" string="Create Move" type="object"/>
 					<button name="open_account_move" attrs="{'invisible':[('move_check','=',False)]}" icon="fa-arrow-right" string="open move" type="object"/>
@@ -750,8 +748,7 @@
 					<button name="open_account_paid_move" attrs="{'invisible':[('paid_check','=',False)]}" icon="fa-arrow-right" string="Open Payment" type="object"/>
 					<button name="create_commession_move" attrs="{'invisible':['|',('paid_check','=',False),('commession_check','!=',False)]}" icon="fa-cogs" string="Generate Comession Move" type="object"/>
 					<button name="open_commession_move" attrs="{'invisible':[('commession_check','=',False)]}" icon="fa-arrow-right" string="open commession move" type="object"/>
-					<button name="open_commession_move2" attrs="{'invisible':[('commession_check2','=',False)]}" icon="fa-arrow-right" string="open commession move2" type="object"/>
-					<button name="create_disount_move" attrs="{'invisible':['|','&amp;',('move_check','=',False),('discount_check','=',False),('paid_check','!=',False)]}" icon="fa-cogs" string="Generate Discount Move" type="object"/>
+					<button name="create_disount_move" attrs="{'invisible':['|', '|', ('move_check','=',False), ('discount_check','!=',False), ('paid_check','!=',False)]}" icon="fa-cogs" string="Generate Discount Move" type="object"/>
 					<button name="open_disount_move" attrs="{'invisible':[('discount_check','=',False)]}" icon="fa-arrow-right" string="Open Discount Move" type="object"/>
 					<field name="currency_id" invisible="1"/>
 				</tree>

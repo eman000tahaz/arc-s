@@ -81,6 +81,47 @@ class account_analytic_account(models.Model):
 					elif payment.payment_type == 'inbound':
 						tennancy.deposit_received = True
 
+	@api.onchange('building_id')
+	def _get_floor(self):
+		floor_ids = self.env['account.asset.asset'].search([('parent_id', '=', self.building_id.id), ('type_id', '=', 'floor')])	
+		o_floor_ids = []
+		o_flat_ids = []
+		if floor_ids:
+			for floor in floor_ids:
+				o_floor_ids.append(floor.id)
+				flat_ids = self.env['account.asset.asset'].search([('parent_id', '=', floor.id), ('type_id', '=', 'flat')])
+				if flat_ids:
+					for flat in flat_ids:
+						o_flat_ids.append(flat.id)
+		else:
+			flat_ids = self.env['account.asset.asset'].search([('parent_id', '=', self.building_id.id), ('type_id', '=', 'flat')])
+			if flat_ids:
+				for flat in flat_ids:
+					o_flat_ids.append(flat.id)
+		floor_domain = [('id', 'in', o_floor_ids)]
+		flat_domain = [('id', 'in', o_flat_ids)]
+		return {
+		'domain':{
+			'floor_id': floor_domain,
+			'property_id': flat_domain,
+			}
+		}
+
+	@api.onchange('floor_id')
+	def _get_flat(self):
+		flat_ids = self.env['account.asset.asset'].search([('parent_id', '=', self.floor_id.id), ('type_id', '=', 'flat')])	
+		ids = []
+		if flat_ids:
+			for flat in flat_ids:
+				ids.append(flat.id)
+		flat_domain = [('id', 'in', ids)]
+		return {
+		'domain':{'property_id': flat_domain}
+		}
+
+
+
+
 	contract_attachment =  fields.Binary('Tenancy Contract')
 	is_property = fields.Boolean('Is Property?')
 	rent_entry_chck = fields.Boolean('Rent Entries Check', default=False)
@@ -92,8 +133,7 @@ class account_analytic_account(models.Model):
 	date_start = fields.Date('Start Date',default=lambda *a: time.strftime(DEFAULT_SERVER_DATE_FORMAT), help="Tenancy contract start date .")
 	ten_date = fields.Date('Date', select=True, default=lambda *a: time.strftime(DEFAULT_SERVER_DATE_FORMAT), help="Tenancy contract creation date.")
 	amount_fee_paid = fields.Integer('Amount of Fee Paid')
-	manager_id =  fields.Many2one('res.users', 'Account Manager', help="Manager of Tenancy.")
-	property_id = fields.Many2one('account.asset.asset','Property', help="Name of Property.") 
+	manager_id =  fields.Many2one('res.users', 'Account Manager', help="Manager of Tenancy.") 
 	tenant_id = fields.Many2one('tenant.partner', 'Tenant', domain="[('tenant', '=', True)]", help="Tenant Name of Tenancy.")
 	contact_id = fields.Many2one('res.partner', 'Contact', help="Contact person name.")
 	currency_id = fields.Many2one('res.currency', string='Currency',help="The optional other currency if it is a multi-currency entry.")
@@ -119,6 +159,11 @@ class account_analytic_account(models.Model):
 	sched_date = fields.Date('Date')
 	renter = fields.Many2one('res.partner', 'Renter')
 	renter_company = fields.Many2one('res.partner', 'Renter Company', domain=[('is_company', '=', True)])
+	building_id = fields.Many2one('account.asset.asset', string="Building", domain=[('type_id', '=', 'building')])
+	floor_id = fields.Many2one('account.asset.asset', string="Floor")
+	property_id = fields.Many2one('account.asset.asset','Flat', help="Name of Property.")
+
+	
 
 	@api.model
 	def create(self, vals):

@@ -15,3 +15,4 @@ import renew_tenancy
 import tenancy_final_detail_by_property_report
 import tenancy_final_detail_by_property_report_ar
 import realestate_wallet
+import multi_moves

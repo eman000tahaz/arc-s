@@ -194,6 +194,11 @@ class PropertyContractTemlate(models.Model):
 			text = text.replace("$_property_no", unicode(self.tenancy_id.property_id.property_no or "............"))
 		if "$_piece_no" in text:
 			text = text.replace("$_piece_no", unicode(self.tenancy_id.property_id.piece_no or "............"))
+		if "$_building_no" in text:
+			if self.tenancy_id.property_id.parent_id.type_id == 'building':
+				text = text.replace("$_building_no", unicode(self.tenancy_id.property_id.parent_id.property_no or "............"))
+			else:
+				text = text.replace("$_building_no", unicode(self.tenancy_id.property_id.parent_id.parent_id.property_no or "............"))
 		self.temp = text
 		
 

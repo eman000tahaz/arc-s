@@ -11,6 +11,7 @@
         'views/property_contract_template_views.xml',
         'views/report_contract_template.xml',
         'views/realestate_contract.xml',
+        'views/analytic_account_views.xml',
         # 'data/contract_template.xml',
     ],
     'demo': [],
