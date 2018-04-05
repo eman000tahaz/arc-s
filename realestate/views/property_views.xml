@@ -928,7 +928,8 @@
 			<field name="view_mode">kanban,tree,form</field>
 			<field name="search_view_id" ref="property_tenant_view_search"/>
 			<field name="context">{'tenant':True}</field>
-			<field name="domain">[('tenant','=',True)]</field>
+			<field name="domain">[]</field>
+			<!-- ('tenant','=',True) -->
 		</record>
 
 
