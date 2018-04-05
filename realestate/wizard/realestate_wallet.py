@@ -5,7 +5,7 @@ from odoo import fields, models, _, api
 class RealestateWalletReport(models.TransientModel):
     _name = "realestate.wallet.report"
 
-    wallet_id = fields.Many2one('realestate.wallet', string='Wallet')
+    wallet_id = fields.Many2one('realestate.wallet', string='Portfolio')
 
     @api.multi
     def print_report(self, data):

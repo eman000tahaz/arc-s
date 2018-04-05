@@ -254,7 +254,7 @@ class account_asset_asset(models.Model):
 	country_id = fields.Many2one('res.country', 'Country', ondelete='restrict')
 	state_id = fields.Many2one("res.country.state", 'State', ondelete='restrict')
 	#type_id = fields.Many2one('property.type', 'Property Type',help='Property Type.')
-	type_id = fields.Selection([('building', 'Building'), ('floor', 'Floor'), ('flat', 'Flat'), ('shop', 'Shop'), ('office', 'Office'), ('basement', 'Basement')], string='Property Type')
+	type_id = fields.Selection([('building', 'Building'), ('floor', 'Floor'), ('flat', 'Flat'), ('shop', 'Shop'), ('office', 'Office'), ('basement', 'Basement'), ('ann', 'Annexed Property')], string='Property Type')
 	analytic_acc_id = fields.Many2one('account.analytic.account', 'Analytic Account', domain=[('is_property','=','')])
 	rent_type_id = fields.Many2one('rent.type', 'Rent Type', help='Type of Rent.')
 	contact_id = fields.Many2one('tenant.partner', 'Contact Name', domain="[('tenant', '=', True)]")

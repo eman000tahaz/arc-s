@@ -4,11 +4,11 @@
 
 		<!-- Document Expiry Report wizard Form View  -->
 		<record id="document_expiry_report" model="ir.ui.view">
-			<field name="name">Document Expiry Report</field>
+			<field name="name">Document Validity</field>
 			<field name="model">document.expiry.report</field>
 			<field name="arch" type="xml">
 				<form string="Document Expiry Report">
-					<separator string = "Document Expiry Report" colspan="4"/>
+					<separator string="Document Validity" colspan="4"/>
 					<group>
 						<field name="start_date"/>
 						<field name="end_date"/>
@@ -24,7 +24,7 @@
 
 		<!--Action for Document Expiry Report wizard  -->
 		<record id="action_document_expiry" model="ir.actions.act_window">
-			<field name="name">Document Expiry</field>
+			<field name="name">Document Validity</field>
 			<field name="res_model">document.expiry.report</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">form</field>

@@ -5,11 +5,11 @@
 
 		<!-- Contract expiry wizard Form View  -->
 		<record id="tenancy_property_report" model="ir.ui.view">
-			<field name="name">Tenancy Expiry Report</field>
+			<field name="name">Contract Validity Report</field>
 			<field name="model">contract.report</field>
 			<field name="arch" type="xml">
 				<form string="Tenancy Expiry Report">
-					<separator string = "Tenancy Contract Expiry Report" colspan="4"/>
+					<separator string="Contract Validity Report" colspan="4"/>
 					<group>
 						<field name="start_date" />
 						<field name="end_date" />
@@ -25,7 +25,7 @@
 
 		<!--Action for Contract expiry wizard  -->
 		<record id="action_contract_expiry" model="ir.actions.act_window">
-			<field name="name">Contract Expiry</field>
+			<field name="name">Contract Validity Report</field>
 			<field name="res_model">contract.report</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">form</field>

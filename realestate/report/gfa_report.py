@@ -12,7 +12,7 @@ class gfa_analysis_report(models.Model):
 	active = fields.Boolean('Active')
 	parent_id = fields.Many2one('account.asset.asset', 'Parent Property')
 	#type_id = fields.Many2one('property.type', 'Property Type')
-	type_id = fields.Selection([('building', 'Building'), ('floor', 'Floor'), ('flat', 'Flat'), ('shop', 'Shop'), ('office', 'Office'), ('basement', 'Basement')], string='Property Type')
+	type_id = fields.Selection([('building', 'Building'), ('floor', 'Floor'), ('flat', 'Flat'), ('shop', 'Shop'), ('office', 'Office'), ('basement', 'Basement'), ('ann', 'Annexed Property')], string='Property Type')
 	gfa_feet = fields.Float('GFA(Sqft)')
 	date = fields.Date('Purchase Date')
 

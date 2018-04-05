@@ -4,11 +4,11 @@
 
 		<!-- Tenancy Tenant Report wizard Form View  -->
 		<record id="tenancy_tenant_report" model="ir.ui.view">
-			<field name="name">Tenancy by Tenant</field>
+			<field name="name">Tenant Report</field>
 			<field name="model">tenancy.tenant.report</field>
 			<field name="arch" type="xml">
 				<form string="Tenancy by Tenant report">
-					<separator string = "Tenancy Report By Tenant" colspan="2"/>
+					<separator string="Tenant Report" colspan="2"/>
 					<group>
 						<field name="tenant_id" />
 						<field name="start_date" />
@@ -25,7 +25,7 @@
 
 		<!--Action for Tenancy Tenant Report wizard -->
 		<record id="action_tenant_report_tenancy" model="ir.actions.act_window">
-			<field name="name">Tenancy by Tenant</field>
+			<field name="name">Tenant Report</field>
 			<field name="res_model">tenancy.tenant.report</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">form</field>

@@ -4,11 +4,11 @@
 
 		<!-- Tenancy Property Report wizard Form View  -->
 		<record id="tenancy_final_property_report1" model="ir.ui.view">
-			<field name="name">Tenancy Final by Property</field>
+			<field name="name">Property Final Report</field>
 			<field name="model">tenancy.final.property.report</field>
 			<field name="arch" type="xml">
 				<form string="Tenancy Final by Property report">
-					<separator string = "Tenancy Final Report By Property" colspan="4" />
+					<separator string="Property Final Report" colspan="4" />
 					<group>
 						<field name="property_id"/>
 						<field name="start_date" />
@@ -25,7 +25,7 @@
 
 		<!--Action for Tenancy Property Report wizard -->
 		<record id="action_property_final_report_tenancy" model="ir.actions.act_window">
-			<field name="name">Tenancy Final by Property</field>
+			<field name="name">Property Final Report</field>
 			<field name="res_model">tenancy.final.property.report</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">form</field>
