@@ -15,6 +15,22 @@ class ReportRealestateWallet(models.AbstractModel):
 		wallet = self.env['realestate.wallet'].search([('id', '=', wallet_id[0])])
 		records = self.env['account.asset.asset'].search([('wallet_id', '=', wallet_id[0])])
 
+		gross_values = []
+
+		for record in records:
+			gross_value = 0
+			gross_value += record.value
+			first_children = self.env['account.asset.asset'].search([('parent_id', '=', record.id)])
+			for first_child in first_children:
+				gross_value += first_child.value
+				second_children = self.env['account.asset.asset'].search([('parent_id', '=', first_child.id)])
+				for second_child in second_children:
+					gross_value += second_child.value
+
+			gross_values.append(gross_value)
+
+		no = len(gross_values)
+
 		docargs = {
 			'doc_ids': self.ids,
 			'doc_model': self.model,
@@ -22,6 +38,8 @@ class ReportRealestateWallet(models.AbstractModel):
 			'docs': docs,
 			'wallet': wallet,
 			'records': records,
+			'no': no,
+			'gross_values': gross_values,
 		}
 		return self.env['report'].render('realestate.report_realestate_wallet', docargs)
 

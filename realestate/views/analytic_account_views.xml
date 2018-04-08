@@ -40,7 +40,7 @@
                     </header>
                     <sheet>
                         <div class="oe_title oe_left">
-                        <label for="name" class="oe_edit_only"/>
+                        <label for="name" string="Name" class="oe_edit_only"/>
                             <h1>
                                 <field name="name" default_focus="1" placeholder="Tenancy Name" class="oe_inline"/>
                             </h1>
@@ -278,7 +278,7 @@
 								<field name="manager_id"/>
                                 <field name="rent" attrs="{'readonly':[('state','!=','draft')]}"/>
 								<field name="company_id"/>
-                                <field name="deposit" attrs="{'readonly':[('deposit_received','=',True)]}"/>
+                                <field name="deposit" attrs="{'readonly':[('deposit_received','=',True),('deposit_return', '!=',True)]}"/>
 								<field name="currency_id"/>
                                 <field name="is_property" invisible="1"/>
                             </group>

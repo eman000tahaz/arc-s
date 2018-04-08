@@ -19,12 +19,12 @@
 	                        </tr>
 	                    </thead>
 	                    <tbody>
-	                    	<tr t-foreach="records" t-as="record">
-	                    		<td> <span t-esc="record['name']"/></td>
-	                    		<td> <span t-esc="record['category_id'].name"/></td>
-	                    		<td> <span t-esc="record['furnished']"/></td>
-	                    		<td> <span t-esc="record['value']"/></td>
-	                    		<td> <span t-esc="record['state']"/></td>
+	                    	<tr t-foreach="range(no)" t-as="i">
+	                    		<td> <span t-esc="records[i]['name']"/></td>
+	                    		<td> <span t-esc="records[i]['category_id'].name"/></td>
+	                    		<td> <span t-esc="records[i]['furnished']"/></td>
+	                    		<td> <span t-esc="gross_values[i]"/></td>
+	                    		<td> <span t-esc="records[i]['state']"/></td>
 	                    	</tr>
 	                    </tbody>
 	                </table>

@@ -8,7 +8,7 @@
 			<field name="name">wallet.form.view</field>
 			<field name="model">realestate.wallet</field>
 			<field name="arch" type="xml">
-				<form string="Wallet View">
+				<form string="Portfolio View">
 					<sheet>
 						<label for="name" string="Name"/>
 						<field name='name' required="1"/>
@@ -26,7 +26,7 @@
 			<field name="name">wallet.tree.view</field>
 			<field name="model">realestate.wallet</field>
 			<field name="arch" type="xml">
-				<tree string="Wallet View">
+				<tree string="Portfolio View">
 					<field name="name"/>
 				</tree>
 			</field>
@@ -37,7 +37,7 @@
 			###########################################################-->
 
 		<record id="wallet_action" model="ir.actions.act_window">
-			<field name="name">Wallet</field>
+			<field name="name">Portfolio</field>
 			<field name="res_model">realestate.wallet</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
@@ -49,7 +49,7 @@
 			###						MenuItems						###
 			###########################################################-->
 
-		<menuitem name="Wallet" id="wallet_menu" parent="menu_property_sub" action="wallet_action"/>
+		<menuitem name="Portfolio" id="wallet_menu" parent="menu_property_sub" action="wallet_action"/>
 
 
 	</data>

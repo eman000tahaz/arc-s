@@ -89,12 +89,12 @@ class account_analytic_account(models.Model):
 		if floor_ids:
 			for floor in floor_ids:
 				o_floor_ids.append(floor.id)
-				flat_ids = self.env['account.asset.asset'].search([('parent_id', '=', floor.id), ('type_id', '=', 'flat')])
+				flat_ids = self.env['account.asset.asset'].search([('parent_id', '=', floor.id), ('type_id', 'in', ['flat', 'shop', 'office', 'basement', 'ann'])])
 				if flat_ids:
 					for flat in flat_ids:
 						o_flat_ids.append(flat.id)
 		else:
-			flat_ids = self.env['account.asset.asset'].search([('parent_id', '=', self.building_id.id), ('type_id', '=', 'flat')])
+			flat_ids = self.env['account.asset.asset'].search([('parent_id', '=', self.building_id.id), ('type_id', 'in', ['flat', 'shop', 'office', 'basement', 'ann'])])
 			if flat_ids:
 				for flat in flat_ids:
 					o_flat_ids.append(flat.id)
@@ -109,7 +109,7 @@ class account_analytic_account(models.Model):
 
 	@api.onchange('floor_id')
 	def _get_flat(self):
-		flat_ids = self.env['account.asset.asset'].search([('parent_id', '=', self.floor_id.id), ('type_id', '=', 'flat')])	
+		flat_ids = self.env['account.asset.asset'].search([('parent_id', '=', self.floor_id.id), ('type_id', 'in', ['flat', 'shop', 'office', 'basement', 'ann'])])	
 		ids = []
 		if flat_ids:
 			for flat in flat_ids:
@@ -179,6 +179,9 @@ class account_analytic_account(models.Model):
 			vals['ref'] = self.env['ir.sequence'].next_by_code('account.analytic.account')
 			vals.update({'is_property':True})
 		if vals.has_key('property_id'):
+			tenancy_id = self.env['account.analytic.account'].search([('property_id', '=', vals['property_id']), ('state', '=', 'open')])
+			if tenancy_id:
+				raise Warning(_('this property is already rented ...'))
 			prop_brw = self.env['account.asset.asset'].browse(vals['property_id'])
 			prop_brw.write({'current_tenant_id': vals['tenant_id'],'state': 'book'})
 		return super(account_analytic_account, self).create(vals)

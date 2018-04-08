@@ -926,8 +926,8 @@ class tenancy_rent_schedule(models.Model):
 				commession_move_id = self.env['account.move'].create(move_vals)
 				if not line.tenancy_id.property_id.property_commession.journal_id.id:
 					raise Warning(_('Please Configure Commession Account from Property'))
-				if not line.tenancy_id.property_id.property_commession.management_journal_id.id:
-					raise Warning(_('Please Configure Management Commession Account from Property'))
+				# if not line.tenancy_id.property_id.property_commession.management_journal_id.id:
+				# 	raise Warning(_('Please Configure Management Commession Account from Property'))
 				move_line_obj.create({
 								'name': line.tenancy_id.name,
 								'ref': line.tenancy_id.ref,
