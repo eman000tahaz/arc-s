@@ -157,7 +157,7 @@ class PropertyContractTemlate(models.Model):
 		text = self.temp_id.temp
 		text = ""+ unicode(text)
 		if "$_company_name" in text:
-			text = text.replace("$_company_name", unicode(self.tenancy_id.renter_company.name) or "......................")
+			text = text.replace("$_company_name", unicode(self.tenancy_id.company_id.name) or "......................")
 		if "$_owner_name" in text:
 			text = text.replace("$_owner_name", unicode(self.tenancy_id.renter.name) or "......................")
 		if "$_tenant_name" in text:

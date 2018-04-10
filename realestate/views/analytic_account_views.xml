@@ -279,6 +279,7 @@
                                 <field name="rent" attrs="{'readonly':[('state','!=','draft')]}"/>
 								<field name="company_id"/>
                                 <field name="deposit" attrs="{'readonly':[('deposit_received','=',True),('deposit_return', '!=',True)]}"/>
+                                <field name="renter"/>
 								<field name="currency_id"/>
                                 <field name="is_property" invisible="1"/>
                             </group>

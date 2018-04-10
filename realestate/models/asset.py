@@ -293,7 +293,7 @@ class account_asset_asset(models.Model):
 	wallet_id = fields.Many2one('realestate.wallet', 'Wallet')
 	is_prop = fields.Boolean('Is Property')
 	property_no = fields.Integer('Property Number')
-	piece_no = fields.Integer('Piece Number')
+	piece_no = fields.Integer('Block Number')
 
 	@api.model
 	def create(self, vals):
