@@ -39,7 +39,19 @@ class tenancy_final_property_report(models.TransientModel):
 			end_date = data['end_date']
 			property_id = data['property_id'][0]
 			wiz_form_id = self.env['ir.model.data'].get_object_reference('realestate', 'property_analytic_view_tree')[1]
-			tenancy_ids = self.env['account.analytic.account'].search([('property_id','=',property_id),('date_start','>=',start_date),('date_start','<=',end_date)])
+			
+			property_ids = []
+			floors = self.env['account.asset.asset'].search([('parent_id', '=', property_id), ('type_id', '=', 'floor')])
+			for floor in floors:
+				properties = self.env['account.asset.asset'].search([('parent_id', '=', floor.id)])
+				for prop in properties:
+					property_ids.append(prop.id)
+
+			properties = self.env['account.asset.asset'].search([('parent_id', '=', property_id), ('type_id', '!=', 'floor')])
+			for prop in properties:
+					property_ids.append(prop.id)
+
+			tenancy_ids = self.env['account.analytic.account'].search([('property_id','in',property_ids),('date_start','>=',start_date),('date_start','<=',end_date)])
 		return {
 			'view_type': 'form',
 			'view_id': wiz_form_id,
