@@ -294,6 +294,10 @@ class account_asset_asset(models.Model):
 	is_prop = fields.Boolean('Is Property')
 	property_no = fields.Integer('Property Number')
 	piece_no = fields.Integer('Block Number')
+	category_id = fields.Many2one('account.asset.category', string='Category', change_default=True, readonly=True, required=False, states={'draft': [('readonly', False), ('required', False)]})
+	renter_id = fields.Many2one('res.partner', string='Owner')
+
+
 
 	@api.model
 	def create(self, vals):
@@ -353,6 +357,13 @@ class account_asset_asset(models.Model):
 			self.state_id = self.parent_id.state_id.id or False
 			self.zip = self.parent_id.zip or ''
 			self.country_id = self.parent_id.country_id.id or False
+			self.property_manager = self.parent_id.property_manager.id or False
+			self.property_account_category_id = self.parent_id.property_account_category_id.id or False
+			self.property_commession = self.parent_id.property_commession.id or False
+			self.category_id = self.parent_id.category_id.id or False
+			self.company_id = self.parent_id.company_id.id or False
+			self.analytic_acc_id = self.parent_id.analytic_acc_id.id or False
+			self.wallet_id = self.parent_id.wallet_id.id or False
 
 	@api.onchange('gfa_feet')
 	def sqft_to_meter(self):

@@ -639,7 +639,7 @@ class tenancy_rent_schedule(models.Model):
 						    'partner_id': line.tenancy_id.tenant_id.parent_id.id or False,
 						    'currency_id': company_currency != current_currency and  current_currency,
 						    'amount_currency': company_currency != current_currency and sign * line.tenancy_id.rent or 0.0,
-						    'analytic_account_id': line.tenancy_id.id,
+						    'analytic_account_id': line.tenancy_id.property_id.analytic_acc_id.id or False,
 						    'date': depreciation_date,
 						    'asset_id': line.tenancy_id.property_id.id or False,
 						    })
@@ -717,7 +717,7 @@ class tenancy_rent_schedule(models.Model):
 						    'partner_id': line.tenancy_id.tenant_id.parent_id.id or False,
 						    'currency_id': company_currency != current_currency and  current_currency,
 						    'amount_currency': company_currency != current_currency and sign * line.tenancy_id.rent or 0.0,
-						    'analytic_account_id': line.tenancy_id.id,
+						    'analytic_account_id': line.tenancy_id.property_id.analytic_acc_id.id or False,
 						    'date': depreciation_date,
 						    'asset_id': line.tenancy_id.property_id.id or False,
 						    })
@@ -745,7 +745,7 @@ class tenancy_rent_schedule(models.Model):
 						    'partner_id': line.tenancy_id.tenant_id.parent_id.id or False,
 						    'currency_id': company_currency != current_currency and  current_currency,
 						    'amount_currency': company_currency != current_currency and sign * line.tenancy_id.rent or 0.0,
-						    'analytic_account_id': line.tenancy_id.id,
+						    'analytic_account_id': line.tenancy_id.property_id.analytic_acc_id.id or False,
 						    'date': depreciation_date,
 						    'asset_id': line.tenancy_id.property_id.id or False,
 						    })
@@ -760,7 +760,7 @@ class tenancy_rent_schedule(models.Model):
 						    'partner_id': line.tenancy_id.tenant_id.parent_id.id or False,
 						    'currency_id': company_currency != current_currency and  current_currency,
 						    'amount_currency': company_currency != current_currency and sign * line.tenancy_id.rent or 0.0,
-						    'analytic_account_id': line.tenancy_id.id,
+						    'analytic_account_id': line.tenancy_id.property_id.analytic_acc_id.id or False,
 						    'date': depreciation_date,
 						    'asset_id': line.tenancy_id.property_id.id or False,
 						    })
@@ -871,7 +871,17 @@ class tenancy_rent_schedule(models.Model):
 		### 	line.write({'commession_move_id': commession_move_id.id})
 		### 	created_move_ids2.append(commession_move_id.id)
 		### 	commession_move_id.write({'ref': 'Tenancy Rent Commession','state':'posted'})
-		return created_move_ids
+		acc_pay_form_id = self.env['ir.model.data'].get_object_reference('account', 'view_account_payment_form')[1]
+		return {
+			'view_type': 'form',
+			'view_id': acc_pay_form_id,
+			'view_mode': 'form',
+			'res_model': 'account.payment',
+			'res_id':self.paid_id.id,
+			'type': 'ir.actions.act_window',
+			'target': 'current',
+			'context': context,
+			}
 
 	@api.multi
 	def open_account_paid_move(self):

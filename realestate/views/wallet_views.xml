@@ -49,7 +49,7 @@
 			###						MenuItems						###
 			###########################################################-->
 
-		<menuitem name="Portfolio" id="wallet_menu" parent="menu_property_sub" action="wallet_action"/>
+		<menuitem name="Portfolio" id="wallet_menu" parent="menu_configuration_main" action="wallet_action"/>
 
 
 	</data>

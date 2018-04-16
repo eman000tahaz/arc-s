@@ -52,7 +52,7 @@
                                     class="oe_inline oe_stat_button" attrs="{'invisible': ['|', ('state','!=','open'),('rent_entry_chck','!=',False)]}"/>
                             <button name="button_receive" string="Deposit Receive" type="object" icon="fa-money" attrs="{'invisible':[('deposit_received','=',True)]}" class="oe_inline oe_stat_button"/>
 
-                            <button name="set_draft" string="Set to Draft" type="object" attrs="{'invisible':[('state','=','draft')]}" icon="fa-undo" class="oe_inline"/>
+                            <button name="set_draft" string="Set to Draft" type="object" attrs="{'invisible':[('state','=','draft')]}" icon="fa-undo" class="oe_inline oe_stat_button"/>
 
                             <button name="button_return" string="Deposit Return" type="object" icon="fa-undo" attrs="{'invisible':['|',('deposit_return','=',True),('deposit_received','=',False)]}" class="oe_inline oe_stat_button"/>
                             <button name="button_set_to_draft" string="Draft" type="object" states='close' icon="fa-undo" colspan="2" class="oe_inline oe_stat_button"/>
@@ -64,7 +64,7 @@
                             <group colspan='4' col='4'>
                                 <field name="building_id" placeholder="Building" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="floor_id" placeholder="Floor" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                <field name="property_id" placeholder="Flat Name" domain="[('state','=','draft')]" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="property_id" placeholder="Unit Name" domain="[('state','=','draft')]" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
 								<field name="ten_date" required="1"/>
                                 <field name="tenant_id" placeholder="Tenant Name" required="1" attrs="{'readonly':[('state','!=','draft')]}">
                                     <form string="Tenant Details" >

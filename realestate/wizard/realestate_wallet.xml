@@ -12,7 +12,7 @@
                 </group>
                 <footer>
                     <button name="print_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
-                    or 
+                    <button name="open_wallet_tree" string="Open Table" type="object" class="oe_highlight"/>
                     <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
             </form>

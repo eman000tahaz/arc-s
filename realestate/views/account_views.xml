@@ -16,9 +16,9 @@
 				<xpath expr="/form/header/button[@name='button_cancel']" position="after">
 					<button name="%(report_account_move_property)d" states="posted" string="Print" type="action" class="oe_highlight"/>
 				</xpath>
-				<xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_account_id']" position="attributes">
+				<!-- <xpath expr="//field[@name='line_ids']/tree/field[@name='analytic_account_id']" position="attributes">
 					<attribute name="string">Tenancy Name</attribute>
-				</xpath>
+				</xpath> -->
 				<field name="date" position="after">
 					<field name="schedule_date" readonly="1"/>
 					<field name="source" readonly="1"/>

@@ -14,6 +14,7 @@ class property_account_category(models.Model):
     customer_receivable_acc_id = fields.Many2one('account.account', 'Customer Receivable Account',
                                                  help='Customer Receivable Account')
 
+
 class account_asset_asset(models.Model):
     _inherit = "account.asset.asset"
 
@@ -32,7 +33,6 @@ class account_asset_asset(models.Model):
             self.income_acc_id = self.property_account_category_id.income_acc_id and self.property_account_category_id.income_acc_id.id or False
             self.expense_acc_id = self.property_account_category_id.expenses_acc_id and self.property_account_category_id.expenses_acc_id.id or False
             self.discount_acc_id = self.property_account_category_id.discount_acc_id and self.property_account_category_id.discount_acc_id.id or False
-
 
 
 class res_partner(models.Model):

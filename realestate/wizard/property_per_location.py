@@ -9,6 +9,24 @@ class property_per_location(models.TransientModel):
 
 	state_id = fields.Many2one("res.country.state", 'State')
 
+	@api.multi
+	def open_property_tree(self):
+		for data1 in self:
+			data = data1.read([])[0]
+			state_id = data['state_id']
+			wiz_form_id = self.env['ir.model.data'].get_object_reference('realestate', 'property_view_asset_tree')[1]
+			property_ids = self.env['account.asset.asset'].search([('state_id','=',state_id[0])])
+		return {
+			'view_type': 'form',
+			'view_id': wiz_form_id,
+			'view_mode': 'tree',
+			'res_model': 'account.asset.asset',
+			'type': 'ir.actions.act_window',
+			'target': 'current',
+			'context':self._context,
+			'domain':[('id','in',property_ids.ids)],
+			}
+
 
 	@api.multi
 	def print_report(self):

@@ -157,11 +157,11 @@ class account_analytic_account(models.Model):
 								'Status', required=True,copy=False, default='draft')
 	sched = fields.Selection([('start_date', 'Start Date'), ('chosen_date', 'Chosen Date')], string='Schedule Start From', default='start_date')
 	sched_date = fields.Date('Date')
-	renter = fields.Many2one('res.partner', 'Renter')
+	renter = fields.Many2one('res.partner', 'Owner')
 	renter_company = fields.Many2one('res.partner', 'Renter Company', domain=[('is_company', '=', True)])
 	building_id = fields.Many2one('account.asset.asset', string="Building", domain=[('type_id', '=', 'building')])
 	floor_id = fields.Many2one('account.asset.asset', string="Floor")
-	property_id = fields.Many2one('account.asset.asset','Flat', help="Name of Property.")
+	property_id = fields.Many2one('account.asset.asset','Unit', help="Name of Property.")
 
 	
 
@@ -240,6 +240,8 @@ class account_analytic_account(models.Model):
 		if self.property_id:
 			self.rent = self.property_id.ground_rent or False
 			self.rent_type_id = self.property_id.rent_type_id and self.property_id.rent_type_id.id or False
+			self.renter = self.property_id.renter_id.id or False
+
 
 	@api.multi
 	def button_receive(self):

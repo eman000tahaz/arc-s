@@ -23,6 +23,7 @@
                             <group>
                                 <field name="vendor_payable_acc_id" required="1"/>
                                 <field name="customer_receivable_acc_id" required="1"/>
+                                <field name="discount_acc_id" required="1"/>
                             </group>
                         </group>
 

@@ -1059,7 +1059,9 @@
 		<menuitem name="Rent Schedule" id="menu_tenancy_rent" parent="menu_property_sub" action="action_tenancy_rent" sequence="4"/>
 		<menuitem name="Property Maintenance" id="menu_property_maintenance" parent="menu_property_sub" action="action_property_maintenance_view" sequence="5"/>
 		<!-- Sub menus of Type -->
-		<menuitem name="Property Type" id="menu_property_type"  parent="menu_types_main" action="action_property_type_view"/>
+		<!-- Hide property Type -->
+		<!-- <menuitem name="Property Type" id="menu_property_type"  parent="menu_types_main" action="action_property_type_view" />
+		 -->
 		<menuitem name="Rent Type" id="menu_rent_type"  parent="menu_types_main" action="action_rent_type_view"/>
 		<menuitem name="Room Type" id="menu_room_type"  parent="menu_types_main" action="action_room_type_view"/>
 		<menuitem name="Utility Type" id="menu_utility" parent="menu_types_main" action="action_utility_view"/>
