@@ -10,3 +10,4 @@ import account_category
 import commesion
 import wallet
 import maintenance_item
+import property_generator

@@ -369,7 +369,7 @@ class account_analytic_account(models.Model):
 	def set_draft(self):
 		if self.rent_schedule_ids:
 			for rent in self.rent_schedule_ids:
-				if rent.move_check or rent.paid_check or rent.commession_check or rent.discount_check:
+				if rent.move_check or rent.paid_check or rent.commession_check or rent.commession_check2 or rent.discount_check:
 					raise Warning(_('There is at least one generated move, payment, commisiion or discount remove it first !!'))
 				else:
 					rent.unlink()
