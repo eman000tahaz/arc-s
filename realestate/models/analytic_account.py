@@ -162,7 +162,9 @@ class account_analytic_account(models.Model):
 	building_id = fields.Many2one('account.asset.asset', string="Building", domain=[('type_id', '=', 'building')])
 	floor_id = fields.Many2one('account.asset.asset', string="Floor")
 	property_id = fields.Many2one('account.asset.asset','Unit', help="Name of Property.")
-
+	discount = fields.Float('Discount')
+	discount_type = fields.Selection([('percent', 'Percentage'), ('fixed', 'Fixed Amount')], string="Discount Type")
+	open_balance = fields.Monetary('Opening Due Balance')
 	
 
 	@api.model
@@ -482,7 +484,9 @@ class account_analytic_account(models.Model):
 							'commession_value':tenancy_rec.property_id.property_commession.value,
 							'tenancy_id': tenancy_rec.id,
 							'currency_id':tenancy_rec.currency_id.id or False,
-							'rel_tenant_id':tenancy_rec.tenant_id.id
+							'rel_tenant_id':tenancy_rec.tenant_id.id,
+							'discount': tenancy_rec.discount,
+							'discount_type': tenancy_rec.discount_type,
 							})
 					d1 = d1 + relativedelta(months=interval)
 			if tot_rec2 > 0:
@@ -493,7 +497,9 @@ class account_analytic_account(models.Model):
 							'commession_value':tenancy_rec.property_id.property_commession.value,
 							'tenancy_id': tenancy_rec.id,
 							'currency_id':tenancy_rec.currency_id.id or False,
-							'rel_tenant_id':tenancy_rec.tenant_id.id
+							'rel_tenant_id':tenancy_rec.tenant_id.id,
+							'discount': tenancy_rec.discount,
+							'discount_type': tenancy_rec.discount_type,
 							})
 		return self.write({'rent_entry_chck':True})
 

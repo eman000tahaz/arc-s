@@ -8,14 +8,14 @@
 			<field name="model">safety.certificate.report</field>
 			<field name="arch" type="xml">
 				<form string="Certificates Validity Report">
-					<separator string = "Safety Certificate Expiry Report" colspan="4"/>
+					<separator string="Certificates Validity Report" colspan="4"/>
 					<group>
 						<field name="start_date" />
 						<field name="end_date" />
 					</group>
 					<footer>
 						<button special="cancel" string="Cancel" icon="fa-asterisk" class="oe_highlight"/>
-						<button name="print_report" string="Print" type="object" icon="fa-print" class="oe_highlight"/>
+						<!-- <button name="print_report" string="Print" type="object" icon="fa-print" class="oe_highlight"/> -->
 						<button name="open_certificate_expiry_tree" string="Open" type="object" class="oe_highlight"/>
 					</footer>
 				</form>

@@ -7,9 +7,29 @@ class tenancy_property_report(models.TransientModel):
 
 	_name = 'tenancy.property.report'
 
+
+	@api.onchange('building_id')
+	def get_property_domain(self):
+		ids = []
+		if self.building_id:
+			ids.append(self.building_id.id)
+			floors = self.env['account.asset.asset'].search([('parent_id', '=', self.building_id.id)])
+			for floor in floors:
+				ids.append(floor.id)
+		domain = [('parent_id', 'in', ids)]
+		return {
+		'domain':{
+			'property_id': domain,
+			}
+		}
+
+
 	start_date = fields.Date('Start date', required=True)
 	end_date = fields.Date('End date', required=True)
+	building_id = fields.Many2one('account.asset.asset', 'Building', required=True, domain=[('type_id', '=', 'building')])
 	property_id = fields.Many2one('account.asset.asset','Property', required=True)
+
+
 
 	@api.multi
 	def open_tenancy_by_property_gantt(self):

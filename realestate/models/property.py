@@ -585,6 +585,7 @@ class tenancy_rent_schedule(models.Model):
 	property_id = fields.Many2one('account.asset.asset', 'Property', help='Property Name.')
 	tenancy_id = fields.Many2one('account.analytic.account', 'Tenancy', help='Tenancy Name.')
 	commession_value = fields.Float('Commession Value in Percent')
+	discount_type = fields.Selection([('percent', 'Percentage'), ('fixed', 'Fixed Amount')], string="Discount Type")
 	discount = fields.Float('Discount For New Accrual Move')
 	discount_move_id = fields.Many2one('account.move', 'Move Entry After Discount')
 	discount_check = fields.Boolean(compute='_get_discount_check', method=True, string='Discounted', store=True)
@@ -734,13 +735,19 @@ class tenancy_rent_schedule(models.Model):
 						    'amount_currency': company_currency != current_currency and - sign * line.tenancy_id.rent or 0.0,
 						    'date': depreciation_date,
 						    })
+			
+			if line.discount_type == 'percent':
+				act_discount = line.tenancy_id.rent*line.discount/100
+			else:
+				act_discount = line.discount
+
 			move_line_obj.create({
 						    'name': line.tenancy_id.name+"After Discount",
 						    'ref': 'Tenancy Rent After Discount',
 						    'move_id': move_id.id,
 						    'account_id': line.tenancy_id.tenant_id.parent_id.property_account_receivable_id.id,
 						    'credit': 0.0,
-						    'debit': line.tenancy_id.rent-line.tenancy_id.rent*line.discount/100,
+						    'debit': line.tenancy_id.rent-act_discount,
 						    'journal_id': journal_ids and journal_ids.ids[0],
 						    'partner_id': line.tenancy_id.tenant_id.parent_id.id or False,
 						    'currency_id': company_currency != current_currency and  current_currency,
@@ -755,7 +762,7 @@ class tenancy_rent_schedule(models.Model):
 						    'move_id': move_id.id,
 						    'account_id': line.tenancy_id.property_id.discount_acc_id.id,
 						    'credit': 0.0,
-						    'debit': line.tenancy_id.rent*line.discount/100,
+						    'debit': act_discount,
 						    'journal_id': journal_ids and journal_ids.ids[0],
 						    'partner_id': line.tenancy_id.tenant_id.parent_id.id or False,
 						    'currency_id': company_currency != current_currency and  current_currency,

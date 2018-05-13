@@ -15,7 +15,7 @@
 					</group>
 					<footer>
 						<button special="cancel" string="Cancel" icon="fa-asterisk" class="oe_highlight"/>
-						<button name="print_report" string="Print" type="object" icon="fa-print" class="oe_highlight"/>
+						<!-- <button name="print_report" string="Print" type="object" icon="fa-print" class="oe_highlight"/> -->
 						<button name="open_document_expiry_tree" string="Open" type="object" class="oe_highlight"/>
 					</footer>
 				</form>

@@ -711,6 +711,7 @@
 							<field name="amount"/>
 							<field name="discount"/>
 							<field name="commession_value"/>
+							<field name="discount_type" attrs="{'required': [('discount', '!=', 0.0)]}"/>
 							<field name="move_check"/>
 							<field name="paid_check"/>
 							<field name="commession_check"/>

@@ -52,10 +52,10 @@
                                     class="oe_inline oe_stat_button" attrs="{'invisible': ['|', ('state','!=','open'),('rent_entry_chck','!=',False)]}"/>
                             <button name="button_receive" string="Deposit Receive" type="object" icon="fa-money" attrs="{'invisible':[('deposit_received','=',True)]}" class="oe_inline oe_stat_button"/>
 
-                            <button name="set_draft" string="Set to Draft" type="object" attrs="{'invisible':[('state','=','draft')]}" icon="fa-undo" class="oe_inline oe_stat_button"/>
+                            <button name="set_draft" string="Set to Draft" type="object" attrs="{'invisible':[('state','in',['draft', 'close'])]}" icon="fa-undo" class="oe_inline oe_stat_button"/>
 
                             <button name="button_return" string="Deposit Return" type="object" icon="fa-undo" attrs="{'invisible':['|',('deposit_return','=',True),('deposit_received','=',False)]}" class="oe_inline oe_stat_button"/>
-                            <button name="button_set_to_draft" string="Draft" type="object" states='close' icon="fa-undo" colspan="2" class="oe_inline oe_stat_button"/>
+                            <button name="button_set_to_draft" string="Re-new" type="object" states='close' icon="fa-undo" colspan="2" class="oe_inline oe_stat_button"/>
                             <button name="button_close" string="Close" type="object" states='open' icon="fa-times" colspan="2" class="oe_inline oe_stat_button"/>
                             <field name="rent_entry_chck" invisible="1"/>
                         </div>
@@ -280,7 +280,9 @@
 								<field name="company_id"/>
                                 <field name="deposit" attrs="{'readonly':[('deposit_received','=',True),('deposit_return', '!=',True)]}"/>
                                 <field name="renter"/>
+                                <field name="discount"/>
 								<field name="currency_id"/>
+                                <field name="discount_type" attrs="{'required': [('discount', '!=', 0.0)], 'invisible': [('discount', '=', 0.0)]}"/>
                                 <field name="is_property" invisible="1"/>
                             </group>
                             <group colspan="4" col="4" attrs="{'readonly':[('state','=','close')]}">
@@ -290,6 +292,7 @@
                                 <field name="deposit_return"/>
                                 <field name="contact_id" colspan="2"/>
                                 <field name="amount_return" attrs="{'readonly':[('deposit_return','=',True)]}"/>
+                                <field name="open_balance"/>
 								<field name="acc_pay_dep_rec_id" invisible="1"/>
 								<field name="acc_pay_dep_ret_id" invisible="1"/>
                             </group>
