@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    
+
+    <record id="view_import_tenancy" model="ir.ui.view">
+        <field name="name">import.tenancy.form</field>
+        <field name="model">import.tenancy</field>
+        <field name="arch" type="xml">
+            <form string="Import Tenancy">
+                <group>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" />
+                </group>
+                <footer>
+                    <button name="import_tenancy" string="Import" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_import_tenancy" model="ir.actions.act_window">
+        <field name="name">Import Tenancy</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">import.tenancy</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_import_tenancy"/>
+        <field name="target">new</field>
+    </record>
+
+    
+    <!-- Menuitems-->
+    <menuitem id="menu_root" name="Import Data"/>
+
+    <menuitem id="import_data_main" name="Import Data" parent="menu_root"/> 
+
+    <menuitem 
+        id="import_tenancy_menu"
+        name="Import Tenancy"
+        action="action_import_tenancy"
+        parent="import_data_main"
+        sequence="1"/>
+
+</odoo>
