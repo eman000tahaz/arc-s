@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+{
+    'name': 'Sismatix Hr Attendance Sheet',
+    'version': '1.0.1',
+    'website': 'http://sismatix.com/',
+    'author': 'Sismatix Co.',
+    'category': 'Other',
+    'sequence': 20,
+    'summary': 'Sismatix Hr Attendance Sheet',
+    'depends': ['hr', 'hr_attendance', 'hr_holidays', 'hr_payroll'],
+    'data': [
+        'views/hr_overtime_views.xml',
+        'views/hr_late_views.xml',
+        'views/diff_time_views.xml',
+        'views/hr_absence_views.xml',
+        'views/attendance_policy_views.xml',
+        'views/attendance_sheet_views.xml',
+        'views/hr_attendance_views.xml',
+        'views/public_holiday_views.xml',
+        'views/payslip_views.xml',
+        'data/hr_payroll_data.xml',
+    ],
+    'demo': [],
+    'qweb': [],
+    'installable': True,
+    'application': True,
+}

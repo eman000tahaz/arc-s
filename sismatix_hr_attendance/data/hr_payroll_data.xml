@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+    	<record id="hr_rule_overtime" model="hr.salary.rule">
+            <field name="name">Overtime</field>
+            <field name="sequence" eval="4"/>
+            <field name="code">Overtime</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = (contract.wage/160)*(payslip.attendance_sheet_id.total_overtime)</field>
+		 </record>
+
+		 <record id="hr_rule_late" model="hr.salary.rule">
+            <field name="name">Late In</field>
+            <field name="sequence" eval="5"/>
+            <field name="code">LateIn</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -(contract.wage/160)*(payslip.attendance_sheet_id.total_late)</field>
+		 </record>
+
+		 <record id="hr_rule_diff" model="hr.salary.rule">
+            <field name="name">Difference Time</field>
+            <field name="sequence" eval="6"/>
+            <field name="code">DiffTime</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -(contract.wage/160)*(payslip.attendance_sheet_id.total_diff)</field>
+		 </record>
+
+		 <record id="hr_rule_absence" model="hr.salary.rule">
+            <field name="name">Absence</field>
+            <field name="sequence" eval="7"/>
+            <field name="code">Absence</field>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -(contract.wage/30)*(payslip.attendance_sheet_id.total_absence)</field>
+		 </record>
+
+		 <record id="hr_payroll.structure_base" model="hr.payroll.structure">
+		 	<field eval="[(4, ref('hr_rule_overtime'), ref('hr_rule_late'), ref('hr_rule_diff'), ref('hr_rule_absence'))]" name="rule_ids"/>
+		 </record>
+    </data>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Views -->
+	<!-- Form View -->
+	<record id="public_holiday_form_view" model="ir.ui.view">
+        <field name="name">Public Holiday</field>
+        <field name="model">public.holiday</field>
+        <field name="arch" type="xml">
+            <form string="Public Holiday">
+                <sheet>
+            		<group>
+            			<field name="reason"/>
+            		</group>
+            		<group>
+                        <label for="date_from" string="Period"/>
+                        <span>
+                            <field name="date_from" required="1"/>-<field name="date_to" required="1"/>
+                        </span>
+                    </group>
+                    <group>
+                        <field name="note"/>
+                    </group>
+                    
+               </sheet>
+     		</form>
+     	</field>
+     </record>
+
+	<!-- Tree View -->
+	<record id="public_holiday_tree_view" model="ir.ui.view">
+        <field name="name">Public Holiday</field>
+        <field name="model">public.holiday</field>
+        <field name="arch" type="xml">
+		    <tree string="Public Holiday">
+		        <field name="reason"/>
+		    </tree>
+		</field>
+    </record>
+
+	<!-- Actions -->
+	<record id="public_holiday_action" model="ir.actions.act_window">
+        <field name="name">Public Holiday</field>
+        <field name="res_model">public.holiday</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+	</record>
+
+	<!-- MenuItems-->
+    <menuitem id="menu_public_holiday" name="Public Holidays" parent="hr_holidays.menu_hr_holidays_root" sequence="4"/>
+
+	<menuitem id="sub_menu_hr_public_holday" name="Public Holidays" parent="menu_public_holiday" action="public_holiday_action"/>
+
+</odoo>

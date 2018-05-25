@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Views -->
+	<!-- Form View -->
+	<record id="attendance_policy_form_view" model="ir.ui.view">
+        <field name="name">Attendances Policies</field>
+        <field name="model">attendance.policy</field>
+        <field name="arch" type="xml">
+            <form string="Attendances Policies">
+                <sheet>
+            		<group>
+            			<field name="name" required="1"/>
+            		</group>
+            		<group string="Overtime Rules"/>
+        			<field name="overtime_ids" required="1">
+        				<tree editable="bottom">
+        					<field name="name"/>
+        					<field name="type_id"/>
+                            <field name="apply_after"/>
+        					<field name="rate"/>
+        				</tree>
+        			</field>
+                    <group string="Difference Time Rules"/>
+                    <field name="diff_id" required="1"/>
+                    <group string="Late In Rules"/>
+                    <field name="late_id" required="1"/>
+                    <group string="Absence Rules"/>
+                    <field name="absence_id" required="1"/>
+               </sheet>
+     		</form>
+     	</field>
+     </record>
+
+	<!-- Tree View -->
+	<record id="attendance_policy_tree_view" model="ir.ui.view">
+        <field name="name">Attendances Policies</field>
+        <field name="model">attendance.policy</field>
+        <field name="arch" type="xml">
+		    <tree string="Attendances Policies">
+		        <field name="name"/>
+		    </tree>
+		</field>
+    </record>
+
+	<!-- Actions -->
+	<record id="attendance_policy_action" model="ir.actions.act_window">
+        <field name="name">Attendances Policies</field>
+        <field name="res_model">attendance.policy</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+	</record>
+
+	<!-- MenuItems-->
+    <menuitem id="menu_hr_attendance_policy" name="Attendances Policies" parent="hr_attendance.menu_hr_attendance_root" sequence="21"/>
+
+	<menuitem id="sub_menu_hr_attendance_policy" name="Attendances Policies" parent="menu_hr_attendance_policy" action="attendance_policy_action"/>
+
+</odoo>

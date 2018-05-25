@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Views -->
+	<!-- Form View -->
+	<record id="absence_form_view" model="ir.ui.view">
+        <field name="name">Absence Rules</field>
+        <field name="model">hr.absence</field>
+        <field name="arch" type="xml">
+            <form string="Absence Rules">
+                <sheet>
+            		<group>
+            			<field name="name" required="1"/>
+            		</group>
+            		<group string="Absence Times"/>
+        			<field name="times_ids">
+        				<tree editable="bottom">
+        					<field name="name"/>
+        					<field name="times"/>
+        					<field name="rate"/>
+        				</tree>
+        			</field>
+               </sheet>
+     		</form>
+     	</field>
+     </record>
+
+	<!-- Tree View -->
+	<record id="absence_tree_view" model="ir.ui.view">
+        <field name="name">Absence Rules</field>
+        <field name="model">hr.absence</field>
+        <field name="arch" type="xml">
+		    <tree string="Absence Rules">
+		        <field name="name"/>
+		    </tree>
+		</field>
+    </record>
+
+	<!-- Actions -->
+	<record id="absence_action" model="ir.actions.act_window">
+        <field name="name">Absence Rules</field>
+        <field name="res_model">hr.absence</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+	</record>
+
+	<!-- MenuItems-->
+	<menuitem id="menu_hr_absence" name="Absence Rules" parent="menu_hr_attendance_rules" action="absence_action"/>
+
+</odoo>

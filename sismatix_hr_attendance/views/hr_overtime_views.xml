@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Views -->
+	<!-- Form View -->
+	<record id="overtime_form_view" model="ir.ui.view">
+        <field name="name">OverTime Rules</field>
+        <field name="model">hr.overtime</field>
+        <field name="arch" type="xml">
+            <form string="OverTime Rules">
+                <sheet>
+            		<group>
+            			<field name="name"/>
+	            		<field name="type_id"/>
+	            		<field name="apply_after" widget="float_time"/>
+	            		<field name="rate"/>
+            		</group>
+               </sheet>
+     		</form>
+     	</field>
+     </record>
+
+	<!-- Tree View -->
+	<record id="overtime_tree_view" model="ir.ui.view">
+        <field name="name">OverTime Rules</field>
+        <field name="model">hr.overtime</field>
+        <field name="arch" type="xml">
+		    <tree string="OverTime Rules">
+		        <field name="name"/>
+		        <field name="type_id"/>
+				<field name="apply_after"/>
+				<field name="rate"/>
+		    </tree>
+		</field>
+    </record>
+
+	<!-- Actions -->
+	<record id="overtime_action" model="ir.actions.act_window">
+        <field name="name">OverTime Rules</field>
+        <field name="res_model">hr.overtime</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+	</record>
+
+	<!-- MenuItems-->
+	<menuitem id="menu_hr_attendance_rules" name="Attendance Rules" parent="hr_attendance.menu_hr_attendance_root" sequence="22"/>
+
+	<menuitem id="menu_hr_overtime" name="OverTime Rules" parent="menu_hr_attendance_rules" action="overtime_action"/>
+
+</odoo>
